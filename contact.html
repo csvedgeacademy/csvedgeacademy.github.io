@@ -1,3 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact & Register | CSV Edge Academy</title>
+</head>
+
+<body>
+<header style="background:#0f4c81;padding:15px 10px;">
+  <nav style="max-width:1200px;margin:auto;text-align:center;">
+    <a href="index.html" style="color:white;margin:10px;text-decoration:none;">Home</a>
+    <a href="about.html" style="color:white;margin:10px;text-decoration:none;">About Course</a>
+    <a href="curriculum.html" style="color:white;margin:10px;text-decoration:none;">Curriculum</a>
+    <a href="why-choose.html" style="color:white;margin:10px;text-decoration:none;">Why Choose</a>
+    <a href="pricing.html" style="color:white;margin:10px;text-decoration:none;">Pricing</a>
+    <a href="contact.html" style="color:white;margin:10px;text-decoration:none;">Contact</a>
+    <a href="dashboard.html" style="color:white;margin:10px;text-decoration:none;">Dashboard</a>
+    <a href="master-class.html" style="color:white;margin:10px;text-decoration:none;">Master Class</a>
+    <a href="resume.html" style="color:white;margin:10px;text-decoration:none;">Resume</a>
+  </nav>
+</header>
 <!-- ================= CSV EDGE ACADEMY | ALL-IN-ONE REGISTRATION ================= -->
 
 <div style="max-width:820px;margin:auto;padding:30px;
@@ -246,3 +267,5 @@ document.getElementById("csvForm").addEventListener("submit", function(e){
  
 
 <div style="max-width:500px; margin:auto; padding:25px; border:2px solid #22c55e; border-radius:12px; background:#f0fdf4;"> <h2 style="text-align:center;">📲 Quick Registration (WhatsApp)</h2> <form onsubmit="sendWhatsApp(); return false;"> <input id="name" placeholder="Full Name*" required style="width:100%; padding:10px; margin-bottom:10px;"> <input id="mobile" placeholder="Mobile Number*" required style="width:100%; padding:10px; margin-bottom:10px;"> <input id="email" placeholder="Email ID*" required style="width:100%; padding:10px; margin-bottom:10px;"> <button type="submit" style=" width:100%; background:#22c55e; color:white; padding:14px; font-size:16px; border:none; border-radius:8px;"> Register via WhatsApp </button> </form> </div> <script> function sendWhatsApp() { var name = document.getElementById("name").value; var mobile = document.getElementById("mobile").value; var email = document.getElementById("email").value; var message = Hi, I want to register for the CSV course.%0AName: ${name}%0AMobile: ${mobile}%0AEmail: ${email}; window.open(https://wa.me/919665942334?text=${message}, "_blank"); } </script>
+</body>
+</html>
