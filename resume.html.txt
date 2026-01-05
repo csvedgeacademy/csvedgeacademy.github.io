@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Resume Builder – CSV Edge Academy</title>
+
+<!-- PDF & WORD LIBRARIES -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.min.js"></script>
+
+
+<style>
+body { font-family: Arial; background:#f3f4f6; }
+.container { max-width:1000px; margin:auto; background:#fff; padding:30px; }
+label { font-weight:bold; display:block; margin-top:15px; }
+textarea, input { width:100%; padding:10px; margin-top:5px; }
+button { padding:12px 20px; margin-top:20px; cursor:pointer; }
+h2 { color:#0f4c81; margin-top:30px; }
+hr { margin:25px 0; }
+</style>
+
+<style>
+/* ===== RESUME DESIGN (MATCHES PDF STYLE) ===== */
+#resumePreview {
+  width: 794px;
+  background: #fff;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.45;
+  padding: 40px;
+}
+
+.resume-header h1 {
+  text-align: center;
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: 1px;
+}
+
+.resume-header p {
+  text-align: center;
+  margin: 4px 0;
+}
+
+.section-title {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  border-bottom: 1px solid #999;
+  padding-bottom: 3px;
+}
+
+ul {
+  margin: 6px 0 6px 18px;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 5px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 style="text-align:center;">Resume Preparation</h1>
+<p style="text-align:center;color:#555;">
+Fill all required details and download resume in PDF or Word
+</p>
+
+<hr>
+
+<!-- ===== BASIC DETAILS ===== -->
+<label>Full Name *</label>
+<input id="fullName" placeholder="Your Full Name" required>
+
+<label>Professional Title *</label>
+<input id="jobTitle" placeholder="CSV / ITQA Professional" required>
+
+<label>Email *</label>
+<input id="emailId" placeholder="your@email.com" required>
+
+<label>Phone *</label>
+<input id="phoneNo" placeholder="+91-XXXXXXXXXX" required>
+
+<hr>
+
+<!-- ===== PROFESSIONAL SUMMARY ===== -->
+<h2>PROFESSIONAL SUMMARY *</h2>
+<textarea id="summary" rows="6" required
+placeholder="Write your professional summary..."></textarea>
+
+<!-- ===== CORE SKILLS ===== -->
+<h2>CORE COMPETENCIES & TECHNICAL SKILLS *</h2>
+<textarea id="skills" rows="6" required
+placeholder="CSV, CSA, ITQA, GAMP 5, SDLC, Validation, Tools..."></textarea>
+
+<small style="color:#555;">
+Example:<br>
+Validation & Quality: CSV / CSA, ITQA, CQV, Equipment Qualification, HMI / SCADA / PLC, FMEA<br>
+Compliance: GxP, GDP, ALCOA+, GAMP 5, GMP<br>
+Testing: SDLC, STLC, V-Model, Agile, DevOps<br>
+Tools: HP ALM, EDMS (D2), Trackwise, Jira, SAP, Valgenesis<br>
+Project: Documentation, Vendor Audits, Cross-functional Coordination
+</small>
+
+
+<!-- ===== EXPERIENCE ===== -->
+<h2>ORGANISATIONAL EXPERIENCE *</h2>
+<h2>ORGANISATIONAL EXPERIENCE *</h2>
+
+<div id="experienceContainer">
+
+  <div class="exp-block">
+    <label>Organization Name *</label>
+    <input class="orgName" required>
+
+    <label>Period *</label>
+    <input class="orgPeriod" placeholder="Aug 2021 – May 2024" required>
+
+    <label>Job Title *</label>
+    <input class="orgTitle" required>
+
+    <label>Roles & Responsibilities *</label>
+    <textarea class="orgRoles" rows="4" required></textarea>
+  </div>
+
+</div>
+
+<button type="button" onclick="addExperience()">➕ Add Another Organization</button>
+
+
+
+<!-- ===== COURSES ===== -->
+<h2>COURSES AND CERTIFICATIONS *</h2>
+<h2>COURSES AND CERTIFICATIONS *</h2>
+
+<div id="courseContainer">
+
+  <div class="course-block">
+    <label>Certificate Title *</label>
+    <input class="certTitle" required>
+
+    <label>Certificate Link *</label>
+    <input class="certLink" placeholder="https://..." required>
+  </div>
+
+</div>
+
+<button type="button" onclick="addCourse()">➕ Add Another Certificate</button>
+
+
+<!-- ===== PERSONAL SKILLS ===== -->
+<h2>PERSONAL SKILLS *</h2>
+<textarea id="personalSkills" rows="5" required
+placeholder="List your personal skills..."></textarea>
+
+<small style="color:#555;">
+Examples:<br>
+• Time management and multi-tasking<br>
+• Accuracy and Data Integrity<br>
+• Teamwork and Communication<br>
+• Attention to detail and dedication to work<br>
+• Technical writing and computer literacy<br>
+• Problem-solving and analytical thinking
+</small>
+
+
+<!-- ===== EDUCATION ===== -->
+<h2>ACADEMIC DETAILS *</h2>
+<textarea id="education" rows="6" required
+placeholder="
+Diploma: Institute – Year – %
+Graduation: Institute – Year – CGPA
+Post Graduation: Institute – Year – CGPA
+"></textarea>
+
+
+<!-- ===== PERSONAL ===== -->
+<h2>PERSONAL DETAILS *</h2>
+
+<label>Languages Known *</label>
+<input id="languages" placeholder="English, Hindi, Marathi" required>
+
+<label>Address *</label>
+<textarea id="address" rows="3" required
+placeholder="Full address with city, state, PIN"></textarea>
+
+<label>Personal Email *</label>
+<input id="personalEmail" placeholder="yourpersonal@email.com" required>
+
+<label>Personal Phone *</label>
+<input id="personalPhone" placeholder="+91-XXXXXXXXXX" required>
+
+
+<hr>
+
+<!-- ===== DOWNLOAD BUTTONS ===== -->
+<div style="text-align:center;">
+<button onclick="downloadPDF()">⬇️ Download PDF</button>
+<button onclick="downloadWord()">⬇️ Download Word</button>
+</div>
+
+</div>
+
+<script>
+
+function addExperience() {
+  const div = document.createElement("div");
+  div.className = "exp-block";
+  div.innerHTML = `
+    <hr>
+    <label>Organization Name *</label>
+    <input class="orgName" required>
+
+    <label>Period *</label>
+    <input class="orgPeriod" required>
+
+    <label>Job Title *</label>
+    <input class="orgTitle" required>
+
+    <label>Roles & Responsibilities *</label>
+    <textarea class="orgRoles" rows="4" required></textarea>
+  `;
+  document.getElementById("experienceContainer").appendChild(div);
+}
+
+function getExperienceText() {
+  let text = "";
+  document.querySelectorAll(".exp-block").forEach((block, i) => {
+    text +=
+      "Organization: " + block.querySelector(".orgName").value + "\n" +
+      "Period: " + block.querySelector(".orgPeriod").value + "\n" +
+      "Role: " + block.querySelector(".orgTitle").value + "\n" +
+      block.querySelector(".orgRoles").value + "\n\n";
+  });
+  return text.trim();
+}
+
+/* ================= COURSES FUNCTIONS ================= */
+function addCourse() {
+  const div = document.createElement("div");
+  div.className = "course-block";
+  div.innerHTML = `
+    <hr>
+    <label>Certificate Title *</label>
+    <input class="certTitle" required>
+
+    <label>Certificate Link *</label>
+    <input class="certLink" placeholder="https://..." required>
+  `;
+  document.getElementById("courseContainer").appendChild(div);
+}
+
+function getCoursesForPDF(doc) {
+  document.querySelectorAll(".course-block").forEach(block => {
+    const title = block.querySelector(".certTitle").value;
+    const link = block.querySelector(".certLink").value;
+
+    if (y > 280) {
+      doc.addPage();
+      y = 20;
+    }
+
+    doc.setTextColor(0, 0, 255);
+    doc.textWithLink(title, 20, y, { url: link });
+    doc.setTextColor(0, 0, 0);
+    y += 6;
+  });
+}
+
+/* ================= PDF DOWNLOAD ================= */
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("p", "mm", "a4");
+
+  let y = 20;
+
+  function heading(text) {
+
+  // Background shading
+  doc.setFillColor(230, 238, 247); // light blue shade
+  doc.rect(15, y - 5, 180, 9, "F");
+
+  // Heading text
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(0, 51, 102);
+  doc.text(text, 20, y);
+
+  // Reset color
+  doc.setTextColor(0, 0, 0);
+
+  y += 12; // space after heading
+}
+
+  function paragraph(text) {
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    const cleanedText = text.replace(/\n\s*\n/g, "\n");
+const lines = doc.splitTextToSize(cleanedText, 170);
+
+    lines.forEach(line => {
+      if (y > 280) {
+        doc.addPage();
+        y = 20;
+      }
+      doc.text(line, 20, y);
+      y += 4;
+    });
+  }
+
+  // ===== HEADER =====
+  doc.setFont("helvetica", "bold");
+  // NAME
+doc.setFont("helvetica", "bold");
+doc.setFontSize(26);
+doc.text(fullName.value, 105, y, { align: "center" });
+y += 10;
+
+// TITLE
+doc.setFont("helvetica", "normal");
+doc.setFontSize(12);
+doc.text(jobTitle.value, 105, y, { align: "center" });
+y += 4;
+
+// EMAIL & PHONE
+doc.setFont("helvetica", "bold");
+doc.setFont("helvetica", "bold");
+doc.text("Email:", 60, y);
+doc.setFont("helvetica", "normal");
+doc.text(emailId.value, 75, y);
+y += 4;
+
+doc.setFont("helvetica", "bold");
+doc.text("Phone:", 60, y);
+doc.setFont("helvetica", "normal");
+doc.text(phoneNo.value, 75, y);
+y += 10;
+
+
+
+  heading("PROFESSIONAL SUMMARY");
+  paragraph(summary.value);
+y += 4;
+
+  heading("CORE COMPETENCIES AND TECHNICAL SKILLS");
+  paragraph(skills.value);
+y += 4;
+
+  heading("ORGANISATIONAL EXPERIENCE");
+  paragraph(getExperienceText());
+y += 4;
+
+
+  heading("COURSES AND CERTIFICATIONS");
+getCoursesForPDF(doc);
+y += 4;
+
+
+
+heading("PERSONAL SKILLS");
+paragraph(personalSkills.value);
+y += 4;
+
+
+  heading("ACADEMIC DETAILS");
+  paragraph(education.value);
+y += 4;
+
+  heading("PERSONAL DETAILS");
+paragraph(
+  "Languages Known: " + languages.value + "\n" +
+  "Address: " + address.value + "\n" +
+  "Email: " + personalEmail.value + "\n" +
+  "Phone: " + personalPhone.value
+);
+y += 4;
+
+
+
+  addPageNumbers(doc);
+doc.save("Resume.pdf");
+
+}
+
+/* ================= WORD DOWNLOAD ================= */
+function downloadWord() {
+
+  const html = `
+  <html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      body {
+        font-family: Calibri, Arial;
+        font-size: 11pt;
+        line-height: 1.5;
+        margin: 40px;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 26pt;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      .subtitle {
+        text-align: center;
+        font-size: 12pt;
+        margin-bottom: 6px;
+      }
+
+      .contact {
+        text-align: center;
+        margin-bottom: 14px;
+      }
+
+      h2 {
+        font-size: 14pt;
+        font-weight: bold;
+        color: #003366;
+        border-bottom: 1px solid #999;
+        padding-bottom: 3px;
+        margin-top: 18px;
+      }
+
+      p {
+        text-align: justify;
+        margin: 6px 0;
+      }
+
+      ul {
+        margin-left: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <h1>${fullName.value}</h1>
+    <div class="subtitle">${jobTitle.value}</div>
+
+    <div class="contact">
+      <b>Email:</b> ${emailId.value} &nbsp;&nbsp;
+      <b>Phone:</b> ${phoneNo.value}
+    </div>
+
+    <h2>PROFESSIONAL SUMMARY</h2>
+    <p>${summary.value.replace(/\n/g,"<br>")}</p>
+
+    <h2>CORE COMPETENCIES AND TECHNICAL SKILLS</h2>
+    <p>${skills.value.replace(/\n/g,"<br>")}</p>
+
+    <h2>ORGANISATIONAL EXPERIENCE</h2>
+    ${buildExperienceWord()}
+
+    <h2>COURSES AND CERTIFICATIONS</h2>
+    ${buildCoursesWord()}
+
+    <h2>PERSONAL SKILLS</h2>
+    <p>${personalSkills.value.replace(/\n/g,"<br>")}</p>
+
+    <h2>ACADEMIC DETAILS</h2>
+    <p>${education.value.replace(/\n/g,"<br>")}</p>
+
+    <h2>PERSONAL DETAILS</h2>
+    <p>
+      <b>Languages Known:</b> ${languages.value}<br>
+      <b>Address:</b> ${address.value}<br>
+      <b>Email:</b> ${personalEmail.value}<br>
+      <b>Phone:</b> ${personalPhone.value}
+    </p>
+
+  </body>
+  </html>
+  `;
+
+  const blob = htmlDocx.asBlob(html);
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "Resume.docx";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+</script>
+
+
+</body>
+</html>
