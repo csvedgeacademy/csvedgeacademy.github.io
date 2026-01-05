@@ -1,0 +1,89 @@
+
+<div style="background:#fff7ed; border:2px dashed #f97316; padding:20px; text-align:center;">
+<h2>🎉 Limited Period Offer</h2>
+<p><del>₹19,999</del> <strong style="color:#f97316;">₹3,599</strong></p>
+<p><strong>Flat 82% OFF</strong></p>
+<p>April Batch | Limited Seats</p>
+</div>
+ 
+
+<div style="text-align:center; padding:25px; border:2px solid #f97316; border-radius:12px; background:#fff7ed;">
+
+<h2 style="margin-bottom:10px;">April Batch – Limited Seats</h2>
+
+<p style="font-size:18px; margin:8px 0;">
+<s style="color:#6b7280;">₹19,999</s>
+<b style="color:#f97316; font-size:22px;"> ₹3,599</b>
+</p>
+
+<p style="font-size:16px; margin-bottom:20px;">
+🎉 <b>Flat 82% OFF – Limited Period</b>
+</p>
+
+<a href="https://sites.google.com/view/csv-edge-academy/contact-register"
+   target="_blank"
+   style="text-decoration:none;">
+
+<button style="
+background:#f97316;
+color:white;
+padding:14px 30px;
+font-size:18px;
+font-weight:600;
+border:none;
+border-radius:8px;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);">
+Register Now
+</button>
+
+</a>
+
+<p style="margin-top:15px; font-size:14px; color:#475569;">
+✔ Redirects to registration form instantly
+</p>
+
+</div>
+ 
+
+<div style="text-align:center; padding:20px;">
+
+<h3>Step 1: Fill Registration Form</h3>
+
+<a href="https://sites.google.com/view/csv-edge-academy/contact-register"
+target="_blank">
+<button style="
+background-color:#0f4c81;
+color:white;
+padding:12px 24px;
+font-size:16px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin-bottom:20px;">
+Fill Registration Form
+</button>
+</a>
+
+<hr style="margin:20px 0;">
+
+<h3>Step 2: Complete Payment</h3>
+
+<a href="upi://pay?pa=9665942334@ybl&pn=CSV%20Edge%20Academy&am=3599&cu=INR">
+<button style="
+background-color:#f97316;
+color:white;
+padding:12px 24px;
+font-size:16px;
+border:none;
+border-radius:6px;
+cursor:pointer;">
+Pay ₹3,599 via UPI
+</button>
+</a>
+
+<p style="font-size:12px; margin-top:10px;">
+After payment, please upload payment screenshot in the form if asked.
+</p>
+
+</div>
