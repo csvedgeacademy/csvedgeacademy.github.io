@@ -20,6 +20,22 @@ hr { margin:25px 0; }
 </style>
 
 <style>
+.exp-block, .course-block, .edu-block {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.exp-block button,
+.course-block button,
+.edu-block button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+</style>
+
+
+<style>
 /* ===== RESUME DESIGN (MATCHES PDF STYLE) ===== */
 #resumePreview {
   width: 794px;
@@ -79,7 +95,6 @@ li {
   </nav>
 </header>
 <!-- ================= END HEADER ================= -->
-
 <div class="container">
 
 <h1 style="text-align:center;">Resume Preparation</h1>
@@ -126,7 +141,6 @@ Project: Documentation, Vendor Audits, Cross-functional Coordination
 
 <!-- ===== EXPERIENCE ===== -->
 <h2>ORGANISATIONAL EXPERIENCE *</h2>
-<h2>ORGANISATIONAL EXPERIENCE *</h2>
 
 <div id="experienceContainer">
 
@@ -151,7 +165,6 @@ Project: Documentation, Vendor Audits, Cross-functional Coordination
 
 
 <!-- ===== COURSES ===== -->
-<h2>COURSES AND CERTIFICATIONS *</h2>
 <h2>COURSES AND CERTIFICATIONS *</h2>
 
 <div id="courseContainer">
@@ -187,12 +200,24 @@ Examples:<br>
 
 <!-- ===== EDUCATION ===== -->
 <h2>ACADEMIC DETAILS *</h2>
-<textarea id="education" rows="6" required
-placeholder="
-Diploma: Institute – Year – %
-Graduation: Institute – Year – CGPA
-Post Graduation: Institute – Year – CGPA
-"></textarea>
+
+<div id="educationContainer">
+
+  <div class="edu-block">
+    <label>Qualification *</label>
+    <input class="eduName" placeholder="B.Tech / Diploma / MSc" required>
+
+    <label>Institute *</label>
+    <input class="eduInstitute" placeholder="University / College Name" required>
+
+    <label>Year / Score *</label>
+    <input class="eduYear" placeholder="2023 – 8.2 CGPA / 78%" required>
+  </div>
+
+</div>
+
+<button type="button" onclick="addEducation()">➕ Add Education</button>
+
 
 
 <!-- ===== PERSONAL ===== -->
@@ -229,6 +254,11 @@ function addExperience() {
   div.className = "exp-block";
   div.innerHTML = `
     <hr>
+    <button type="button" onclick="this.parentElement.remove()"
+      style="float:right;background:#fee2e2;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;">
+      ❌ Remove
+    </button>
+
     <label>Organization Name *</label>
     <input class="orgName" required>
 
@@ -244,17 +274,6 @@ function addExperience() {
   document.getElementById("experienceContainer").appendChild(div);
 }
 
-function getExperienceText() {
-  let text = "";
-  document.querySelectorAll(".exp-block").forEach((block, i) => {
-    text +=
-      "Organization: " + block.querySelector(".orgName").value + "\n" +
-      "Period: " + block.querySelector(".orgPeriod").value + "\n" +
-      "Role: " + block.querySelector(".orgTitle").value + "\n" +
-      block.querySelector(".orgRoles").value + "\n\n";
-  });
-  return text.trim();
-}
 
 /* ================= COURSES FUNCTIONS ================= */
 function addCourse() {
@@ -262,6 +281,13 @@ function addCourse() {
   div.className = "course-block";
   div.innerHTML = `
     <hr>
+
+    <button type="button"
+      onclick="this.parentElement.remove()"
+      style="float:right;background:#fee2e2;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;">
+      ❌ Remove
+    </button>
+
     <label>Certificate Title *</label>
     <input class="certTitle" required>
 
@@ -271,63 +297,145 @@ function addCourse() {
   document.getElementById("courseContainer").appendChild(div);
 }
 
-function getCoursesForPDF(doc) {
+
+function getCoursesForPDF(doc, startY, PAGE_MARGIN) {
+  let y = startY;
+
   document.querySelectorAll(".course-block").forEach(block => {
     const title = block.querySelector(".certTitle").value;
     const link = block.querySelector(".certLink").value;
 
     if (y > 280) {
       doc.addPage();
-      y = 20;
+      y = PAGE_MARGIN;
     }
 
-    doc.setTextColor(0, 0, 255);
-    doc.textWithLink(title, 20, y, { url: link });
-    doc.setTextColor(0, 0, 0);
-    y += 6;
-  });
+    doc.setFont("helvetica", "normal");
+doc.setFontSize(11);
+doc.setTextColor(0, 0, 0);
+
+doc.setFont("helvetica", "normal");
+doc.setFontSize(11);
+doc.setTextColor(0, 0, 0);
+
+// Draw course title
+doc.text("• " + title, PAGE_MARGIN + 8, y);
+
+// Make the TITLE clickable (no URL text shown)
+if (link) {
+  const textWidth = doc.getTextWidth("• " + title);
+  doc.link(
+    PAGE_MARGIN + 8,
+    y - 3.5,          // small vertical adjustment
+    textWidth,
+    5,
+    { url: link }
+  );
 }
+
+y += 4.5;
+
+
+  });
+
+  return y;
+}
+
 
 /* ================= PDF DOWNLOAD ================= */
 function downloadPDF() {
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF("p", "mm", "a4");
+  const doc = new jsPDF({
+  orientation: "p",
+  unit: "mm",
+  format: [210, 297] // A4: 8.27 × 11.69 inch
+});
 
-  let y = 20;
+// === PAGE MARGINS (0.65 inch = 16.5 mm)
+const PAGE_MARGIN = 16.5;
+let y = PAGE_MARGIN + 5;
+
 
   function heading(text) {
+  // 12pt spacing BEFORE heading (≈ 4mm)
+  y += 4;
 
-  // Background shading
-  doc.setFillColor(230, 238, 247); // light blue shade
-  doc.rect(15, y - 5, 180, 9, "F");
-
-  // Heading text
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(0, 51, 102);
-  doc.text(text, 20, y);
+  doc.setFontSize(13);
 
-  // Reset color
-  doc.setTextColor(0, 0, 0);
+  // Centered heading across A4 width
+  doc.text(text, 105, y, { align: "center" });
 
-  y += 12; // space after heading
+  // No extra shading, Word-style spacing AFTER
+  y += 6;
 }
 
   function paragraph(text) {
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(11);
-    const cleanedText = text.replace(/\n\s*\n/g, "\n");
-const lines = doc.splitTextToSize(cleanedText, 170);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
 
-    lines.forEach(line => {
-      if (y > 280) {
-        doc.addPage();
-        y = 20;
-      }
-      doc.text(line, 20, y);
-      y += 4;
+  const maxWidth = 210 - (PAGE_MARGIN * 2) - 5;
+  const lines = doc.splitTextToSize(text.replace(/\n+/g, "\n"), maxWidth);
+
+  lines.forEach((line, index) => {
+    if (y > 275) {
+      doc.addPage();
+      y = PAGE_MARGIN;
+    }
+
+    // Hanging indent simulation (0.2")
+    const x = index === 0 ? PAGE_MARGIN + 3 : PAGE_MARGIN + 8;
+    doc.text(line, x, y, { align: "justify" });
+
+    y += 4.2; // Single line spacing
+  });
+
+  y += 4; // After spacing
+}
+
+function bulletParagraph(text) {
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
+
+  const lines = text.split("\n").filter(l => l.trim() !== "");
+
+  lines.forEach(line => {
+    if (y > 275) {
+      doc.addPage();
+      y = PAGE_MARGIN;
+    }
+
+    const wrapped = doc.splitTextToSize(
+      line,
+      210 - (PAGE_MARGIN * 2) - 15
+    );
+
+    wrapped.forEach((w, i) => {
+      const x = i === 0 ? PAGE_MARGIN + 8 : PAGE_MARGIN + 12;
+      doc.text(i === 0 ? "• " + w : w, x, y, { maxWidth: 210 - (PAGE_MARGIN * 2) - 15 });
+      y += 4.2;
     });
-  }
+  });
+
+  y += 4;
+}
+
+function experienceHeader(company, title, period) {
+  doc.setFontSize(11);
+
+  doc.setFont("helvetica", "bold");
+  doc.text(company, PAGE_MARGIN, y);
+  y += 4.5;
+
+  doc.setFont("helvetica", "italic");
+  doc.text(title, PAGE_MARGIN, y);
+  y += 4;
+
+  doc.setFont("helvetica", "normal");
+  doc.text(period, PAGE_MARGIN, y);
+  y += 4;
+}
+
 
   // ===== HEADER =====
   doc.setFont("helvetica", "bold");
@@ -346,49 +454,91 @@ y += 4;
 // EMAIL & PHONE
 doc.setFont("helvetica", "bold");
 doc.setFont("helvetica", "bold");
-doc.text("Email:", 60, y);
 doc.setFont("helvetica", "normal");
-doc.text(emailId.value, 75, y);
-y += 4;
-
-doc.setFont("helvetica", "bold");
-doc.text("Phone:", 60, y);
-doc.setFont("helvetica", "normal");
-doc.text(phoneNo.value, 75, y);
+doc.text(
+  `Email: ${emailId.value}   |   Phone: ${phoneNo.value}`,
+  105,
+  y,
+  { align: "center" }
+);
 y += 10;
 
 
 
   heading("PROFESSIONAL SUMMARY");
-  paragraph(summary.value);
+  bulletParagraph(summary.value);
 y += 4;
 
   heading("CORE COMPETENCIES AND TECHNICAL SKILLS");
-  paragraph(skills.value);
+  bulletParagraph(skills.value);
 y += 4;
 
   heading("ORGANISATIONAL EXPERIENCE");
-  paragraph(getExperienceText());
+  document.querySelectorAll(".exp-block").forEach(block => {
+  experienceHeader(
+  block.querySelector(".orgName").value,
+  block.querySelector(".orgTitle").value,
+  block.querySelector(".orgPeriod").value
+);
+
+  block.querySelector(".orgRoles").value.split("\n").forEach(role => {
+  if (y > 275) {
+    doc.addPage();
+    y = PAGE_MARGIN;
+  }
+  const wrapped = doc.splitTextToSize(
+  role,
+  210 - (PAGE_MARGIN * 2) - 15
+);
+
+wrapped.forEach((line, i) => {
+  if (y > 275) {
+    doc.addPage();
+doc.setFontSize(11); // ✅ ENSURE CONSISTENCY
+    y = PAGE_MARGIN;
+  }
+  const x = i === 0 ? PAGE_MARGIN + 8 : PAGE_MARGIN + 12;
+  doc.text(i === 0 ? "• " + line : line, x, y);
+  y += 4.2;
+});
+
+
+});
+
+  y += 3;
+});
+
 y += 4;
 
 
   heading("COURSES AND CERTIFICATIONS");
-getCoursesForPDF(doc);
+y = getCoursesForPDF(doc, y, PAGE_MARGIN);
 y += 4;
+
 
 
 
 heading("PERSONAL SKILLS");
-paragraph(personalSkills.value);
+bulletParagraph(personalSkills.value);
 y += 4;
 
 
   heading("ACADEMIC DETAILS");
-  paragraph(education.value);
+
+document.querySelectorAll(".edu-block").forEach(block => {
+  const eduLine =
+    block.querySelector(".eduName").value + ", " +
+    block.querySelector(".eduInstitute").value + ", " +
+    block.querySelector(".eduYear").value;
+
+  bulletParagraph(eduLine);
+});
+
 y += 4;
 
+
   heading("PERSONAL DETAILS");
-paragraph(
+bulletParagraph(
   "Languages Known: " + languages.value + "\n" +
   "Address: " + address.value + "\n" +
   "Email: " + personalEmail.value + "\n" +
@@ -396,63 +546,100 @@ paragraph(
 );
 y += 4;
 
-
-
-  addPageNumbers(doc);
+addPageNumbers(doc);
 doc.save("Resume.pdf");
 
 }
 
+function addPageNumbers(doc) {
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(9);
+    doc.text(`Page ${i} of ${pageCount}`, 105, 290, { align: "center" });
+  }
+}
+
+
 /* ================= WORD DOWNLOAD ================= */
+function buildExperienceWord() {
+  let html = "";
+  document.querySelectorAll(".exp-block").forEach(block => {
+    html += `
+      <p>
+        <b>${block.querySelector(".orgName").value}</b><br>
+<i>${block.querySelector(".orgTitle").value}</i><br>
+${block.querySelector(".orgPeriod").value}<br>
+${block.querySelector(".orgRoles").value.replace(/\n/g,"<br>")}
+      </p>
+    `;
+  });
+  return html;
+}
+
+function buildCoursesWord() {
+  let html = "<ul>";
+  document.querySelectorAll(".course-block").forEach(block => {
+    html += `
+      <li>
+        <a href="${block.querySelector(".certLink").value}">
+          ${block.querySelector(".certTitle").value}
+        </a>
+      </li>
+    `;
+  });
+  html += "</ul>";
+  return html;
+}
+
 function downloadWord() {
 
-  const html = `
+  const htmlContent = `
+  <!DOCTYPE html>
   <html>
   <head>
     <meta charset="UTF-8">
     <style>
-      body {
-        font-family: Calibri, Arial;
-        font-size: 11pt;
-        line-height: 1.5;
-        margin: 40px;
-      }
+      @page {
+  size: 8.27in 11.69in;
+  margin-top: 0.65in;
+  margin-bottom: 0.65in;
+  margin-left: 0.65in;
+  margin-right: 0.65in;
+}
 
-      h1 {
-        text-align: center;
-        font-size: 26pt;
-        font-weight: bold;
-        margin-bottom: 4px;
-      }
+body {
+  font-family: Calibri, Arial;
+  font-size: 11pt;
+  line-height: 1;
+}
 
-      .subtitle {
-        text-align: center;
-        font-size: 12pt;
-        margin-bottom: 6px;
-      }
+.header, .footer {
+  text-align: center;
+  margin-top: 0.12in;
+  margin-bottom: 0.5in;
+}
 
-      .contact {
-        text-align: center;
-        margin-bottom: 14px;
-      }
+h1, h2 {
+  text-align: center;
+  margin-top: 12pt;
+  margin-bottom: 0pt;
+}
 
-      h2 {
-        font-size: 14pt;
-        font-weight: bold;
-        color: #003366;
-        border-bottom: 1px solid #999;
-        padding-bottom: 3px;
-        margin-top: 18px;
-      }
+p {
+  text-align: justify;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-indent: -0.2in;
+  padding-left: 0.2in;
+}
 
-      p {
-        text-align: justify;
-        margin: 6px 0;
-      }
+ul li {
+  text-align: justify;
+  text-indent: -0.2in;
+  padding-left: 0.2in;
+}
 
-      ul {
-        margin-left: 20px;
-      }
     </style>
   </head>
 
@@ -462,31 +649,31 @@ function downloadWord() {
     <div class="subtitle">${jobTitle.value}</div>
 
     <div class="contact">
-      <b>Email:</b> ${emailId.value} &nbsp;&nbsp;
+      <b>Email:</b> ${emailId.value} |
       <b>Phone:</b> ${phoneNo.value}
     </div>
 
     <h2>PROFESSIONAL SUMMARY</h2>
     <p>${summary.value.replace(/\n/g,"<br>")}</p>
 
-    <h2>CORE COMPETENCIES AND TECHNICAL SKILLS</h2>
-    <p>${skills.value.replace(/\n/g,"<br>")}</p>
+    <h2>CORE COMPETENCIES & TECHNICAL SKILLS</h2>
+    <ul>${skills.value.split("\n").map(s=>`<li>${s}</li>`).join("")}</ul>
 
     <h2>ORGANISATIONAL EXPERIENCE</h2>
     ${buildExperienceWord()}
 
-    <h2>COURSES AND CERTIFICATIONS</h2>
+    <h2>COURSES & CERTIFICATIONS</h2>
     ${buildCoursesWord()}
 
     <h2>PERSONAL SKILLS</h2>
-    <p>${personalSkills.value.replace(/\n/g,"<br>")}</p>
+    <ul>${personalSkills.value.split("\n").map(s=>`<li>${s}</li>`).join("")}</ul>
 
     <h2>ACADEMIC DETAILS</h2>
-    <p>${education.value.replace(/\n/g,"<br>")}</p>
+    ${buildEducationWord()}
 
     <h2>PERSONAL DETAILS</h2>
     <p>
-      <b>Languages Known:</b> ${languages.value}<br>
+      <b>Languages:</b> ${languages.value}<br>
       <b>Address:</b> ${address.value}<br>
       <b>Email:</b> ${personalEmail.value}<br>
       <b>Phone:</b> ${personalPhone.value}
@@ -496,18 +683,73 @@ function downloadWord() {
   </html>
   `;
 
-  const blob = htmlDocx.asBlob(html);
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "Resume.docx";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  const blob = htmlDocx.asBlob(htmlContent);
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "Resume.docx";
+  document.body.appendChild(a);
+  a.click();
+
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }, 100);
 }
+
+function addEducation() {
+  const div = document.createElement("div");
+  div.className = "edu-block";
+  div.innerHTML = `
+    <hr>
+
+    <button type="button"
+      onclick="this.parentElement.remove()"
+      style="
+        float:right;
+        background:#fee2e2;
+        border:none;
+        padding:6px 10px;
+        border-radius:6px;
+        cursor:pointer;
+      ">
+      ❌ Remove
+    </button>
+
+    <label>Qualification *</label>
+    <input class="eduName" required>
+
+    <label>Institute *</label>
+    <input class="eduInstitute" required>
+
+    <label>Year / Score *</label>
+    <input class="eduYear" required>
+  `;
+  document.getElementById("educationContainer").appendChild(div);
+}
+function buildEducationWord() {
+  let html = "<ul>";
+
+  document.querySelectorAll(".edu-block").forEach(block => {
+    html += `
+      <li>
+        <b>${block.querySelector(".eduName").value}</b>,
+        ${block.querySelector(".eduInstitute").value},
+        ${block.querySelector(".eduYear").value}
+      </li>
+    `;
+  });
+
+  html += "</ul>";
+  return html;
+}
+
 
 </script>
 
 
 </body>
 </html>
+
 
