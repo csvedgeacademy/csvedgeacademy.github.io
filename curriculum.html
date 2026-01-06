@@ -51,8 +51,6 @@
 
      ======================================================================= -->
 
-<title>CSV Curriculum Train – Full Interactive Simulation</title>
-
 <style>
 
 /* =======================================================================
@@ -492,10 +490,7 @@ body{
   <div class="session-panel" id="sessionPanel">
 
   <!-- DEFAULT INSTRUCTION STATE -->
-  <div class="session-panel" id="sessionPanel">
-
-  <!-- DEFAULT INSTRUCTION STATE -->
-  <div class="instruction-panel" id="instructionPanel">
+   <div class="instruction-panel" id="instructionPanel">
     <div class="pulse-icon">🚆</div>
 
     <h2>Explore the CSV Learning Journey</h2>
@@ -522,6 +517,7 @@ body{
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
 
 /* =======================================================================
    APPLICATION STATE MANAGEMENT
@@ -624,7 +620,7 @@ function renderSessionPanel(moduleId){
    CORE FUNCTION: STOP TRAIN ON MODULE CLICK
    ======================================================================= */
 
-function stopTrain(moduleId, element){
+window.stopTrain = function(moduleId, element){
 
   clearTimeout(resumeTimer);
 
@@ -648,7 +644,9 @@ function stopTrain(moduleId, element){
     moduleDiv.style.display = "none";
     document.getElementById("instructionPanel").style.display = "block";
   }, 10000);
-}
+};
+
+});
 
 /* =======================================================================
    OPTIONAL EXTENSION HOOKS (FUTURE USE)
@@ -662,6 +660,7 @@ function stopTrain(moduleId, element){
   - Payment-gated module access
   - Certification verification
 */
+
 
 </script>
 <!-- ========== CSV CURRICULUM TRAIN ANIMATION ========== -->
@@ -856,12 +855,3 @@ From Regulatory Basics to Certification – Step by Step
 
 </body>
 </html>
- 
-
-
-
-
-
-
-
-
