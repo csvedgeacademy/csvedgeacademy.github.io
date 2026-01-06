@@ -17,13 +17,6 @@
   padding:14px 18px;
 }
 
-.brand{
-  font-size:20px;
-  font-weight:700;
-  color:#ffffff;
-}
-
-.brand span{ color:#22c55e; }
 
 .nav-links{
   display:flex;
@@ -59,14 +52,54 @@
   text-decoration:none;
 }
 /* ================= HEADER BRAND ================= */
+/* ================= HEADER BRAND (FINAL & CLEAN) ================= */
+
+.brand{
+  display:flex;
+  flex-direction:column;   /* LOGO ON TOP, TEXT BELOW */
+  align-items:center;
+  gap:6px;
+}
+
+/* LOGO SIZE (REDUCED) */
 .brand-logo{
-  height:42px;
+  height:32px;             /* Adjust if needed (28–36 ideal) */
   width:auto;
 }
 
-.brand-text strong{
-  color:#f97316;
+/* BRAND TEXT BELOW LOGO */
+.brand-text{
+  display:flex;            /* ONE ROW */
+  gap:6px;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:0.4px;
+  line-height:1;
 }
+
+/* COLOR CONTROL */
+.brand-text .csv{
+  color:#ffffff;           /* CSV – White */
+}
+
+.brand-text .edge{
+  color:#22c55e;           /* Edge – Green */
+}
+
+.brand-text .academy{
+  color:#ffffff;           /* Academy – White */
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .brand-logo{
+    height:26px;
+  }
+  .brand-text{
+    font-size:13px;
+  }
+}
+
 
 /* Responsive */
 @media(max-width:768px){
