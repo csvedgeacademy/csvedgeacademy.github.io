@@ -10,7 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
 function startAuditClock(){
   const el = document.getElementById("auditTime");
   if(!el) return;
-  const update = () => el.textContent = new Date().toLocaleString();
+
+  const update = () => {
+    el.textContent = new Date().toLocaleString();
+  };
+
   update();
   setInterval(update, 60000);
 }
