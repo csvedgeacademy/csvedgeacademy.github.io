@@ -58,6 +58,34 @@
   font-weight:bold;
   text-decoration:none;
 }
+/* ================= HEADER BRAND ================= */
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:20px;
+  font-weight:600;
+  color:#0f4c81;
+}
+
+.brand-logo{
+  height:42px;
+  width:auto;
+}
+
+.brand-text strong{
+  color:#f97316;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .brand-text{
+    font-size:16px;
+  }
+  .brand-logo{
+    height:36px;
+  }
+}
 
 /* ================= SPACING SYSTEM ================= */
 .section{ padding:70px 20px; }
