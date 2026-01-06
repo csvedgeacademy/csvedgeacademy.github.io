@@ -3,30 +3,34 @@
   position:sticky;
   top:0;
   z-index:1000;
-  background:rgba(15,76,129,.96);
   backdrop-filter:blur(10px);
-  box-shadow:0 6px 18px rgba(0,0,0,.18);
+  background:linear-gradient(135deg,#0f4c81,#1e5fa3);
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.18),
+    0 0 30px rgba(59,130,246,.25);
 }
 
+
 .nav-wrap{
-  max-width:1200px;
+  max-width:1300px;
   margin:auto;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:10px 18px;
+  padding:18px 28px;   /* MORE HEIGHT + WIDTH */
 }
-
 
 .nav-links{
   display:flex;
-  gap:14px;
+  gap:26px;
 }
 
 .nav-links a{
   color:#e5e7eb;
   text-decoration:none;
-  font-size:14px;
+  font-size:15px;
+  font-weight:600;
+  letter-spacing:0.4px;
   position:relative;
 }
 
@@ -36,17 +40,25 @@
   left:0;
   bottom:-4px;
   width:0;
-  height:2px;
+  height:3px;
+  border-radius:3px;
   background:#22c55e;
   transition:.3s;
 }
 
+.nav-links a:hover{
+  color:#ffffff;
+  text-shadow:0 0 8px rgba(34,197,94,.8);
+}
 .nav-links a:hover::after{ width:100%; }
 
 .header-cta{
   background:#f97316;
   color:white;
-  padding:8px 18px;
+  padding:10px 26px;
+  font-size:15px;
+  font-weight:800;
+  box-shadow:0 0 18px rgba(249,115,22,.6);
   border-radius:30px;
   font-weight:bold;
   text-decoration:none;
@@ -63,16 +75,16 @@
 
 /* LOGO SIZE (REDUCED) */
 .brand-logo{
-  height:32px;             /* Adjust if needed (28–36 ideal) */
+  height:42px;             /* Adjust if needed (28–36 ideal) */
   width:auto;
 }
 
 /* BRAND TEXT BELOW LOGO */
 .brand-text{
   display:flex;            /* ONE ROW */
-  gap:6px;
-  font-size:14px;
-  font-weight:700;
+  gap:8px;
+  font-size:16px;
+  font-weight:800;
   letter-spacing:0.4px;
   line-height:1;
   justify-content:center;
