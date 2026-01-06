@@ -51,10 +51,16 @@ function updateHeroCountdown() {
 updateHeroCountdown();
 </script>
 
-<a href="https://sites.google.com/view/csv-edge-academy/contact-register">
-<button style="background:white;color:#f97316;font-size:20px;padding:14px 30px;border:none;border-radius:8px;cursor:pointer;transition:all 0.3s ease;">
-📌 Register Now
-</button>
+<a href="https://sites.google.com/view/csv-edge-academy/contact-register"
+   style="display:inline-block;
+          background:white;
+          color:#f97316;
+          font-size:20px;
+          padding:14px 30px;
+          border-radius:8px;
+          text-decoration:none;
+          font-weight:bold;">
+  📌 Register Now
 </a>
 
 </div>
@@ -88,8 +94,8 @@ max-width:1000px;
 </style>
 
 <!-- ================= FLOATING STICKY BUTTON ================= -->
-<a href="https://sites.google.com/view/csv-edge-academy/contact-register">
-  <button style="
+<a href="https://sites.google.com/view/csv-edge-academy/contact-register"
+   style="
     position:fixed;
     bottom:20px;
     right:20px;
@@ -97,14 +103,14 @@ max-width:1000px;
     color:white;
     padding:14px 20px;
     font-size:16px;
-    border:none;
     border-radius:50px;
     box-shadow:0 4px 12px rgba(0,0,0,0.2);
-    cursor:pointer;
-    z-index:999;">
-    📝 Register
-  </button>
+    text-decoration:none;
+    z-index:999;
+    font-weight:bold;">
+  📝 Register
 </a>
+
 <!-- ================= END FLOATING BUTTON ================= -->
 
 <!-- ================= CSV ADVANCED INTERACTIVE ================= -->
@@ -306,19 +312,27 @@ Click on any deliverable above to view details
 </div>
 
 <script>
-function showCSV(title,desc){
-document.getElementById("csvDetails").innerHTML=
-"<strong>"+title+"</strong><br><br>"+desc;
-}
+document.addEventListener("DOMContentLoaded", () => {
 
-/* Auto Highlight Animation */
-const steps=document.querySelectorAll(".csv-step");
-let i=0;
-setInterval(()=>{
-steps.forEach(s=>s.classList.remove("active"));
-steps[i].classList.add("active");
-i=(i+1)%steps.length;
-},2200);
+  // Make showCSV available for onclick handlers
+  window.showCSV = function(title, desc){
+    const box = document.getElementById("csvDetails");
+    if (!box) return;
+
+    box.innerHTML = "<strong>" + title + "</strong><br><br>" + desc;
+  };
+
+  /* Auto Highlight Animation */
+  const steps = document.querySelectorAll(".csv-step");
+  let i = 0;
+
+  setInterval(() => {
+    steps.forEach(s => s.classList.remove("active"));
+    steps[i].classList.add("active");
+    i = (i + 1) % steps.length;
+  }, 2200);
+
+});
 </script>
 <!-- ================= END CSV ADVANCED INTERACTIVE ================= -->
 <!-- ================= FEATURES / BENEFITS ================= -->
@@ -425,7 +439,6 @@ onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.tr
     <span>LIMS / User Login</span>
     <small>Each result linked to a unique user ID & electronic signature</small>
   </div>
-</div>
   <div class="alcoa-card">
     <h3>Legible</h3>
     <span>DMS / PDF Records</span>
@@ -629,15 +642,4 @@ Register Now
  
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
 
