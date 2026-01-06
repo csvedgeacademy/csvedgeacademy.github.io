@@ -1,0 +1,74 @@
+/* ================= GLOBAL HEADER ================= */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(15,76,129,.96);
+  backdrop-filter:blur(10px);
+  box-shadow:0 6px 18px rgba(0,0,0,.18);
+}
+
+.nav-wrap{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px;
+}
+
+.brand{
+  font-size:20px;
+  font-weight:700;
+  color:#ffffff;
+}
+
+.brand span{ color:#22c55e; }
+
+.nav-links{
+  display:flex;
+  gap:14px;
+}
+
+.nav-links a{
+  color:#e5e7eb;
+  text-decoration:none;
+  font-size:14px;
+  position:relative;
+}
+
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-4px;
+  width:0;
+  height:2px;
+  background:#22c55e;
+  transition:.3s;
+}
+
+.nav-links a:hover::after{ width:100%; }
+
+.header-cta{
+  background:#f97316;
+  color:white;
+  padding:8px 18px;
+  border-radius:30px;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+/* ================= SPACING SYSTEM ================= */
+.section{ padding:70px 20px; }
+.section-sm{ padding:40px 20px; }
+
+.section > *{
+  max-width:1200px;
+  margin:auto;
+}
+
+/* MOBILE */
+@media (max-width: 900px){
+  .nav-links{ display:none; }
+}
