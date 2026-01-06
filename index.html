@@ -23,21 +23,118 @@
 </head>
 <body>
   <!-- ================= SITE HEADER ================= -->
-<header style="background:#0f4c81;padding:15px 10px;">
-  <nav style="max-width:1200px;margin:auto;text-align:center;">
-    <a href="index.html" style="color:white;margin:10px;text-decoration:none;">Home</a>
-    <a href="about.html" style="color:white;margin:10px;text-decoration:none;">About Course</a>
-    <a href="curriculum.html" style="color:white;margin:10px;text-decoration:none;">Curriculum</a>
-    <a href="why-choose.html" style="color:white;margin:10px;text-decoration:none;">Why Choose</a>
-    <a href="pricing.html" style="color:white;margin:10px;text-decoration:none;">Pricing</a>
-    <a href="contact.html" style="color:white;margin:10px;text-decoration:none;">Contact</a>
-    <a href="dashboard.html" style="color:white;margin:10px;text-decoration:none;">Dashboard</a>
-    <a href="master-class.html" style="color:white;margin:10px;text-decoration:none;">Master Class</a>
-    <a href="resume.html" style="color:white;margin:10px;text-decoration:none;">Resume</a>
-  </nav>
+<style>
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(15,76,129,.95);
+  backdrop-filter:blur(10px);
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
+
+.nav-wrap{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px;
+}
+
+.brand{
+  font-size:20px;
+  font-weight:bold;
+  color:#fff;
+  letter-spacing:.3px;
+}
+
+.brand span{
+  color:#22c55e;
+}
+
+.nav-links a{
+  color:#e5e7eb;
+  margin:0 10px;
+  text-decoration:none;
+  font-size:14px;
+  position:relative;
+}
+
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:#22c55e;
+  transition:.3s;
+}
+
+.nav-links a:hover::after{
+  width:100%;
+}
+
+.header-cta{
+  background:#f97316;
+  color:white;
+  padding:8px 18px;
+  border-radius:30px;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 0 0 rgba(249,115,22,.7);
+  animation:pulseCTA 2.5s infinite;
+}
+
+@keyframes pulseCTA{
+  0%{box-shadow:0 0 0 0 rgba(249,115,22,.6)}
+  70%{box-shadow:0 0 0 18px rgba(249,115,22,0)}
+  100%{box-shadow:0 0 0 0 rgba(249,115,22,0)}
+}
+</style>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <div class="brand">
+      CSV <span>Edge</span> Academy
+    </div>
+
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="curriculum.html">Curriculum</a>
+      <a href="why-choose.html">Why Us</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="master-class.html">Master Class</a>
+      <a href="resume.html">Resume</a>
+    </nav>
+
+    <a href="contact.html" class="header-cta">
+      🚀 Enroll Now
+    </a>
+  </div>
 </header>
 <!-- ================= END HEADER ================= -->
+<style>
+/* ================= GLOBAL SPACING SYSTEM ================= */
+.section{
+  padding:70px 20px;
+}
 
+.section-sm{
+  padding:40px 20px;
+}
+
+/* Center content consistently */
+.section > *{
+  max-width:1200px;
+  margin-left:auto;
+  margin-right:auto;
+}
+</style>
+<div class="section-sm">
 <!-- ================= HERO BANNER ================= -->
 <div style="background: linear-gradient(135deg,#0f4c81,#f97316);
 color:white;text-align:center;padding:60px 20px;border-radius:16px;margin-bottom:30px;box-shadow:0 10px 25px rgba(0,0,0,0.1);">
@@ -66,7 +163,34 @@ updateHeroCountdown();
 </a>
 
 </div>
+  </div>
 <!-- ================= END HERO BANNER ================= -->
+<div style="
+display:flex;
+justify-content:center;
+gap:16px;
+flex-wrap:wrap;
+margin:-15px auto 40px;
+max-width:1000px;
+">
+
+<div class="trust-pill">✔ GAMP 5 Aligned</div>
+<div class="trust-pill">✔ CSA Ready</div>
+<div class="trust-pill">✔ ALCOA+ Focused</div>
+<div class="trust-pill">✔ 21 CFR Part 11</div>
+
+</div>
+
+<style>
+.trust-pill{
+  background:#e0f2fe;
+  color:#0f4c81;
+  padding:8px 16px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:bold;
+}
+</style>
 
 <!-- ================= FLOATING STICKY BUTTON ================= -->
 <a href="https://sites.google.com/view/csv-edge-academy/contact-register">
@@ -203,6 +327,7 @@ updateHeroCountdown();
 .csv-box h3{color:#0f4c81;margin-bottom:12px}
 </style>
 
+<div class="section">  
 <div class="csv-main">
 <h2>⚙️ Computerized System Validation – End-to-End Lifecycle</h2>
 <p class="csv-sub">Interactive, visual & risk-based CSV deliverables used in Pharma & GxP systems</p>
@@ -262,7 +387,7 @@ onclick="showCSV('Validation Summary / Release','Summarizes validation outcome a
 <div class="csv-icon">✅</div><strong>VSR / Release</strong><small>High Impact</small></div>
 
 </div>
-
+</div>
 <div id="csvDetails" class="csv-details">
 Click on any deliverable above to view details
 </div>
@@ -395,6 +520,7 @@ onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.tr
 }
 </style>
 
+  <div class="section">
 <div class="alcoa-map">
 <h2>🧪 ALCOA+ Mapped to Pharma Computerized Systems</h2>
 <p>Real-life examples of how data integrity principles are implemented</p>
@@ -406,7 +532,7 @@ onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.tr
     <span>LIMS / User Login</span>
     <small>Each result linked to a unique user ID & electronic signature</small>
   </div>
-
+</div>
   <div class="alcoa-card">
     <h3>Legible</h3>
     <span>DMS / PDF Records</span>
@@ -1321,6 +1447,7 @@ setInterval(updateAuditTime, 60000);
   
 </body>
 </html>
+
 
 
 
