@@ -166,6 +166,35 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// ================= FIREBASE PROGRESS SAVE =================
+function saveProgressToCloud() {
+  if (!currentUser) return;
+
+  db.collection("students")
+    .doc(currentUser)
+    .set({
+      email: currentUser,
+      completed: completed,
+      lastUpdated: new Date().toISOString()
+    }, { merge: true })
+    .catch(err => console.error("❌ Cloud save failed", err));
+}
+
+// ================= FIREBASE PROGRESS LOAD =================
+function loadProgressFromCloud() {
+  if (!currentUser) return Promise.resolve();
+
+  return db.collection("students")
+    .doc(currentUser)
+    .get()
+    .then(doc => {
+      if (doc.exists) {
+        completed = doc.data().completed || {};
+      }
+    })
+    .catch(err => console.error("❌ Cloud load failed", err));
+}
+  
 
 const OTP_API_URL = "https://script.google.com/macros/s/AKfycbwzlRMIZScp83jSB1CqjHUY1svRlc6X5YIciDdTlGSxQUiTUZ9dZNjy_7m5b9Tsr9GhwQ/exec";
 
@@ -238,17 +267,24 @@ function verifyOTP() {
     if (txt === "OTP_VERIFIED") {
   loginMsg.innerText = "✅ Login successful";
 
-  const savedProgress = localStorage.getItem("csv_progress_" + currentUser);
-  completed = savedProgress ? JSON.parse(savedProgress) : {};
-
   loginSection.style.display = "none";
 dashboardSection.style.display = "block";
-
 document.getElementById("welcomeBox").style.display = "block";
 document.getElementById("receiptBtn").disabled = false;
 
-renderSessions();
-updateProgress();
+// ⬇️ FIRST load from Firebase (any device)
+loadProgressFromCloud().then(() => {
+
+  // ⬇️ If cloud empty, fallback to LocalStorage
+  if (!Object.keys(completed).length) {
+    const saved = localStorage.getItem("csv_progress_" + currentUser);
+    completed = saved ? JSON.parse(saved) : {};
+  }
+
+  renderSessions();
+  updateProgress();
+});
+
 
 }
  else {
@@ -644,6 +680,7 @@ function evaluate(index, questions){
   "csv_progress_" + currentUser,
   JSON.stringify(completed)
 );
+saveProgressToCloud();
 
 
 // ================= SEND RESULT TO GOOGLE SHEET =================
@@ -960,6 +997,7 @@ doc.text(amountPaid, 175, 135, { align: "right" });
   <script src="header-loader.js"></script>
 </body>
 </html>
+
 
 
 
