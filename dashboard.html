@@ -25,6 +25,11 @@
   <!-- QR CODE -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
+  <!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  
   <!-- PAGE STYLES -->
   <style>
     body { background:#eef2f7; }
@@ -151,6 +156,15 @@
 
 
 <script>
+// ================= FIREBASE INIT =================
+const firebaseConfig = {
+  apiKey: "AIzaSyDj1KC0HcBfc5k7PbwB11CjTKZ5_V6SvWU",
+  authDomain: "csv-edge-academy-a6828.firebaseapp.com",
+  projectId: "csv-edge-academy-a6828"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 
 const OTP_API_URL = "https://script.google.com/macros/s/AKfycbwzlRMIZScp83jSB1CqjHUY1svRlc6X5YIciDdTlGSxQUiTUZ9dZNjy_7m5b9Tsr9GhwQ/exec";
@@ -946,5 +960,6 @@ doc.text(amountPaid, 175, 135, { align: "right" });
   <script src="header-loader.js"></script>
 </body>
 </html>
+
 
 
