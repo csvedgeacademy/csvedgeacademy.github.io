@@ -668,10 +668,9 @@ function checkCertificateAccess() {
   `;
 }
 
- function requestCertApproval() {
+function requestCertApproval() {
 
   const certName = document.getElementById("certName").value.trim();
-
   if (!certName || certName.length < 2) {
     alert("Please enter valid certificate name");
     return;
@@ -679,62 +678,68 @@ function checkCertificateAccess() {
 
   localStorage.setItem("cert_name_" + currentUser, certName);
 
-  const email = currentUser;   // ✅ FIX (THIS LINE)
-
-  const url =
-    OTP_API_URL +
-    "?action=certRequest" +
-    "&name=" + encodeURIComponent(certName) +
-    "&email=" + encodeURIComponent(email) +
-    "&certname=" + encodeURIComponent("CSV Full Training Program");
-
-  fetch(url)
-    .then(() => {
+  fetch(OTP_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "certRequest",
+      name: certName,
+      email: currentUser,
+      certname: "CSV Full Training Program"
+    })
+  })
+  .then(res => res.text())
+  .then(txt => {
+    if (txt === "REQUEST_SENT") {
       document.getElementById("certApprovalArea").innerHTML = `
         <p class="text-warning">⏳ Approval code sent to Academy.</p>
-        <input id="approvalCode"
-               class="form-control mt-2"
+        <input id="approvalCode" class="form-control mt-2"
                placeholder="Enter approval code received">
         <button class="btn btn-success mt-2"
                 onclick="verifyCertCode()">
           Verify & Download
         </button>
       `;
-    });
+    } else {
+      alert("Server response: " + txt);
+    }
+  })
+  .catch(err => alert("Request failed"));
 }
+
 
 
   function verifyCertCode() {
 
   const code = document.getElementById("approvalCode").value.trim();
-  const email = currentUser;
-
   if (code.length !== 6) {
     alert("Enter valid 6-digit approval code");
     return;
   }
 
-  const url =
-    OTP_API_URL +
-    "?action=certVerify" +
-    "&email=" + encodeURIComponent(email) +
-    "&code=" + encodeURIComponent(code);
-
-  fetch(url)
-    .then(r => r.text())
-    .then(res => {
-      if (res === "APPROVED") {
-        document.getElementById("certApprovalArea").innerHTML = `
-          <p class="text-success">✅ Certificate Approved</p>
-          <button class="btn btn-success"
-                  onclick="downloadCertificate()">
-            ⬇️ Download Certificate
-          </button>
-        `;
-      } else {
-        alert("Invalid or expired approval code");
-      }
-    });
+  fetch(OTP_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "certVerify",
+      email: currentUser,
+      code: code
+    })
+  })
+  .then(res => res.text())
+  .then(res => {
+    if (res === "APPROVED") {
+      document.getElementById("certApprovalArea").innerHTML = `
+        <p class="text-success">✅ Certificate Approved</p>
+        <button class="btn btn-success"
+                onclick="downloadCertificate()">
+          ⬇️ Download Certificate
+        </button>
+      `;
+    } else {
+      alert("Invalid or expired approval code");
+    }
+  });
 }
 
   
@@ -1143,6 +1148,7 @@ doc.text(amountPaid, 175, 135, { align: "right" });
   <script src="header-loader.js"></script>
 </body>
 </html>
+
 
 
 
