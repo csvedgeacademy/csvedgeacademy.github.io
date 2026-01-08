@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Test</title>
+</head>
+<body>
+
+<h3>Firebase Connection Test</h3>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDj1KC0HcBfc5k7PbwB11CjTKZ5_V6SvWU",
+  authDomain: "csv-edge-academy-a6828.firebaseapp.com",
+  projectId: "csv-edge-academy-a6828"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+db.collection("test").doc("hello").set({
+  message: "Firebase connected successfully",
+  time: new Date().toISOString()
+}).then(() => {
+  alert("🔥 Firebase Working!");
+}).catch(err => {
+  alert("❌ Firebase Error – check console");
+  console.error(err);
+});
+</script>
+
+</body>
+</html>
