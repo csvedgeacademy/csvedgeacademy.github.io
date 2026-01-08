@@ -770,7 +770,10 @@ async function generateCertificate(name, data = completed){
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF("landscape");
-
+  
+// ===== LOAD LOGO FIRST (REQUIRED) =====
+const logoBase64 = await loadImageAsBase64("assets/images/logo.png");
+  
   // ===== WATERMARK =====
 if (doc.setGState) {
   doc.setGState(new doc.GState({ opacity: 0.08 }));
@@ -814,7 +817,6 @@ const issueDate = new Date().toLocaleDateString();
   doc.rect(15, 15, 267, 180);
 
   // ================= LOGO =================
-const logoBase64 = await loadImageAsBase64("assets/images/logo.png");
 doc.addImage(logoBase64, "PNG", 20, 20, 40, 20);
 
   // ================= TITLE =================
@@ -963,7 +965,7 @@ doc.rect(10, 10, 190, 277);
   doc.text(academyName, 105, 20, { align: "center" });
 
   // ===== LOGO =====
-  const logoBase64 = await loadImageAsBase64("assets/images/logo.png");
+const logoBase64 = await loadImageAsBase64("assets/images/logo.png");  
 doc.addImage(logoBase64, "PNG", 10, 5, 30, 20);
 
   // ===== TITLE =====
@@ -1040,6 +1042,7 @@ doc.text(amountPaid, 175, 135, { align: "right" });
   <script src="header-loader.js"></script>
 </body>
 </html>
+
 
 
 
