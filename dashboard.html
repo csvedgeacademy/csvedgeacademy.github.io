@@ -211,6 +211,8 @@ function loadProgressFromCloud() {
 const OTP_API_URL = "https://script.google.com/macros/s/AKfycbwzlRMIZScp83jSB1CqjHUY1svRlc6X5YIciDdTlGSxQUiTUZ9dZNjy_7m5b9Tsr9GhwQ/exec";
 
 let currentUser = "";
+let approvedCertName = "";
+  
 
 // ================= SEND OTP =================
 function sendOTP() {
@@ -279,6 +281,20 @@ function verifyOTP() {
 
   loginSection.style.display = "none";
 dashboardSection.style.display = "block";
+
+      // ✅ RESTORE LOCKED CERTIFICATE NAME (IF APPROVED EARLIER)
+  const lockedName = localStorage.getItem(
+    "approved_cert_name_" + currentUser
+  );
+
+  if (lockedName) {
+    approvedCertName = lockedName;
+    const certNameInput = document.getElementById("certName");
+    certNameInput.value = approvedCertName;
+    certNameInput.disabled = true;
+    certNameInput.style.background = "#e5e7eb";
+  }
+      
 const savedCertName =
   localStorage.getItem("cert_name_" + currentUser);
 
@@ -724,8 +740,18 @@ function requestCertApproval() {
   .then(res => {
     if (res === "APPROVED") {
 
-  // 🔒 LOCK CERTIFICATE NAME
+  approvedCertName = document.getElementById("certName").value.trim();
+
+ // ✅ SAVE LOCKED NAME PERMANENTLY
+  localStorage.setItem(
+    "approved_cert_name_" + currentUser,
+    approvedCertName
+  );
+
+
+  // 🔒 HARD LOCK
   const certNameInput = document.getElementById("certName");
+  certNameInput.value = approvedCertName;
   certNameInput.disabled = true;
   certNameInput.style.background = "#e5e7eb";
 
@@ -737,6 +763,7 @@ function requestCertApproval() {
     </button>
   `;
 }
+
  else {
       alert("Invalid or expired approval code");
     }
@@ -848,7 +875,8 @@ function downloadCertificate() {
     return;
   }
 
-  generateCertificate(certName);
+  generateCertificate(approvedCertName);
+
 }
 
 function loadImageAsBase64(src) {
@@ -1165,4 +1193,5 @@ doc.text(amountPaid, 175, 135, { align: "right" });
   <script src="header-loader.js"></script>
 </body>
 </html>
+
 
