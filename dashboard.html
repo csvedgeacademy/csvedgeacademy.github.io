@@ -282,25 +282,28 @@ function verifyOTP() {
   loginSection.style.display = "none";
 dashboardSection.style.display = "block";
 
-      // ✅ RESTORE LOCKED CERTIFICATE NAME (IF APPROVED EARLIER)
-  const lockedName = localStorage.getItem(
-    "approved_cert_name_" + currentUser
-  );
+            
+const approvedName = localStorage.getItem(
+  "approved_cert_name_" + currentUser
+);
 
-  if (lockedName) {
-    approvedCertName = lockedName;
-    const certNameInput = document.getElementById("certName");
-    certNameInput.value = approvedCertName;
-    certNameInput.disabled = true;
-    certNameInput.style.background = "#e5e7eb";
-  }
-      
-const savedCertName =
-  localStorage.getItem("cert_name_" + currentUser);
+const requestedName = localStorage.getItem(
+  "cert_request_name_" + currentUser
+);
 
-if (savedCertName) {
-  document.getElementById("certName").value = savedCertName;
+const certNameInput = document.getElementById("certName");
+
+if (approvedName) {
+  certNameInput.value = approvedName;
+  certNameInput.disabled = true;
+  certNameInput.style.background = "#e5e7eb";
 }
+else if (requestedName) {
+  certNameInput.value = requestedName;
+  certNameInput.disabled = true;
+  certNameInput.style.background = "#f1f5f9";
+}
+
       
 document.getElementById("welcomeBox").style.display = "block";
 document.getElementById("receiptBtn").disabled = false;
@@ -555,7 +558,6 @@ function logout(){
   loginEmail.value = "";
   loginMsg.innerText = "";
 document.getElementById("receiptBtn").disabled = true;
-localStorage.removeItem("cert_name_" + currentUser);
 
 }
 
@@ -690,7 +692,6 @@ function requestCertApproval() {
     return;
   }
 
-  localStorage.setItem("cert_name_" + currentUser, certName);
 
   fetch(
   OTP_API_URL +
@@ -702,7 +703,16 @@ function requestCertApproval() {
 
   .then(res => res.text())
   .then(txt => {
-    if (txt === "REQUEST_SENT") {
+    if (txt === "REQUEST_SENT") { 
+      // 🔒 SOFT LOCK name after request
+  const certNameInput = document.getElementById("certName");
+  certNameInput.disabled = true;
+  certNameInput.style.background = "#f1f5f9";
+
+  localStorage.setItem(
+    "cert_request_name_" + currentUser,
+    certName
+  );
       document.getElementById("certApprovalArea").innerHTML = `
         <p class="text-warning">⏳ Approval code sent to Academy.</p>
         <input id="approvalCode" class="form-control mt-2"
@@ -748,6 +758,10 @@ function requestCertApproval() {
     approvedCertName
   );
 
+      // 🧹 CLEANUP TEMP REQUEST NAME (IMPORTANT)
+  localStorage.removeItem(
+    "cert_request_name_" + currentUser
+  );
 
   // 🔒 HARD LOCK
   const certNameInput = document.getElementById("certName");
@@ -1193,6 +1207,7 @@ doc.text(amountPaid, 175, 135, { align: "right" });
   <script src="header-loader.js"></script>
 </body>
 </html>
+
 
 
 
