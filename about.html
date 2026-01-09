@@ -25,16 +25,44 @@
 <body>
   <!-- ✅ PASTE HEADER HERE -->
 <div id="header-placeholder"></div>
+  <!-- ===== HERO SECTION START ===== -->
+<section class="hero">
+  <h1>Master Computerized System Validation (CSV)</h1>
+  <p>
+    Job-oriented CSV training for Pharma, Life Sciences & GxP IT professionals
+  </p>
+
+  <div class="hero-buttons">
+    <a href="#whatsapp-enquiry" class="btn-primary">📩 WhatsApp Enquiry</a>
+    <a href="#about-course" class="btn-secondary">📘 Explore Course</a>
+  </div>
+</section>
+<!-- ===== HERO SECTION END ===== -->
+
 
 <div class="section">  
 <div style="background:#f1f5f9; padding:20px; border-left:6px solid #f97316;">
 <h3>Why This CSV Course?</h3>
+
+<div class="feature-grid">
+  <div class="feature-card">📊 End-to-End CSV Lifecycle (GAMP 5 & FDA)</div>
+  <div class="feature-card">🧪 Hands-on Validation Documentation</div>
+  <div class="feature-card">🎯 Fresher & Professional Friendly</div>
+  <div class="feature-card">💼 Resume & Interview Guidance</div>
+</div>
+
+  <div class="section">
+<h3>🎯 Who Should Take This Course?</h3>
 <ul>
-<li>End-to-End CSV Lifecycle as per GAMP 5 & FDA</li>
-<li>Hands-on preparation of real validation documents</li>
-<li>Designed for freshers & working professionals</li>
-<li>Interview & resume guidance included</li>
+<li>✔ Freshers entering Pharma / Life Sciences</li>
+<li>✔ QA, CSV, IT & Automation professionals</li>
+<li>✔ IT professionals switching to Pharma CSV</li>
+<li>✔ Validation engineers preparing for audits</li>
 </ul>
+</div>
+
+
+  
 </div>
 </div>
 <div style="
@@ -58,21 +86,22 @@ text-align:center;">
 </p>
 
 <!-- WhatsApp Button -->
-<a href="https://wa.me/919665942334?text=Hi%20I%20am%20interested%20in%20the%20CSV%20course.%20Please%20share%20details."
-   target="_blank"
-   style="
-    display:inline-block;
-    margin-top:15px;
-    background:#22c55e;
-    color:white;
-    padding:12px 26px;
-    font-size:16px;
-    border-radius:30px;
-    text-decoration:none;
-    font-weight:bold;">
-  💬 WhatsApp Quick Enquiry
-</a>
-
+<div id="whatsapp-enquiry">
+  <a href="https://wa.me/919665942334?text=Hi%20I%20am%20interested%20in%20the%20CSV%20course.%20Please%20share%20details."
+     target="_blank"
+     style="
+      display:inline-block;
+      margin-top:15px;
+      background:#22c55e;
+      color:white;
+      padding:12px 26px;
+      font-size:16px;
+      border-radius:30px;
+      text-decoration:none;
+      font-weight:bold;">
+    💬 WhatsApp Quick Enquiry
+  </a>
+</div>
 </div>
 <!-- ========== ABOUT COURSE VOICE OVER SECTION ========== -->
 <style>
@@ -172,9 +201,75 @@ text-align:center;">
   background:#fde68a;
 }
 
+ .hero{
+  background:linear-gradient(135deg,#e0f2fe,#ffffff);
+  padding:70px 20px;
+  text-align:center;
+}
+
+.hero h1{
+  font-size:clamp(30px,5vw,42px);
+  color:#0f4c81;
+  margin-bottom:12px;
+}
+
+.hero p{
+  font-size:18px;
+  color:#374151;
+  margin-bottom:25px;
+}
+
+.hero-buttons a{
+  display:inline-block;
+  margin:8px;
+  padding:14px 28px;
+  border-radius:30px;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+.btn-primary{
+  background:#22c55e;
+  color:#fff;
+}
+
+.btn-secondary{
+  background:#0f4c81;
+  color:#fff;
+}
+ 
+.feature-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+  margin-top:15px;
+}
+
+.feature-card{
+  background:#ffffff;
+  padding:16px;
+  border-radius:14px;
+  box-shadow:0 6px 15px rgba(0,0,0,.08);
+  font-weight:600;
+}
+
+  /* ===== MINI CTA SECTION ===== */
+.mini-cta{
+  text-align:center;
+  padding:40px 20px;
+  background:#f8fafc;
+}
+
+.mini-cta p{
+  font-size:18px;
+  color:#0f4c81;
+  margin-bottom:14px;
+}
+
+  
 </style>
 
-<div class="about-wrap">
+<div class="about-wrap" id="about-course">
 
 <h2 class="about-title">🎓 About the CSV Training Course</h2>
 
@@ -328,7 +423,14 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
   
 <!-- FOOTER -->
-<div id="footer-placeholder"></div>
+<div class="mini-cta">
+  <p>📞 Not sure if this course is right for you?</p>
+  <a href="https://wa.me/919665942334" class="btn-primary">
+    Chat on WhatsApp
+  </a>
+</div>
+
+  <div id="footer-placeholder"></div>
 <script src="footer-loader.js"></script>
 
 <script src="header-loader.js"></script>
@@ -336,4 +438,5 @@ document.addEventListener("DOMContentLoaded", () => {
 </body>
 </html>
 <!-- ========== END ABOUT COURSE VOICE OVER SECTION ========== -->
+
 
