@@ -660,3 +660,98 @@ body{
     box-shadow:none;
   }
 }
+
+/* ================================
+   Pricing Page – Professional UI
+   ================================ */
+
+/* Offer Box */
+.offer-box {
+  background: #fff7ed;
+  border: 2px dashed #f97316;
+  padding: 24px;
+  text-align: center;
+  border-radius: 12px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Pricing Card */
+.pricing-card {
+  text-align: center;
+  padding: 32px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  max-width: 720px;
+  margin: 30px auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Price Styles */
+.old-price {
+  text-decoration: line-through;
+  color: #9ca3af;
+  font-size: 18px;
+  margin: 0;
+}
+
+.new-price {
+  color: #f97316;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 5px 0 15px;
+}
+
+/* Primary CTA Button */
+.primary-btn {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #ffffff;
+  padding: 14px 34px;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(249, 115, 22, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 30px rgba(249, 115, 22, 0.45);
+}
+
+/* Trust Badges */
+.trust-badges {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #334155;
+}
+
+.trust-badges p {
+  margin: 6px 0;
+}
+
+/* Step Titles */
+.step-title {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #0f172a;
+}
+
+/* Secure Payment Note */
+.secure-note {
+  font-size: 13px;
+  color: #475569;
+  margin-top: 10px;
+}
+
+/* Final Trust Note */
+.final-note {
+  max-width: 720px;
+  margin: 40px auto;
+  font-size: 14px;
+  text-align: center;
+  color: #475569;
+}
