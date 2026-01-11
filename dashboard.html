@@ -243,7 +243,7 @@ let approvedCertName = "";
 
 // ================= SEND OTP =================
 function sendOTP() {
-  const email = loginEmail.value.trim();
+  const email = loginEmail.value.trim().toLowerCase();
 
   if (!email) {
     loginMsg.innerText = "❌ Please enter email";
@@ -251,14 +251,14 @@ function sendOTP() {
   }
 
   // 🔒 AUTHORIZATION CHECK (PAID USERS ONLY)
-  if (!allowedEmails.includes(email)) {
-    loginMsg.innerHTML = `
-❌ Access denied.<br>
-Please access the dashboard from your course page.
+  // 🔒 COURSE ACCESS CHECK AFTER OTP (NOT BEFORE)
+if (!allowedEmails.includes(email)) {
+  loginMsg.innerHTML = `
+⚠️ Email not yet activated for this course.<br>
+If you have paid, please contact support.
 `;
+}
 
-    return;
-  }
 
   // ✅ Only approved users reach here
   loginMsg.innerText = "⏳ Sending OTP...";
@@ -1341,6 +1341,7 @@ doc.text(amountPaid, 175, 135, { align: "right" });
   <script src="header-loader.js"></script>
 </body>
 </html>
+
 
 
 
