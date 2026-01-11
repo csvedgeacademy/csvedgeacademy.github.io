@@ -815,3 +815,7 @@ body{
   margin-left:18px;
 }
 
+.course-card.intermediate{
+  border-top:5px solid #f97316;
+}
+
