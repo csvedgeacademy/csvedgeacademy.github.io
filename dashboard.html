@@ -168,6 +168,10 @@
 
 
 <script>
+    // ================= COURSE CONTEXT =================
+const params = new URLSearchParams(window.location.search);
+const courseId = params.get("course") || "default";
+
 // ================= FIREBASE INIT =================
 const firebaseConfig = {
   apiKey: "AIzaSyDj1KC0HcBfc5k7PbwB11CjTKZ5_V6SvWU",
@@ -183,7 +187,9 @@ function saveProgressToCloud() {
   if (!currentUser) return;
 
   db.collection("students")
-    .doc(currentUser)
+  .doc(currentUser)
+  .collection("courses")
+  .doc(courseId)
     .set({
       email: currentUser,
       completed: completed,
@@ -198,6 +204,8 @@ function loadProgressFromCloud() {
 
   return db.collection("students")
     .doc(currentUser)
+    .collection("courses")
+    .doc(courseId)
     .get()
     .then(doc => {
       if (doc.exists) {
@@ -284,11 +292,11 @@ dashboardSection.style.display = "block";
 
             
 const approvedName = localStorage.getItem(
-  "approved_cert_name_" + currentUser
+  `approved_cert_name_${courseId}_${currentUser}`
 );
 
 const requestedName = localStorage.getItem(
-  "cert_request_name_" + currentUser
+  `cert_request_name_${courseId}_${currentUser}`
 );
 
 const certNameInput = document.getElementById("certName");
@@ -313,7 +321,9 @@ loadProgressFromCloud().then(() => {
 
   // ⬇️ If cloud empty, fallback to LocalStorage
   if (!Object.keys(completed).length) {
-    const saved = localStorage.getItem("csv_progress_" + currentUser);
+    const saved = localStorage.getItem(
+  `csv_progress_${courseId}_${currentUser}`
+);
     completed = saved ? JSON.parse(saved) : {};
   }
 
@@ -336,16 +346,45 @@ loadProgressFromCloud().then(() => {
 // ================= IMAGES (BASE64) =================
 
 // ================= CONFIG =================
-const allowedEmails = ["bharatsonawane029@gmail.com","bharatsonawane028@gmail.com"];
-const fullAccessEmails = ["bharatsonawane029@gmail.com"];
+// ================= COURSE-WISE ACCESS =================
+const courseAccess = {
+  "csv-roadmap-workshop": [
+    "bharatsonawane029@gmail.com"
+  ],
+  "fresher-to-csv-expert": [
+    "bharatsonawane029@gmail.com",
+    "bharatsonawane028@gmail.com"
+  ]
+};
+
+const allowedEmails = courseAccess[courseId] || [];
+
+const fullAccessMap = {
+  "csv-roadmap-workshop": ["bharatsonawane029@gmail.com"],
+  "fresher-to-csv-expert": ["bharatsonawane029@gmail.com"]
+};
+
+const fullAccessEmails = fullAccessMap[courseId] || [];
+
 const passPercent = 80;
 const examTimeMinutes = 20;
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbzQTC9elQ025YkPsXcXxdHliSr6CeYxYNNBET5zQmmejlSvYm9z2EknUhac_cQ-yahR/exec";
 
+// ================= COURSE TITLES =================
+const courseTitles = {
+  "csv-roadmap-workshop": "CSV Career Roadmap Workshop",
+  "fresher-to-csv-expert": "From Fresher to CSV Expert Program"
+};
 
 // ================= ALL SESSIONS =================
-const sessions = [
-"Session 1 – Regulator Basics",
+const courseSessions = {
+  "csv-roadmap-workshop": [
+    "Session 1 – CSV Basics",
+    "Session 2 – Career Scope",
+    "Final Assessment"
+  ],
+  "fresher-to-csv-expert": [
+    "Session 1 – Regulator Basics",
 "Session 2 – Introduction to CSV",
 "Session 3 – GAMP 5 Fundamentals",
 "Session 4 – Quality Management Basics",
@@ -370,10 +409,67 @@ const sessions = [
 "Session 23 – Audit Readiness and Case studies on USFDA observations",
 "Session 24 – New Approach to CSV - CSA",
 "Final Assessment"
-];
+  ]
+};
+
+const sessions = courseSessions[courseId] || [];
+  if (!sessions.length) {
+  document.getElementById("sessionsList").innerHTML =
+    `<div class="alert alert-warning">
+      Sessions will be available soon.
+     </div>`;
+}
+
+
 
 // ================= MCQs (ADD SESSION-WISE LATER) =================
-const mcqs = {
+// ================= COURSE-WISE MCQs =================
+const courseMcqs = {
+
+  // ===== COURSE 1: CSV CAREER ROADMAP WORKSHOP =====
+  "csv-roadmap-workshop": {
+    0: [
+      {
+        q: "What is the primary purpose of CSV?",
+        o: [
+          "System performance improvement",
+          "Regulatory compliance and data integrity",
+          "Cost reduction",
+          "Faster deployment"
+        ],
+        a: "Regulatory compliance and data integrity"
+      }
+    ],
+
+    1: [
+      {
+        q: "CSV is most relevant in which industries?",
+        o: [
+          "Retail and E-commerce",
+          "Pharma and Life Sciences",
+          "Construction",
+          "Automobile"
+        ],
+        a: "Pharma and Life Sciences"
+      }
+    ],
+
+    2: [
+      {
+        q: "The main outcome of the CSV Career Roadmap Workshop is:",
+        o: [
+          "Hands-on validation execution",
+          "Career clarity and learning roadmap",
+          "Audit execution",
+          "System configuration"
+        ],
+        a: "Career clarity and learning roadmap"
+      }
+    ]
+  },
+
+  // ===== COURSE 2: FROM FRESHER TO CSV EXPERT =====
+  "fresher-to-csv-expert": {
 0:[
   {q:"CSV documentation should be stored for:",
    o:["1 year","Until product expiry","As per regulatory requirement","Optional"],
@@ -524,6 +620,12 @@ const mcqs = {
 ]
 };
 
+  // ================= SAFETY CHECK =================
+if (!courseMcqs[courseId]) {
+  console.warn("⚠️ No MCQs configured for this course:", courseId);
+}
+
+  
 // ================= STATE =================
 let completed = {};
 let timerInterval;
@@ -610,7 +712,9 @@ const unlocked = isFullAccessUser
 }
 
 // ================= SHUFFLE =================
-function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
+function shuffle(arr){
+  return [...arr].sort(() => Math.random() - 0.5);
+}
 
 // ================= LOAD MCQs =================
     function loadMCQs(index){const isFullAccessUser = fullAccessEmails.includes(currentUser);
@@ -622,7 +726,9 @@ if (!isFullAccessUser && index > 0 && (!completed[index-1] || completed[index-1]
 
   clearInterval(timerInterval);
 
-  if(!mcqs[index]){
+  const mcqs = courseMcqs[courseId] || {};
+
+if (!mcqs[index]) {
     mcqSection.innerHTML=`
       <div class="alert alert-info">
         MCQs for <b>${sessions[index]}</b> are not yet uploaded.
@@ -698,7 +804,8 @@ function requestCertApproval() {
   "?action=certRequest" +
   "&name=" + encodeURIComponent(certName) +
   "&email=" + encodeURIComponent(currentUser) +
-  "&certname=" + encodeURIComponent("CSV Full Training Program")
+  "&certname=" + encodeURIComponent(courseTitles[courseId] || "CSV Program")
+
 )
 
   .then(res => res.text())
@@ -710,7 +817,7 @@ function requestCertApproval() {
   certNameInput.style.background = "#f1f5f9";
 
   localStorage.setItem(
-    "cert_request_name_" + currentUser,
+    `cert_request_name_${courseId}_${currentUser}`,
     certName
   );
       document.getElementById("certApprovalArea").innerHTML = `
@@ -754,13 +861,13 @@ function requestCertApproval() {
 
  // ✅ SAVE LOCKED NAME PERMANENTLY
   localStorage.setItem(
-    "approved_cert_name_" + currentUser,
+    `approved_cert_name_${courseId}_${currentUser}`,
     approvedCertName
   );
 
       // 🧹 CLEANUP TEMP REQUEST NAME (IMPORTANT)
   localStorage.removeItem(
-    "cert_request_name_" + currentUser
+    `cert_request_name_${courseId}_${currentUser}`
   );
 
   // 🔒 HARD LOCK
@@ -823,9 +930,10 @@ function evaluate(index, questions){
   };
 
   localStorage.setItem(
-  "csv_progress_" + currentUser,
+  `csv_progress_${courseId}_${currentUser}`,
   JSON.stringify(completed)
 );
+
 saveProgressToCloud();
 
 
@@ -941,7 +1049,9 @@ if (doc.setGState) {
   
   // ================= CERTIFICATE DATA =================
 const issueDate = new Date().toLocaleDateString();
-  const courseName = "CSV EDGE ACADEMY – COMPUTERIZED SYSTEM VALIDATION";
+  
+const courseName = courseTitles[courseId] || "CSV Program";
+
   const certId = "CSV-" + Date.now(); // unique audit-friendly ID
   // ================= SAVE CERTIFICATE FOR VERIFICATION =================
 fetch(CERT_VERIFY_API + "?action=save", {
@@ -1112,7 +1222,7 @@ doc.rect(10, 10, 190, 277);
 
   // ===== RECEIPT DATA =====
   const academyName = "CSV Edge Academy";
-  const programName = "Computerized System Validation (CSV) – Full Training Program";
+  const programName = courseTitles[courseId] || "CSV Program";
   const amountPaid = "Yes";
   const receiptId = "REC-" + Date.now();
   const downloadDate = new Date().toLocaleDateString();
@@ -1208,6 +1318,7 @@ doc.text(amountPaid, 175, 135, { align: "right" });
   <script src="header-loader.js"></script>
 </body>
 </html>
+
 
 
 
