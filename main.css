@@ -804,3 +804,14 @@ body{
   font-weight:600;
   color:#1e3a8a;
 }
+
+.course-card h5{
+  margin-top:16px;
+  color:#0f4c81;
+  font-size:16px;
+}
+
+.course-card ul{
+  margin-left:18px;
+}
+
