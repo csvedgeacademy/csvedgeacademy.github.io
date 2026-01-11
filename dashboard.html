@@ -171,6 +171,22 @@
     // ================= COURSE CONTEXT =================
 const params = new URLSearchParams(window.location.search);
 const courseId = params.get("course") || "default";
+  
+  // 🚨 HARD COURSE VALIDATION (DO NOT REMOVE)
+const validCourses = ["csv-roadmap-workshop", "fresher-to-csv-expert"];
+
+if (!validCourses.includes(courseId)) {
+  document.body.innerHTML = `
+    <div class="container mt-5">
+      <div class="alert alert-danger text-center">
+        ❌ Invalid or missing course link.<br><br>
+        Please access your dashboard from the official course page.
+      </div>
+    </div>
+  `;
+  throw new Error("Invalid courseId");
+}
+
 
 // ================= FIREBASE INIT =================
 const firebaseConfig = {
@@ -179,7 +195,10 @@ const firebaseConfig = {
   projectId: "csv-edge-academy-a6828"
 };
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
 const db = firebase.firestore();
 
 // ================= FIREBASE PROGRESS SAVE =================
@@ -233,7 +252,11 @@ function sendOTP() {
 
   // 🔒 AUTHORIZATION CHECK (PAID USERS ONLY)
   if (!allowedEmails.includes(email)) {
-    loginMsg.innerText = "❌ Access denied. Course not purchased.";
+    loginMsg.innerHTML = `
+❌ Access denied.<br>
+Please access the dashboard from your course page.
+`;
+
     return;
   }
 
@@ -774,7 +797,7 @@ setTimeout(() => {
 }, 100);
 
 
-  mcqForm.onsubmit=e=>{
+  document.getElementById("mcqForm").onsubmit = e => {
     e.preventDefault();
     clearInterval(timerInterval);
     evaluate(index,questions);
@@ -901,9 +924,9 @@ function startTimer(min){
     time--;
     if(time<0){
       clearInterval(timerInterval);
-      if (typeof mcqForm !== "undefined") {
-  mcqForm.requestSubmit();
-}
+      const form = document.getElementById("mcqForm");
+if (form) form.requestSubmit();
+
 
     }
   },1000);
@@ -912,7 +935,7 @@ function startTimer(min){
 // ================= EVALUATE =================
 function evaluate(index, questions){
   let score = 0;
-  const fd = new FormData(mcqForm);
+  const fd = new FormData(document.getElementById("mcqForm"));
 
   questions.forEach((q,i)=>{
     if(fd.get("q"+i) === q.a) score++;
@@ -1318,6 +1341,7 @@ doc.text(amountPaid, 175, 135, { align: "right" });
   <script src="header-loader.js"></script>
 </body>
 </html>
+
 
 
 
