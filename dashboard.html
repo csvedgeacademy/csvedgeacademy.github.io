@@ -58,7 +58,7 @@
 
 <div class="container my-5 p-4 bg-white rounded shadow">
 
-<h2 class="text-center text-primary">🎓 CSV Edge Academy – Student Dashboard</h2>
+<h2 class="text-center text-primary"> CSV Edge Academy – Student Dashboard</h2>
 <p class="text-center text-muted">Login to access sessions and MCQs</p>
 
 <!-- LOGIN -->
@@ -68,7 +68,7 @@
          placeholder="Enter your email">
 
   <button class="btn btn-primary w-100 mb-2" onclick="sendOTP()">
-    📩 Send OTP
+     Send OTP
   </button>
 
   <input id="otpInput" type="text" class="form-control mb-2 d-none"
@@ -76,7 +76,7 @@
 
   <button id="verifyBtn" class="btn btn-success w-100 d-none"
           onclick="verifyOTP()">
-    🔐 Verify OTP
+     Verify OTP
   </button>
 
   <div id="loginMsg" class="text-center mt-2"></div>
@@ -88,9 +88,9 @@
 <div id="dashboardSection" style="display:none">
 <!-- WELCOME MESSAGE -->
 <div id="welcomeBox" class="alert alert-info mb-4">
-  <h5 class="mb-2">👋 Welcome to CSV Edge Academy</h5>
+  <h5 class="mb-2"> Welcome to CSV Edge Academy</h5>
   <ul class="mb-0">
-    <li>Complete sessions sequentially (🔒 locked sessions unlock after passing previous).</li>
+    <li>Complete sessions sequentially ( locked sessions unlock after passing previous).</li>
     <li>Each session has a timed MCQ assessment.</li>
     <li>You must score at least <b>80%</b> to pass a session.</li>
     <li>Do not refresh the page during an exam.</li>
@@ -110,7 +110,7 @@
 
 <div id="certificateSection" class="mt-4 d-none">
 
-  <h5 class="text-primary">📜 Certificate</h5>
+  <h5 class="text-primary"> Certificate</h5>
 
   <label class="fw-bold mt-2">
     Name to appear on Certificate
@@ -130,7 +130,7 @@
           class="btn btn-outline-primary"
           onclick="downloadReceipt()"
           disabled>
-    💳 Download Payment Receipt
+     Download Payment Receipt
   </button>
 </div>
 
@@ -151,7 +151,7 @@
 
   <!-- LEFT: SESSIONS -->
   <div class="col-md-4">
-    <h4>📋 Sessions</h4>
+    <h4> Sessions</h4>
     <div id="sessionsList"></div>
   </div>
 
@@ -168,26 +168,6 @@
 
 
 <script>
-    // ================= COURSE CONTEXT =================
-const params = new URLSearchParams(window.location.search);
-const courseId = params.get("course") || "default";
-  
-  // 🚨 HARD COURSE VALIDATION (DO NOT REMOVE)
-const validCourses = ["csv-roadmap-workshop", "fresher-to-csv-expert"];
-
-if (!validCourses.includes(courseId)) {
-  document.body.innerHTML = `
-    <div class="container mt-5">
-      <div class="alert alert-danger text-center">
-        ❌ Invalid or missing course link.<br><br>
-        Please access your dashboard from the official course page.
-      </div>
-    </div>
-  `;
-  throw new Error("Invalid courseId");
-}
-
-
 // ================= FIREBASE INIT =================
 const firebaseConfig = {
   apiKey: "AIzaSyDj1KC0HcBfc5k7PbwB11CjTKZ5_V6SvWU",
@@ -195,10 +175,7 @@ const firebaseConfig = {
   projectId: "csv-edge-academy-a6828"
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
+firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // ================= FIREBASE PROGRESS SAVE =================
@@ -206,9 +183,7 @@ function saveProgressToCloud() {
   if (!currentUser) return;
 
   db.collection("students")
-  .doc(currentUser)
-  .collection("courses")
-  .doc(courseId)
+    .doc(currentUser)
     .set({
       email: currentUser,
       completed: completed,
@@ -223,8 +198,6 @@ function loadProgressFromCloud() {
 
   return db.collection("students")
     .doc(currentUser)
-    .collection("courses")
-    .doc(courseId)
     .get()
     .then(doc => {
       if (doc.exists) {
@@ -243,22 +216,18 @@ let approvedCertName = "";
 
 // ================= SEND OTP =================
 function sendOTP() {
-  const email = loginEmail.value.trim().toLowerCase();
+  const email = loginEmail.value.trim();
 
   if (!email) {
     loginMsg.innerText = "❌ Please enter email";
     return;
   }
 
-  // 🔒 AUTHORIZATION CHECK (PAID USERS ONLY)
-  // 🔒 COURSE ACCESS CHECK AFTER OTP (NOT BEFORE)
-if (!allowedEmails.includes(email)) {
-  loginMsg.innerHTML = `
-⚠️ Email not yet activated for this course.<br>
-If you have paid, please contact support.
-`;
-}
-
+  //  AUTHORIZATION CHECK (PAID USERS ONLY)
+  if (!allowedEmails.includes(email)) {
+    loginMsg.innerText = "❌ Access denied. Course not purchased.";
+    return;
+  }
 
   // ✅ Only approved users reach here
   loginMsg.innerText = "⏳ Sending OTP...";
@@ -315,11 +284,11 @@ dashboardSection.style.display = "block";
 
             
 const approvedName = localStorage.getItem(
-  `approved_cert_name_${courseId}_${currentUser}`
+  "approved_cert_name_" + currentUser
 );
 
 const requestedName = localStorage.getItem(
-  `cert_request_name_${courseId}_${currentUser}`
+  "cert_request_name_" + currentUser
 );
 
 const certNameInput = document.getElementById("certName");
@@ -344,9 +313,7 @@ loadProgressFromCloud().then(() => {
 
   // ⬇️ If cloud empty, fallback to LocalStorage
   if (!Object.keys(completed).length) {
-    const saved = localStorage.getItem(
-  `csv_progress_${courseId}_${currentUser}`
-);
+    const saved = localStorage.getItem("csv_progress_" + currentUser);
     completed = saved ? JSON.parse(saved) : {};
   }
 
@@ -369,45 +336,16 @@ loadProgressFromCloud().then(() => {
 // ================= IMAGES (BASE64) =================
 
 // ================= CONFIG =================
-// ================= COURSE-WISE ACCESS =================
-const courseAccess = {
-  "csv-roadmap-workshop": [
-    "bharatsonawane029@gmail.com"
-  ],
-  "fresher-to-csv-expert": [
-    "bharatsonawane029@gmail.com",
-    "bharatsonawane028@gmail.com"
-  ]
-};
-
-const allowedEmails = courseAccess[courseId] || [];
-
-const fullAccessMap = {
-  "csv-roadmap-workshop": ["bharatsonawane029@gmail.com"],
-  "fresher-to-csv-expert": ["bharatsonawane029@gmail.com"]
-};
-
-const fullAccessEmails = fullAccessMap[courseId] || [];
-
+const allowedEmails = ["bharatsonawane029@gmail.com","bharatsonawane028@gmail.com"];
+const fullAccessEmails = ["bharatsonawane029@gmail.com"];
 const passPercent = 80;
 const examTimeMinutes = 20;
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbzQTC9elQ025YkPsXcXxdHliSr6CeYxYNNBET5zQmmejlSvYm9z2EknUhac_cQ-yahR/exec";
 
-// ================= COURSE TITLES =================
-const courseTitles = {
-  "csv-roadmap-workshop": "CSV Career Roadmap Workshop",
-  "fresher-to-csv-expert": "From Fresher to CSV Expert Program"
-};
 
 // ================= ALL SESSIONS =================
-const courseSessions = {
-  "csv-roadmap-workshop": [
-    "Session 1 – CSV Basics",
-    "Session 2 – Career Scope",
-    "Final Assessment"
-  ],
-  "fresher-to-csv-expert": [
-    "Session 1 – Regulator Basics",
+const sessions = [
+"Session 1 – Regulator Basics",
 "Session 2 – Introduction to CSV",
 "Session 3 – GAMP 5 Fundamentals",
 "Session 4 – Quality Management Basics",
@@ -432,67 +370,10 @@ const courseSessions = {
 "Session 23 – Audit Readiness and Case studies on USFDA observations",
 "Session 24 – New Approach to CSV - CSA",
 "Final Assessment"
-  ]
-};
-
-const sessions = courseSessions[courseId] || [];
-  if (!sessions.length) {
-  document.getElementById("sessionsList").innerHTML =
-    `<div class="alert alert-warning">
-      Sessions will be available soon.
-     </div>`;
-}
-
-
+];
 
 // ================= MCQs (ADD SESSION-WISE LATER) =================
-// ================= COURSE-WISE MCQs =================
-const courseMcqs = {
-
-  // ===== COURSE 1: CSV CAREER ROADMAP WORKSHOP =====
-  "csv-roadmap-workshop": {
-    0: [
-      {
-        q: "What is the primary purpose of CSV?",
-        o: [
-          "System performance improvement",
-          "Regulatory compliance and data integrity",
-          "Cost reduction",
-          "Faster deployment"
-        ],
-        a: "Regulatory compliance and data integrity"
-      }
-    ],
-
-    1: [
-      {
-        q: "CSV is most relevant in which industries?",
-        o: [
-          "Retail and E-commerce",
-          "Pharma and Life Sciences",
-          "Construction",
-          "Automobile"
-        ],
-        a: "Pharma and Life Sciences"
-      }
-    ],
-
-    2: [
-      {
-        q: "The main outcome of the CSV Career Roadmap Workshop is:",
-        o: [
-          "Hands-on validation execution",
-          "Career clarity and learning roadmap",
-          "Audit execution",
-          "System configuration"
-        ],
-        a: "Career clarity and learning roadmap"
-      }
-    ]
-  },
-
-  // ===== COURSE 2: FROM FRESHER TO CSV EXPERT =====
-  "fresher-to-csv-expert": {
+const mcqs = {
 0:[
   {q:"CSV documentation should be stored for:",
    o:["1 year","Until product expiry","As per regulatory requirement","Optional"],
@@ -643,12 +524,6 @@ const courseMcqs = {
 ]
 };
 
-  // ================= SAFETY CHECK =================
-if (!courseMcqs[courseId]) {
-  console.warn("⚠️ No MCQs configured for this course:", courseId);
-}
-
-  
 // ================= STATE =================
 let completed = {};
 let timerInterval;
@@ -719,7 +594,7 @@ const unlocked = isFullAccessUser
 } else {
   btn.innerText = unlocked
     ? `${i+1}. ${s}`
-    : `${i+1}. ${s} 🔒`;
+    : `${i+1}. ${s} `;
 }
 
 
@@ -735,23 +610,19 @@ const unlocked = isFullAccessUser
 }
 
 // ================= SHUFFLE =================
-function shuffle(arr){
-  return [...arr].sort(() => Math.random() - 0.5);
-}
+function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
 
 // ================= LOAD MCQs =================
     function loadMCQs(index){const isFullAccessUser = fullAccessEmails.includes(currentUser);
 
 if (!isFullAccessUser && index > 0 && (!completed[index-1] || completed[index-1].pass !== true)) {
-  alert("🔒 Please pass the previous session to unlock this one.");
+  alert(" Please pass the previous session to unlock this one.");
   return;
 }
 
   clearInterval(timerInterval);
 
-  const mcqs = courseMcqs[courseId] || {};
-
-if (!mcqs[index]) {
+  if(!mcqs[index]){
     mcqSection.innerHTML=`
       <div class="alert alert-info">
         MCQs for <b>${sessions[index]}</b> are not yet uploaded.
@@ -797,7 +668,7 @@ setTimeout(() => {
 }, 100);
 
 
-  document.getElementById("mcqForm").onsubmit = e => {
+  mcqForm.onsubmit=e=>{
     e.preventDefault();
     clearInterval(timerInterval);
     evaluate(index,questions);
@@ -808,7 +679,7 @@ function checkCertificateAccess() {
   document.getElementById("certApprovalArea").innerHTML = `
     <button class="btn btn-primary"
             onclick="requestCertApproval()">
-      📩 Request Certificate Approval
+       Request Certificate Approval
     </button>
   `;
 }
@@ -827,20 +698,19 @@ function requestCertApproval() {
   "?action=certRequest" +
   "&name=" + encodeURIComponent(certName) +
   "&email=" + encodeURIComponent(currentUser) +
-  "&certname=" + encodeURIComponent(courseTitles[courseId] || "CSV Program")
-
+  "&certname=" + encodeURIComponent("CSV Full Training Program")
 )
 
   .then(res => res.text())
   .then(txt => {
     if (txt === "REQUEST_SENT") { 
-      // 🔒 SOFT LOCK name after request
+      //  SOFT LOCK name after request
   const certNameInput = document.getElementById("certName");
   certNameInput.disabled = true;
   certNameInput.style.background = "#f1f5f9";
 
   localStorage.setItem(
-    `cert_request_name_${courseId}_${currentUser}`,
+    "cert_request_name_" + currentUser,
     certName
   );
       document.getElementById("certApprovalArea").innerHTML = `
@@ -884,16 +754,16 @@ function requestCertApproval() {
 
  // ✅ SAVE LOCKED NAME PERMANENTLY
   localStorage.setItem(
-    `approved_cert_name_${courseId}_${currentUser}`,
+    "approved_cert_name_" + currentUser,
     approvedCertName
   );
 
-      // 🧹 CLEANUP TEMP REQUEST NAME (IMPORTANT)
+      // 粒 CLEANUP TEMP REQUEST NAME (IMPORTANT)
   localStorage.removeItem(
-    `cert_request_name_${courseId}_${currentUser}`
+    "cert_request_name_" + currentUser
   );
 
-  // 🔒 HARD LOCK
+  //  HARD LOCK
   const certNameInput = document.getElementById("certName");
   certNameInput.value = approvedCertName;
   certNameInput.disabled = true;
@@ -924,9 +794,9 @@ function startTimer(min){
     time--;
     if(time<0){
       clearInterval(timerInterval);
-      const form = document.getElementById("mcqForm");
-if (form) form.requestSubmit();
-
+      if (typeof mcqForm !== "undefined") {
+  mcqForm.requestSubmit();
+}
 
     }
   },1000);
@@ -935,7 +805,7 @@ if (form) form.requestSubmit();
 // ================= EVALUATE =================
 function evaluate(index, questions){
   let score = 0;
-  const fd = new FormData(document.getElementById("mcqForm"));
+  const fd = new FormData(mcqForm);
 
   questions.forEach((q,i)=>{
     if(fd.get("q"+i) === q.a) score++;
@@ -953,10 +823,9 @@ function evaluate(index, questions){
   };
 
   localStorage.setItem(
-  `csv_progress_${courseId}_${currentUser}`,
+  "csv_progress_" + currentUser,
   JSON.stringify(completed)
 );
-
 saveProgressToCloud();
 
 
@@ -1072,9 +941,7 @@ if (doc.setGState) {
   
   // ================= CERTIFICATE DATA =================
 const issueDate = new Date().toLocaleDateString();
-  
-const courseName = courseTitles[courseId] || "CSV Program";
-
+  const courseName = "CSV EDGE ACADEMY – COMPUTERIZED SYSTEM VALIDATION";
   const certId = "CSV-" + Date.now(); // unique audit-friendly ID
   // ================= SAVE CERTIFICATE FOR VERIFICATION =================
 fetch(CERT_VERIFY_API + "?action=save", {
@@ -1245,7 +1112,7 @@ doc.rect(10, 10, 190, 277);
 
   // ===== RECEIPT DATA =====
   const academyName = "CSV Edge Academy";
-  const programName = courseTitles[courseId] || "CSV Program";
+  const programName = "Computerized System Validation (CSV) – Full Training Program";
   const amountPaid = "Yes";
   const receiptId = "REC-" + Date.now();
   const downloadDate = new Date().toLocaleDateString();
@@ -1341,10 +1208,6 @@ doc.text(amountPaid, 175, 135, { align: "right" });
   <script src="header-loader.js"></script>
 </body>
 </html>
-
-
-
-
 
 
 
