@@ -62,6 +62,15 @@ body{
   position:relative;
 }
 
+.nav-links a.active{
+  color:#ffffff;
+  text-shadow:0 0 10px rgba(34,197,94,.9);
+}
+
+.nav-links a.active::after{
+  width:100%;
+}
+
 .nav-links a::after{
   content:"";
   position:absolute;
@@ -92,15 +101,6 @@ body{
   text-decoration:none;
 }
 /* Header text sizing consistency */
-.nav-links a{
-  font-size:15px;
-  font-weight:600;
-}
-
-.header-cta{
-  font-size:15px;
-  font-weight:800;
-}
 
 /* ================= HEADER BRAND ================= */
 /* ================= HEADER BRAND (FINAL & CLEAN) ================= */
@@ -756,66 +756,4 @@ body{
   color: #475569;
 }
 
-/* ================= COURSES PAGE 11012026 ================= */
-
-.course-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:28px;
-  max-width:1200px;
-  margin:auto;
-}
-
-.course-card{
-  background:#ffffff;
-  border-radius:18px;
-  padding:28px;
-  border:1px solid #e5e7eb;
-  box-shadow:0 12px 28px rgba(0,0,0,.08);
-}
-
-.course-card h2{
-  margin-top:10px;
-  color:#0f172a;
-}
-
-.course-tag{
-  display:inline-block;
-  background:#22c55e;
-  color:#064e3b;
-  padding:6px 14px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:bold;
-}
-
-.course-card.beginner{
-  border-top:5px solid #22c55e;
-}
-
-.course-card.coming-soon{
-  opacity:.65;
-  border-top:5px solid #94a3b8;
-}
-
-.course-card details summary{
-  cursor:pointer;
-  margin:15px 0;
-  font-weight:600;
-  color:#1e3a8a;
-}
-
-.course-card h5{
-  margin-top:16px;
-  color:#0f4c81;
-  font-size:16px;
-}
-
-.course-card ul{
-  margin-left:18px;
-}
-
-.course-card.intermediate{
-  border-top:5px solid #f97316;
-}
 
