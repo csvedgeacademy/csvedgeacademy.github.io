@@ -156,10 +156,11 @@ body{
 .section{ padding:70px 20px; }
 .section-sm{ padding:40px 20px; }
 
-.section > *{
+.section{
   max-width:1200px;
   margin:auto;
 }
+
 
 /* MOBILE */
 @media (max-width: 900px){
@@ -756,4 +757,45 @@ body{
   color: #475569;
 }
 
+/* ================= PROGRAM PAGE STYLES ================= */
+
+/* Hero variant (optional future control) */
+.program-hero{
+  background:linear-gradient(135deg,#e0f2fe,#ffffff);
+}
+
+/* Program sections */
+.program-highlights h3,
+.program-audience h3,
+.program-about h3{
+  color:#0f4c81;
+}
+
+/* Audience list styling */
+.program-audience ul{
+  max-width:720px;
+  margin:15px auto 0;
+  padding-left:18px;
+  font-size:16px;
+  line-height:1.8;
+  color:#374151;
+}
+
+/* Urgency box */
+.program-urgency{
+  max-width:900px;
+  margin:40px auto;
+  padding:30px 20px;
+  background:#fff7ed;
+  border:2px dashed #f97316;
+  border-radius:16px;
+  text-align:center;
+  animation:glow 2.5s infinite;
+}
+
+/* Program CTA spacing */
+.program-urgency a{
+  display:inline-block;
+  margin-top:18px;
+}
 
