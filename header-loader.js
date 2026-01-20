@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  // ❌ If page is loaded inside iframe (Program page), DO NOT load header
+  if (window.self !== window.top) {
+    return;
+  }
+
   const placeholder = document.getElementById("header-placeholder");
   if (!placeholder) return;
 
@@ -12,8 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(html => {
       placeholder.innerHTML = html;
 
-      // Highlight active menu item
-      const currentPage = location.pathname.split("/").pop() || "index.html";
+      // ✅ Highlight active menu item
+      const currentPage =
+        location.pathname.split("/").pop() || "index.html";
+
       document.querySelectorAll(".nav-links a").forEach(link => {
         if (link.getAttribute("href") === currentPage) {
           link.classList.add("active");
