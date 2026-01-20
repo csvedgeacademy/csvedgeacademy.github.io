@@ -1,13 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-  // ❌ If page is loaded inside iframe (Program page), DO NOT load header
-  if (window.self !== window.top) {
-    return;
-  }
-
-  const placeholder = document.getElementById("header-placeholder");
-  if (!placeholder) return;
-
   fetch("header.html")
     .then(response => {
       if (!response.ok) {
@@ -15,18 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       return response.text();
     })
-    .then(html => {
-      placeholder.innerHTML = html;
-
-      // ✅ Highlight active menu item
-      const currentPage =
-        location.pathname.split("/").pop() || "index.html";
-
-      document.querySelectorAll(".nav-links a").forEach(link => {
-        if (link.getAttribute("href") === currentPage) {
-          link.classList.add("active");
-        }
-      });
+    .then(data => {
+      document.getElementById("header-placeholder").innerHTML = data;
     })
     .catch(error => {
       console.error("Error loading header:", error);
