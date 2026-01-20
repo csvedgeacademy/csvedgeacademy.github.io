@@ -1,2425 +1,1213 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
 
-<html lang="en"> 
+  <!-- PAGE TITLE -->
+  <title>Student Dashboard | CSV Edge Academy</title>
 
-<head> 
+  <!-- PREVENT SEARCH ENGINE INDEXING (IMPORTANT) -->
+  <meta name="robots" content="noindex, nofollow">
 
-  <meta charset="UTF-8"> 
+  <!-- CANONICAL (OPTIONAL BUT CLEAN) -->
+  <link rel="canonical" href="https://csvedgeacademy.github.io/dashboard.html">
 
- 
+  <!-- GOOGLE SEARCH CONSOLE VERIFICATION -->
+  <meta name="google-site-verification"
+        content="ESuiGky8GNlSzcdHAeqv-aGrFLtnccuiUWTIKoalrzA">
 
-  <!-- PAGE TITLE --> 
+  <!-- BOOTSTRAP -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <title>Student Dashboard | CSV Edge Academy</title> 
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
- 
+  <!-- QR CODE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-  <!-- PREVENT SEARCH ENGINE INDEXING (IMPORTANT) --> 
-
-  <meta name="robots" content="noindex, nofollow"> 
-
- 
-
-  <!-- CANONICAL (OPTIONAL BUT CLEAN) --> 
-
-  <link rel="canonical" href="https://csvedgeacademy.github.io/dashboard.html"> 
-
- 
-
-  <!-- GOOGLE SEARCH CONSOLE VERIFICATION --> 
-
-  <meta name="google-site-verification" 
-
-        content="ESuiGky8GNlSzcdHAeqv-aGrFLtnccuiUWTIKoalrzA"> 
-
- 
-
-  <!-- BOOTSTRAP --> 
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> 
-
- 
-
-  <!-- jsPDF --> 
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> 
-
- 
-
-  <!-- QR CODE --> 
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script> 
-
- 
-
-  <!-- FIREBASE --> 
-
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script> 
-
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script> 
-
- 
-
-   
-
-  <!-- PAGE STYLES --> 
-
-  <style> 
-
-    body { background:#eef2f7; } 
-
- 
-
-    .question-box { 
-
-      background:#fff; 
-
-      padding:15px; 
-
-      border-radius:8px; 
-
-      margin-bottom:15px; 
-
-      border-left:4px solid #0f4c81; 
-
-    } 
-
- 
-
-    #mcqSection { 
-
-      background:#f8fafc; 
-
-      padding:20px; 
-
-      border-radius:10px; 
-
-      min-height:400px; 
-
-    } 
-
-  </style> 
-
-<link rel="stylesheet" href="main.css"> 
-
-</head> 
-
-<body> 
-
-<!-- ================= SITE HEADER ================= --> 
-
-<div id="header-placeholder"></div> 
-
-<!-- ================= END HEADER ================= --> 
-
- 
-
-<div class="container my-5 p-4 bg-white rounded shadow"> 
-
- 
-
-<h2 class="text-center text-primary">🎓 CSV Edge Academy – Student Dashboard</h2> 
-
-<p class="text-center text-muted">Login to access sessions and MCQs</p> 
-
- 
-
-<!-- LOGIN --> 
-
-<div id="loginSection" class="col-md-6 mx-auto"> 
-
- 
-
-  <input id="loginEmail" type="email" class="form-control mb-2" 
-
-         placeholder="Enter your email"> 
-
- 
-
-  <button class="btn btn-primary w-100 mb-2" onclick="sendOTP()"> 
-
-    📩 Send OTP 
-
-  </button> 
-
- 
-
-  <input id="otpInput" type="text" class="form-control mb-2 d-none" 
-
-         placeholder="Enter OTP"> 
-
- 
-
-  <button id="verifyBtn" class="btn btn-success w-100 d-none" 
-
-          onclick="verifyOTP()"> 
-
-    🔐 Verify OTP 
-
-  </button> 
-
- 
-
-  <div id="loginMsg" class="text-center mt-2"></div> 
-
- 
-
-</div> 
-
- 
-
- 
-
-<!-- DASHBOARD --> 
-
-<div id="dashboardSection" style="display:none"> 
-
-<!-- WELCOME MESSAGE --> 
-
-<div id="welcomeBox" class="alert alert-info mb-4"> 
-
-  <h5 class="mb-2">👋 Welcome to CSV Edge Academy</h5> 
-
-  <ul class="mb-0"> 
-
-    <li>Complete sessions sequentially (🔒 locked sessions unlock after passing previous).</li> 
-
-    <li>Each session has a timed MCQ assessment.</li> 
-
-    <li>You must score at least <b>80%</b> to pass a session.</li> 
-
-    <li>Do not refresh the page during an exam.</li> 
-
-    <li> 
-
-  After passing all sessions, request approval to download your 
-
-  <b>final certificate</b>. 
-
-</li> 
-
- 
-
-  </ul> 
-
-</div> 
-
- 
-
- 
-
-<!-- LOGOUT BUTTON --> 
-
-<div class="text-end mb-3"> 
-
-  <button class="btn btn-outline-danger btn-sm" onclick="logout()">Logout</button> 
-
-</div> 
-
- 
-
-<div id="certificateSection" class="mt-4 d-none"> 
-
- 
-
-  <h5 class="text-primary">📜 Certificate</h5> 
-
- 
-
-  <label class="fw-bold mt-2"> 
-
-    Name to appear on Certificate 
-
-  </label> 
-
- 
-
-  <input id="certName" 
-
-         class="form-control mt-1" 
-
-         placeholder="Enter full name exactly as required"> 
-
- 
-
-  <div id="certApprovalArea" class="mt-3"></div> 
-
- 
-
-</div> 
-
- 
-
- 
-
-<div class="text-end mb-4"> 
-
-  <button id="receiptBtn" 
-
-          class="btn btn-outline-primary" 
-
-          onclick="downloadReceipt()" 
-
-          disabled> 
-
-    💳 Download Payment Receipt 
-
-  </button> 
-
-</div> 
-
- 
-
- 
-
-<!-- PROGRESS --> 
-
-<div class="my-3"> 
-
-  <div class="progress"> 
-
-    <div id="progressBar" class="progress-bar bg-success" style="width:0%">0%</div> 
-
-  </div> 
-
-</div> 
-
- 
-
-<!-- TIMER --> 
-
-<div id="timerBox" class="alert alert-warning d-none"> 
-
-⏱ Time Left: <b><span id="timer">20:00</span></b> 
-
-</div> 
-
- 
-
-<div class="row"> 
-
- 
-
-  <!-- LEFT: SESSIONS --> 
-
-  <div class="col-md-4"> 
-
-    <h4>📋 Sessions</h4> 
-
-    <div id="sessionsList"></div> 
-
-  </div> 
-
- 
-
-  <!-- RIGHT: MCQs --> 
-
-  <div class="col-md-8"> 
-
-    <div id="mcqSection" class="ps-3"></div> 
-
-  </div> 
-
- 
-
-</div> 
-
- 
-
- 
-
-</div> 
-
-</div> 
-
- 
-
- 
-
-<script> 
-
-// ================= FIREBASE INIT ================= 
-
-const firebaseConfig = { 
-
-  apiKey: "AIzaSyDj1KC0HcBfc5k7PbwB11CjTKZ5_V6SvWU", 
-
-  authDomain: "csv-edge-academy-a6828.firebaseapp.com", 
-
-  projectId: "csv-edge-academy-a6828" 
-
-}; 
-
- 
-
-firebase.initializeApp(firebaseConfig); 
-
-const db = firebase.firestore(); 
-
- 
-
-// ================= FIREBASE PROGRESS SAVE ================= 
-
-function saveProgressToCloud() { 
-
-  if (!currentUser) return; 
-
- 
-
-  db.collection("students") 
-
-    .doc(currentUser) 
-
-    .set({ 
-
-      email: currentUser, 
-
-      completed: completed, 
-
-      lastUpdated: new Date().toISOString() 
-
-    }, { merge: true }) 
-
-    .catch(err => console.error("❌ Cloud save failed", err)); 
-
-} 
-
- 
-
-// ================= FIREBASE PROGRESS LOAD ================= 
-
-function loadProgressFromCloud() { 
-
-  if (!currentUser) return Promise.resolve(); 
-
- 
-
-  return db.collection("students") 
-
-    .doc(currentUser) 
-
-    .get() 
-
-    .then(doc => { 
-
-      if (doc.exists) { 
-
-        completed = doc.data().completed || {}; 
-
-      } 
-
-    }) 
-
-    .catch(err => console.error("❌ Cloud load failed", err)); 
-
-} 
-
-   
-
- 
-
-const OTP_API_URL = "https://script.google.com/macros/s/AKfycbwzlRMIZScp83jSB1CqjHUY1svRlc6X5YIciDdTlGSxQUiTUZ9dZNjy_7m5b9Tsr9GhwQ/exec"; 
-
- 
-
-let currentUser = ""; 
-
-let approvedCertName = ""; 
-
-   
-
- 
-
-// ================= SEND OTP ================= 
-
-function sendOTP() { 
-
-  const email = loginEmail.value.trim(); 
-
- 
-
-  if (!email) { 
-
-    loginMsg.innerText = "❌ Please enter email"; 
-
-    return; 
-
-  } 
-
- 
-
-  // 🔒 AUTHORIZATION CHECK (PAID USERS ONLY) 
-
-  if (!allowedEmails.includes(email)) { 
-
-    loginMsg.innerText = "❌ Access denied. Course not purchased."; 
-
-    return; 
-
-  } 
-
- 
-
-  // ✅ Only approved users reach here 
-
-  loginMsg.innerText = "⏳ Sending OTP..."; 
-
- 
-
-  fetch( 
-
-  OTP_API_URL + 
-
-  "?action=sendOTP" + 
-
-  "&email=" + encodeURIComponent(email) 
-
-) 
-
- 
-
-  .then(res => res.text()) 
-
-  .then(txt => { 
-
-    if (txt === "OTP_SENT") { 
-
-      loginMsg.innerText = "✅ OTP sent to your email"; 
-
-      otpInput.classList.remove("d-none"); 
-
-      verifyBtn.classList.remove("d-none"); 
-
-      currentUser = email; 
-
-    } else { 
-
-      loginMsg.innerText = "❌ Failed to send OTP"; 
-
-    } 
-
-  }) 
-
-  .catch(() => { 
-
-    loginMsg.innerText = "❌ Network error"; 
-
-  }); 
-
-} 
-
- 
-
- 
-
-// ================= VERIFY OTP ================= 
-
-function verifyOTP() { 
-
-  const otp = otpInput.value.trim(); 
-
- 
-
-  if (!otp) { 
-
-    loginMsg.innerText = "❌ Enter OTP"; 
-
-    return; 
-
-  } 
-
- 
-
-  loginMsg.innerText = "⏳ Verifying OTP..."; 
-
- 
-
-  fetch( 
-
-  OTP_API_URL + 
-
-  "?action=verifyOTP" + 
-
-  "&email=" + encodeURIComponent(currentUser) + 
-
-  "&otp=" + encodeURIComponent(otp) 
-
-) 
-
- 
-
- 
-
-  .then(res => res.text()) 
-
-  .then(txt => { 
-
-    if (txt === "OTP_VERIFIED") { 
-
-  loginMsg.innerText = "✅ Login successful"; 
-
- 
-
-  loginSection.style.display = "none"; 
-
-dashboardSection.style.display = "block"; 
-
- 
-
-             
-
-const approvedName = localStorage.getItem( 
-
-  "approved_cert_name_" + currentUser 
-
-); 
-
- 
-
-const requestedName = localStorage.getItem( 
-
-  "cert_request_name_" + currentUser 
-
-); 
-
- 
-
-const certNameInput = document.getElementById("certName"); 
-
- 
-
-if (approvedName) { 
-
-  certNameInput.value = approvedName; 
-
-  certNameInput.disabled = true; 
-
-  certNameInput.style.background = "#e5e7eb"; 
-
-} 
-
-else if (requestedName) { 
-
-  certNameInput.value = requestedName; 
-
-  certNameInput.disabled = true; 
-
-  certNameInput.style.background = "#f1f5f9"; 
-
-} 
-
- 
-
-       
-
-document.getElementById("welcomeBox").style.display = "block"; 
-
-document.getElementById("receiptBtn").disabled = false; 
-
- 
-
-// ⬇️ FIRST load from Firebase (any device) 
-
-loadProgressFromCloud().then(() => { 
-
- 
-
-  // ⬇️ If cloud empty, fallback to LocalStorage 
-
-  if (!Object.keys(completed).length) { 
-
-    const saved = localStorage.getItem("csv_progress_" + currentUser); 
-
-    completed = saved ? JSON.parse(saved) : {}; 
-
-  } 
-
- 
-
-  renderSessions(); 
-
-  updateProgress(); 
-
-}); 
-
- 
-
- 
-
-} 
-
- else { 
-
-      loginMsg.innerText = "❌ Invalid or expired OTP"; 
-
-    } 
-
-  }) 
-
-  .catch(() => { 
-
-    loginMsg.innerText = "❌ Network error"; 
-
-  }); 
-
-} 
-
- 
-
- 
-
-// ================= IMAGES (BASE64) ================= 
-
- 
-
-// ================= CONFIG ================= 
-
-const allowedEmails = ["bharatsonawane029@gmail.com","bharatsonawane028@gmail.com"]; 
-
-const fullAccessEmails = ["bharatsonawane029@gmail.com"]; 
-
-const passPercent = 80; 
-
-const examTimeMinutes = 20; 
-
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbzQTC9elQ025YkPsXcXxdHliSr6CeYxYNNBET5zQmmejlSvYm9z2EknUhac_cQ-yahR/exec"; 
-
- 
-
- 
-
-// ================= ALL SESSIONS ================= 
-
-const sessions = [ 
-
-"Session 1 – Regulator Basics", 
-
-"Session 2 – Introduction to CSV", 
-
-"Session 3 – GAMP 5 Fundamentals", 
-
-"Session 4 – Quality Management Basics", 
-
-"Session 5 – SDLC, STLC and V-Model", 
-
-"Session 6 – GAMP 5 – Lifecycle – Concept Phase", 
-
-"Session 7 – GAMP 5 – Lifecycle – Project Phase – Planning Stage", 
-
-"Session 8 – GAMP 5 – Lifecycle – Project Phase – Specification Stage", 
-
-"Session 9 – GAMP 5 – Lifecycle – Project Phase – Verification Stage", 
-
-"Session 10 – GAMP 5 – Lifecycle – Project Phase – Reporting and Release Stage", 
-
-"Session 11 – GAMP 5 – Lifecycle – Operation Phase", 
-
-"Session 12 – GAMP 5 – Lifecycle – Retirement Phase", 
-
-"Session 13 – Practical Session – IRA, Supplier Assessment and VP", 
-
-"Session 14 – Practical Session – URS, FDS and CS", 
-
-"Session 15 – Practical Session – FRA", 
-
-"Session 16 – Practical Session – IQ", 
-
-"Session 17 – Practical Session – OQ", 
-
-"Session 18 – Practical Session – PQ", 
-
-"Session 19 – Practical Session – RTM and VSR", 
-
-"Session 20 – Practical Session – ERES checklist and Periodic Review", 
-
-"Session 21 – Types of Testing", 
-
-"Session 22 – ALCOA+ principles and Key Terminologies", 
-
-"Session 23 – Audit Readiness and Case studies on USFDA observations", 
-
-"Session 24 – New Approach to CSV - CSA", 
-
-"Final Assessment" 
-
-]; 
-
- 
-
-// ================= MCQs (ADD SESSION-WISE LATER) ================= 
-
-const mcqs = { 
-
-0:[ 
-
-  {q:"CSV documentation should be stored for:", 
-
-   o:["1 year","Until product expiry","As per regulatory requirement","Optional"], 
-
-   a:"As per regulatory requirement"} 
-
-], 
-
-1:[ 
-
-  {q:"Final approval document of CSV is:", 
-
-   o:["Validation Summary Report","Marketing Plan","Financial Statement","HR Policy"], 
-
-   a:"Validation Summary Report"} 
-
-], 
-
-2:[ 
-
-  {q:"Validation deliverables include:", 
-
-   o:["Test Scripts, Reports, Protocols", 
-
-      "Brochure, Contract, Email", 
-
-      "Finance Ledger, Report, Statement", 
-
-      "HR Record, Policy"], 
-
-   a:"Test Scripts, Reports, Protocols"} 
-
-], 
-
-3:[ 
-
-   {q:"Key quality principle:", 
-
-   o:["Customer focus","Marketing","Finance","HR"], 
-
-   a:"Customer focus"} 
-
-], 
-
-4:[ 
-
-   {q:"V-Model is also called:", 
-
-   o:["Verification & Validation Model","Visual Model", 
-
-      "Version Control Model","Validation Only Model"], 
-
-   a:"Verification & Validation Model"} 
-
-], 
-
-5:[ 
-
-  {q:"Concept phase completion leads to:", 
-
-   o:["Approval to start project phase","Training","Marketing","Finance"], 
-
-   a:"Approval to start project phase"} 
-
-], 
-
-6:[ 
-
-  {q:"Planning stage output is:", 
-
-   o:["Ready for specification phase","Marketing ready", 
-
-      "Training ready","Finance ready"], 
-
-   a:"Ready for specification phase"} 
-
-], 
-
-7:[ 
-
-  {q:"Critical requirement documentation ensures:", 
-
-   o:["Test coverage","Marketing","Finance","Training"], 
-
-   a:"Test coverage"} 
-
-], 
-
-8:[ 
-
-  {q:"Test summary reports conclude:", 
-
-   o:["Overall verification status","Training completion", 
-
-      "Marketing success","Finance closure"], 
-
-   a:"Overall verification status"} 
-
-], 
-
-9:[ 
-
-  {q:"Release concludes:", 
-
-   o:["Project phase","Training","Marketing","Finance"], 
-
-   a:"Project phase"} 
-
-], 
-
-10:[ 
-
-  {q:"Operation documentation supports:", 
-
-   o:["Inspections","Marketing","Sales","Finance"], 
-
-   a:"Inspections"} 
-
-], 
-
-11:[ 
-
-  {q:"Regulators expect:", 
-
-   o:["Controlled retirement","Quick deletion","No records","Verbal proof"], 
-
-   a:"Controlled retirement"} 
-
-], 
-
-12:[ 
-
-  {q:"Regulators expect IRA decisions to be:", 
-
-   o:["Justified and documented","Verbal", 
-
-      "Based on cost","Based on timeline"], 
-
-   a:"Justified and documented"} 
-
-], 
-
-13:[ 
-
-  {q:"Which phase mainly uses URS, FDS and CS?", 
-
-   o:["Specification phase","Operation phase", 
-
-      "Retirement phase","Audit phase"], 
-
-   a:"Specification phase"} 
-
-], 
-
-14:[ 
-
-  {q:"Failure to perform FRA may result in:", 
-
-   o:["Regulatory observations","Reduced testing effort", 
-
-      "Faster release","Lower compliance risk"], 
-
-   a:"Regulatory observations"} 
-
-], 
-
-15:[ 
-
- {q:"Failure to perform IQ may result in:", 
-
-   o:["Regulatory non-compliance","Improved system stability", 
-
-      "Reduced testing","Faster release"], 
-
-   a:"Regulatory non-compliance"} 
-
-], 
-
-16:[ 
-
-  {q:"Failure to perform adequate OQ may lead to:", 
-
-   o:["Regulatory observations and data integrity risks", 
-
-      "Improved system performance","Faster release","Reduced documentation"], 
-
-   a:"Regulatory observations and data integrity risks"} 
-
-], 
-
-17:[ 
-
-  {q:"Failure to perform adequate PQ can result in:", 
-
-   o:["Regulatory findings and operational risks","Improved system stability", 
-
-      "Reduced validation effort","Faster implementation"], 
-
-   a:"Regulatory findings and operational risks"} 
-
-], 
-
-18:[ 
-
-  {q:"RTM and VSR together provide evidence of:", 
-
-   o:["End-to-end validation and compliance","System performance only", 
-
-      "User training only","Vendor qualification only"], 
-
-   a:"End-to-end validation and compliance"} 
-
-], 
-
-19:[ 
-
-  {q:"ERES and periodic review together ensure:", 
-
-   o:["Ongoing compliance and data integrity","Only initial validation", 
-
-      "Only system security","Only audit readiness"], 
-
-   a:"Ongoing compliance and data integrity"} 
-
-], 
-
-20:[ 
-
-  {q:"Effective testing ultimately ensures:", 
-
-   o:["System reliability and compliance","Faster development", 
-
-      "Reduced documentation","Lower audit frequency"], 
-
-   a:"System reliability and compliance"} 
-
-], 
-
-21:[ 
-
-  {q:"ALCOA+ principles primarily aim to ensure:", 
-
-   o:["Reliable and trustworthy data","Faster system development", 
-
-      "Reduced validation effort","Simplified audits"], 
-
-   a:"Reliable and trustworthy data"} 
-
-], 
-
-22:[ 
-
-  {q:"Audit readiness culture means:", 
-
-   o:["Always being prepared for inspection, not just before audits", 
-
-      "Preparing only when inspection is announced", 
-
-      "Maintaining documents temporarily", 
-
-      "Assigning responsibility only to QA"], 
-
-   a:"Always being prepared for inspection, not just before audits"} 
-
-], 
-
-23:[ 
-
-  {q:"The key benefit of CSA implementation is:", 
-
-   o:["Faster, efficient validation with improved compliance", 
-
-      "Elimination of QA oversight", 
-
-      "No documentation requirements", 
-
-      "Reduced regulatory scrutiny"], 
-
-   a:"Faster, efficient validation with improved compliance"} 
-
-], 
-
-24:[ 
-
-  {q:"What is the final objective of CSV and CSA?", 
-
-   o:["Patient safety, data integrity and compliance", 
-
-      "Cost reduction","System speed","Vendor dependency"], 
-
-   a:"Patient safety, data integrity and compliance"} 
-
-] 
-
-}; 
-
- 
-
-// ================= STATE ================= 
-
-let completed = {}; 
-
-let timerInterval; 
-
- 
-
-// ================= DOM ELEMENTS (FIX) ================= 
-
-const loginSection = document.getElementById("loginSection"); 
-
-const dashboardSection = document.getElementById("dashboardSection"); 
-
-const sessionsList = document.getElementById("sessionsList"); 
-
-const mcqSection = document.getElementById("mcqSection"); 
-
-const progressBar = document.getElementById("progressBar"); 
-
-const timerBox = document.getElementById("timerBox"); 
-
-const timer = document.getElementById("timer"); 
-
-const loginEmail = document.getElementById("loginEmail"); 
-
-const loginMsg = document.getElementById("loginMsg"); 
-
-const otpInput = document.getElementById("otpInput"); 
-
-const verifyBtn = document.getElementById("verifyBtn"); 
-
- 
-
- 
-
- 
-
-// ================= LOGOUT ================= 
-
-function logout(){ 
-
-  otpInput.value = ""; 
-
-  otpInput.classList.add("d-none"); 
-
-  verifyBtn.classList.add("d-none"); 
-
- 
-
-  document.getElementById("welcomeBox").style.display = "none"; 
-
- 
-
-  clearInterval(timerInterval); 
-
-  mcqSection.innerHTML = ""; 
-
-  loginSection.style.display = "block"; 
-
-  dashboardSection.style.display = "none"; 
-
-  loginEmail.value = ""; 
-
-  loginMsg.innerText = ""; 
-
-document.getElementById("receiptBtn").disabled = true; 
-
- 
-
-} 
-
- 
-
- 
-
-window.onload = () => { 
-
-currentUser = ""; 
-
-completed = {}; 
-
-progressBar.style.width = "0%"; 
-
-progressBar.innerText = "0%"; 
-
- 
-
-}; 
-
- 
-
-// ================= RENDER SESSIONS ================= 
-
-function renderSessions(){ 
-
-    sessionsList.innerHTML=""; 
-
-  sessions.forEach((s,i)=>{ 
-
-    const btn=document.createElement("button"); 
-
-    btn.id="sessionBtn"+i; 
-
- 
-
-    const isFullAccessUser = fullAccessEmails.includes(currentUser); 
-
- 
-
-const unlocked = isFullAccessUser 
-
-  ? true 
-
-  : (i === 0 || (completed[i-1] && completed[i-1].pass === true)); 
-
- 
-
- 
-
- 
-
-    btn.className = unlocked 
-
-      ? "btn btn-warning w-100 mb-2" 
-
-      : "btn btn-secondary w-100 mb-2"; 
-
- 
-
-    if(completed[i]){ 
-
-  btn.innerText = `${i+1}. ${s} ✅ (${completed[i].percent}%)`; 
-
-} else { 
-
-  btn.innerText = unlocked 
-
-    ? `${i+1}. ${s}` 
-
-    : `${i+1}. ${s} 🔒`; 
-
-} 
-
- 
-
- 
-
-    btn.disabled = !unlocked; 
-
- 
-
-    if(unlocked){ 
-
-      btn.onclick = ()=>loadMCQs(i); 
-
-    } 
-
- 
-
-    sessionsList.appendChild(btn); 
-
-  }); 
-
- 
-
-} 
-
- 
-
-// ================= SHUFFLE ================= 
-
-function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); } 
-
- 
-
-// ================= LOAD MCQs ================= 
-
-    function loadMCQs(index){const isFullAccessUser = fullAccessEmails.includes(currentUser); 
-
- 
-
-if (!isFullAccessUser && index > 0 && (!completed[index-1] || completed[index-1].pass !== true)) { 
-
-  alert("🔒 Please pass the previous session to unlock this one."); 
-
-  return; 
-
-} 
-
- 
-
-  clearInterval(timerInterval); 
-
- 
-
-  if(!mcqs[index]){ 
-
-    mcqSection.innerHTML=` 
-
-      <div class="alert alert-info"> 
-
-        MCQs for <b>${sessions[index]}</b> are not yet uploaded. 
-
-      </div>`; 
-
-    return; 
-
-  } 
-
- 
-
-  timerBox.classList.remove("d-none"); 
-
-  startTimer(examTimeMinutes); 
-
- 
-
-  const questions=shuffle([...mcqs[index]]); 
-
-  let html = ` 
-
-<div class="mb-3"> 
-
-  <h4 class="text-primary">${sessions[index]}</h4> 
-
-  <hr> 
-
-</div> 
-
-<form id="mcqForm"> 
-
-`; 
-
- 
-
- 
-
-  questions.forEach((q,i)=>{ 
-
-    q.o=shuffle(q.o); 
-
-    html+=` 
-
-    <div class="question-box"> 
-
-      <b>${i+1}. ${q.q}</b><br>`; 
-
-    q.o.forEach(opt=>{ 
-
-      html+=`<label class="me-3"> 
-
-        <input type="radio" name="q${i}" value="${opt}" required> ${opt} 
-
-      </label>`; 
-
-    }); 
-
-    html+=`</div>`; 
-
-  }); 
-
- 
-
-  html+=`<button class="btn btn-success">Submit</button></form>`; 
-
-  mcqSection.innerHTML=html; 
-
- 
-
-// ===== AUTO SCROLL TO FIRST QUESTION ===== 
-
-setTimeout(() => { 
-
-  mcqSection.scrollIntoView({ 
-
-    behavior: "smooth", 
-
-    block: "start" 
-
-  }); 
-
-}, 100); 
-
- 
-
- 
-
-  mcqForm.onsubmit=e=>{ 
-
-    e.preventDefault(); 
-
-    clearInterval(timerInterval); 
-
-    evaluate(index,questions); 
-
-  } 
-
-} 
-
- 
-
-function checkCertificateAccess() { 
-
-  document.getElementById("certApprovalArea").innerHTML = ` 
-
-    <button class="btn btn-primary" 
-
-            onclick="requestCertApproval()"> 
-
-      📩 Request Certificate Approval 
-
-    </button> 
-
-  `; 
-
-} 
-
- 
-
-function requestCertApproval() { 
-
- 
-
-  const certName = document.getElementById("certName").value.trim(); 
-
-  if (!certName || certName.length < 2) { 
-
-    alert("Please enter valid certificate name"); 
-
-    return; 
-
-  } 
-
- 
-
- 
-
-  fetch( 
-
-  OTP_API_URL + 
-
-  "?action=certRequest" + 
-
-  "&name=" + encodeURIComponent(certName) + 
-
-  "&email=" + encodeURIComponent(currentUser) + 
-
-  "&certname=" + encodeURIComponent("CSV Full Training Program") 
-
-) 
-
- 
-
-  .then(res => res.text()) 
-
-  .then(txt => { 
-
-    if (txt === "REQUEST_SENT") {  
-
-      // 🔒 SOFT LOCK name after request 
-
-  const certNameInput = document.getElementById("certName"); 
-
-  certNameInput.disabled = true; 
-
-  certNameInput.style.background = "#f1f5f9"; 
-
- 
-
-  localStorage.setItem( 
-
-    "cert_request_name_" + currentUser, 
-
-    certName 
-
-  ); 
-
-      document.getElementById("certApprovalArea").innerHTML = ` 
-
-        <p class="text-warning">⏳ Approval code sent to Academy.</p> 
-
-        <input id="approvalCode" class="form-control mt-2" 
-
-               placeholder="Enter approval code received"> 
-
-        <button class="btn btn-success mt-2" 
-
-                onclick="verifyCertCode()"> 
-
-          Verify & Download 
-
-        </button> 
-
-      `; 
-
-    } else { 
-
-      alert("Server response: " + txt); 
-
-    } 
-
-  }) 
-
-  .catch(err => alert("Request failed")); 
-
-} 
-
- 
-
- 
-
- 
-
-  function verifyCertCode() { 
-
- 
-
-  const code = document.getElementById("approvalCode").value.trim(); 
-
-  if (code.length !== 6) { 
-
-    alert("Enter valid 6-digit approval code"); 
-
-    return; 
-
-  } 
-
- 
-
-  fetch( 
-
-  OTP_API_URL + 
-
-  "?action=certVerify" + 
-
-  "&email=" + encodeURIComponent(currentUser) + 
-
-  "&code=" + encodeURIComponent(code) 
-
-) 
-
- 
-
-  .then(res => res.text()) 
-
-  .then(res => { 
-
-    if (res === "APPROVED") { 
-
- 
-
-  approvedCertName = document.getElementById("certName").value.trim(); 
-
- 
-
- // ✅ SAVE LOCKED NAME PERMANENTLY 
-
-  localStorage.setItem( 
-
-    "approved_cert_name_" + currentUser, 
-
-    approvedCertName 
-
-  ); 
-
- 
-
-      // 🧹 CLEANUP TEMP REQUEST NAME (IMPORTANT) 
-
-  localStorage.removeItem( 
-
-    "cert_request_name_" + currentUser 
-
-  ); 
-
- 
-
-  // 🔒 HARD LOCK 
-
-  const certNameInput = document.getElementById("certName"); 
-
-  certNameInput.value = approvedCertName; 
-
-  certNameInput.disabled = true; 
-
-  certNameInput.style.background = "#e5e7eb"; 
-
- 
-
-  document.getElementById("certApprovalArea").innerHTML = ` 
-
-    <p class="text-success">✅ Certificate Approved</p> 
-
-    <button class="btn btn-success" 
-
-            onclick="downloadCertificate()"> 
-
-      ⬇️ Download Certificate 
-
-    </button> 
-
-  `; 
-
-} 
-
- 
-
- else { 
-
-      alert("Invalid or expired approval code"); 
-
-    } 
-
-  }); 
-
-} 
-
- 
-
-   
-
-// ================= TIMER ================= 
-
-function startTimer(min){ 
-
-  let time=min*60; 
-
-  timerInterval=setInterval(()=>{ 
-
-    let m=Math.floor(time/60),s=time%60; 
-
-    timer.innerText=`${m}:${s<10?'0':''}${s}`; 
-
-    time--; 
-
-    if(time<0){ 
-
-      clearInterval(timerInterval); 
-
-      if (typeof mcqForm !== "undefined") { 
-
-  mcqForm.requestSubmit(); 
-
-} 
-
- 
-
-    } 
-
-  },1000); 
-
-} 
-
- 
-
-// ================= EVALUATE ================= 
-
-function evaluate(index, questions){ 
-
-  let score = 0; 
-
-  const fd = new FormData(mcqForm); 
-
- 
-
-  questions.forEach((q,i)=>{ 
-
-    if(fd.get("q"+i) === q.a) score++; 
-
-  }); 
-
- 
-
-  const percent = Math.round((score / questions.length) * 100); 
-
-  const pass = percent >= passPercent; 
-
- 
-
-  // ✅ STORE FULL RESULT 
-
-  completed[index] = { 
-
-    score: score, 
-
-    percent: percent, 
-
-    pass: pass, 
-
-    date: new Date().toLocaleString() 
-
-  }; 
-
- 
-
-  localStorage.setItem( 
-
-  "csv_progress_" + currentUser, 
-
-  JSON.stringify(completed) 
-
-); 
-
-saveProgressToCloud(); 
-
- 
-
- 
-
-// ================= SEND RESULT TO GOOGLE SHEET ================= 
-
-fetch(SHEET_URL, { 
-
-  method: "POST", 
-
-  headers: { "Content-Type": "application/json" }, 
-
-  body: JSON.stringify({ 
-
-    email: currentUser, 
-
-    session: sessions[index], 
-
-    score: score, 
-
-    total: questions.length, 
-
-    percent: percent, 
-
-    result: pass ? "PASS" : "FAIL", 
-
-    date: new Date().toLocaleString() 
-
-  }) 
-
-}).catch(err => console.error("Sheet error", err)); 
-
- 
-
- 
-
-  updateProgress(); 
-
-  renderSessions(); 
-
-  mcqSection.innerHTML = ""; 
-
- 
-
-  // ✅ SHOW SCORE IMMEDIATELY 
-
-  alert( 
-
-    `SESSION RESULT\n\n` + 
-
-    `Score: ${score}/${questions.length}\n` + 
-
-    `Percentage: ${percent}%\n` + 
-
-    `Result: ${pass ? "PASSED ✅" : "FAILED ❌"}` 
-
-  ); 
-
- 
-
-  // ✅ CERTIFICATE ONLY AFTER FINAL 
-
-   
-
-} 
-
-// ================= PROGRESS ================= 
-
-function updateProgress(){ 
-
- 
-
-  const total = sessions.length; 
-
-  const passed = Object.values(completed).filter(v => v.pass === true).length; 
-
- 
-
-  const percent = Math.round((passed / total) * 100); 
-
-  progressBar.style.width = percent + "%"; 
-
-  progressBar.innerText = percent + "%"; 
-
- 
-
-  // ✅ Enable certificate button ONLY if all sessions passed 
+  <!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   
+  <!-- PAGE STYLES -->
+  <style>
+    body { background:#eef2f7; }
+
+    .question-box {
+      background:#fff;
+      padding:15px;
+      border-radius:8px;
+      margin-bottom:15px;
+      border-left:4px solid #0f4c81;
+    }
+
+    #mcqSection {
+      background:#f8fafc;
+      padding:20px;
+      border-radius:10px;
+      min-height:400px;
+    }
+  </style>
+<link rel="stylesheet" href="main.css">
+</head>
+<body>
+<!-- ================= SITE HEADER ================= -->
+<div id="header-placeholder"></div>
+<!-- ================= END HEADER ================= -->
+
+<div class="container my-5 p-4 bg-white rounded shadow">
+
+<h2 class="text-center text-primary">🎓 CSV Edge Academy – Student Dashboard</h2>
+<p class="text-center text-muted">Login to access sessions and MCQs</p>
+
+<!-- LOGIN -->
+<div id="loginSection" class="col-md-6 mx-auto">
+
+  <input id="loginEmail" type="email" class="form-control mb-2"
+         placeholder="Enter your email">
 
- 
-
-  if (passed === total) { 
-
-  document.getElementById("certificateSection").classList.remove("d-none"); 
-
-  checkCertificateAccess(); 
-
-} 
-
- 
-
-} 
-
- 
-
-// ================= CERTIFICATE ================= 
-
-function downloadCertificate() { 
-
-  const certName = document.getElementById("certName").value.trim(); 
-
- 
-
-  if (!certName || certName.length < 2) { 
-
-    alert("Please enter valid certificate name"); 
-
-    return; 
-
-  } 
-
- 
-
-  generateCertificate(approvedCertName); 
-
- 
-
-} 
-
- 
-
-function loadImageAsBase64(src) { 
-
-  return new Promise((resolve, reject) => { 
-
-    const img = new Image(); 
-
-    img.crossOrigin = "anonymous"; 
-
- 
-
-    img.onload = () => { 
-
-      const canvas = document.createElement("canvas"); 
-
-      canvas.width = img.width; 
-
-      canvas.height = img.height; 
-
- 
-
-      const ctx = canvas.getContext("2d"); 
-
-      ctx.drawImage(img, 0, 0); 
-
- 
-
-      resolve(canvas.toDataURL("image/png")); 
-
-    }; 
-
- 
-
-    img.onerror = () => reject("Failed to load image: " + src); 
-
-    img.src = src; 
-
-  }); 
-
-} 
-
-/* ===== ADD THIS BLOCK RIGHT HERE ===== */ 
-
-const CERT_VERIFY_API = 
-
-  "https://script.google.com/macros/s/AKfycbxDAPYz2OlgXtWPZH8g4f3Pg1nJzsumwFHZzvHk8ow2c8wDXAy3SbjxgkW3Pn6-Egp0/exec"; 
-
-/* ===== END ===== */ 
-
-   
-
-async function generateCertificate(name, data = completed){ 
-
- 
-
- 
-
-  const { jsPDF } = window.jspdf; 
-
-  const doc = new jsPDF("landscape"); 
-
-   
-
-// ===== LOAD LOGO FIRST (REQUIRED) ===== 
-
-const logoBase64 = await loadImageAsBase64("assets/images/logo.png"); 
-
-   
-
-  // ===== WATERMARK ===== 
-
-if (doc.setGState) { 
-
-  doc.setGState(new doc.GState({ opacity: 0.08 })); 
-
-} 
-
- 
-
-doc.addImage(logoBase64, "PNG", 60, 60, 170, 90); 
-
- 
-
-if (doc.setGState) { 
-
-  doc.setGState(new doc.GState({ opacity: 1 })); 
-
-} 
-
- 
-
-   
-
-  // ================= CERTIFICATE DATA ================= 
-
-const issueDate = new Date().toLocaleDateString(); 
-
-  const courseName = "CSV EDGE ACADEMY – COMPUTERIZED SYSTEM VALIDATION"; 
-
-  const certId = "CSV-" + Date.now(); // unique audit-friendly ID 
-
-  // ================= SAVE CERTIFICATE FOR VERIFICATION ================= 
-
-fetch(CERT_VERIFY_API + "?action=save", { 
-
-  method: "POST", 
-
-  headers: { "Content-Type": "application/json" }, 
-
-  body: JSON.stringify({ 
-
-    certId: certId, 
-
-    name: name, 
-
-    course: courseName, 
-
-    issueDate: issueDate 
-
-  }) 
-
-}).catch(err => console.error("❌ Certificate save failed", err)); 
-
- 
-
- 
-
-  const totalSessions = sessions.length; 
-
-  const passedSessions = Object.values(data).filter(v => v.pass).length; 
-
- 
-
-  const scorePercent = Math.round((passedSessions / totalSessions) * 100); 
-
- 
-
-  let grade = "PASS"; 
-
-  if(scorePercent >= 90) grade = "DISTINCTION"; 
-
-  else if(scorePercent >= 80) grade = "MERIT"; 
-
- 
-
-  const websiteURL = "https://csvedgeacademy.github.io"; 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
-  // ================= BORDER ================= 
-
-  doc.setDrawColor(15, 76, 129); // blue 
-
-  doc.setLineWidth(4); 
-
-  doc.rect(10, 10, 277, 190); 
-
- 
-
-  doc.setDrawColor(212, 175, 55); // gold 
-
-  doc.setLineWidth(2); 
-
-  doc.rect(15, 15, 267, 180); 
-
- 
-
-  // ================= LOGO ================= 
-
-doc.addImage(logoBase64, "PNG", 20, 20, 40, 20); 
-
- 
-
-  // ================= TITLE ================= 
-
-  doc.setFont("helvetica", "bold"); 
-
-  doc.setFontSize(26); 
-
-  doc.setTextColor(15, 76, 129); 
-
-  doc.text("CERTIFICATE OF COMPLETION", 148, 45, { align: "center" }); 
-
- 
-
-  // ================= CONTENT ================= 
-
-  doc.setFontSize(16); 
-
-  doc.setFont("helvetica", "normal"); 
-
-  doc.setTextColor(0, 0, 0); 
-
-  doc.text("This is to certify that", 148, 65, { align: "center" }); 
-
- 
-
-  // Student Name 
-
-  doc.setFont("helvetica", "bold"); 
-
-  doc.setFontSize(22); 
-
-  doc.text(name, 148, 80, { align: "center" }); 
-
- 
-
-  doc.setFont("helvetica", "normal"); 
-
-  doc.setFontSize(16); 
-
-  doc.text("has successfully completed the professional training program", 148, 95, { align: "center" }); 
-
- 
-
-  // Course Name Highlight 
-
-  doc.setFont("helvetica", "bold"); 
-
-  doc.setTextColor(212, 175, 55); 
-
-  doc.setFontSize(18); 
-
-  doc.text(courseName, 148, 110, { align: "center" }); 
-
- 
-
-// ===== KEYWORDS STRIP ===== 
-
-doc.setFontSize(12); 
-
-doc.setTextColor(180, 180, 180); 
-
-doc.text( 
-
-  "CSV  |  PHARMA  |  GxP  |  DATA INTEGRITY  |  FDA", 
-
-  148, 
-
-  122, 
-
-  { align: "center" } 
-
-); 
-
- 
-
-  // ===== HIGHLIGHT BAND ===== 
-
-doc.setFillColor(240, 248, 255); 
-
-doc.rect(20, 126, 250, 18, "F"); 
-
- 
-
-   
-
-  // ================= SCORE & GRADE ================= 
-
-  doc.setFontSize(14); 
-
-  doc.setTextColor(0, 0, 0); 
-
-  doc.text(`Final Score: ${scorePercent}%`, 60, 135); 
-
-  doc.text(`Grade: ${grade}`, 60, 145); 
-
- 
-
-  // ===== GOLD CERTIFICATION SEAL ===== 
-
-doc.setDrawColor(212, 175, 55); 
-
-doc.setLineWidth(3); 
-
-doc.circle(148, 150, 18); 
-
- 
-
-doc.setFontSize(10); 
-
-doc.setTextColor(212, 175, 55); 
-
-doc.text("CSV\nCERTIFIED", 148, 147, { 
-
-  align: "center" 
-
-}); 
+  <button class="btn btn-primary w-100 mb-2" onclick="sendOTP()">
+    📩 Send OTP
+  </button>
 
- 
-
-   
-
-  // ================= CERT ID ================= 
-
-  doc.setFontSize(12); 
-
-  doc.text(`Certificate ID: ${certId}`, 60, 160); 
-
-doc.setFontSize(11); 
-
-doc.text(`Issue Date: ${issueDate}`, 60, 170); 
-
- 
-
- 
-
-  // ================= SIGNATURE ================= 
-
-  // ================= DIGITAL SIGNATURE ================= 
-
-doc.setFont("times", "italic"); 
-
-doc.setFontSize(16); 
-
-doc.setTextColor(0, 0, 0); 
-
-doc.text("Bharat Sonawane", 225, 155, { align: "center" }); 
-
- 
-
-doc.setFont("helvetica", "normal"); 
-
-doc.setFontSize(11); 
-
-doc.text("Authorized Signatory", 225, 162, { align: "center" }); 
-
-doc.text("CSV Edge Academy", 225, 168, { align: "center" }); 
-
- 
-
-  // ================= QR CODE (TOP RIGHT) ================= 
-
-const qrDiv = document.createElement("div"); 
-
- 
-
-new QRCode(qrDiv, { 
-
-  text: websiteURL, 
-
-  width: 100, 
-
-  height: 100 
-
-}); 
-
- 
-
- 
-
-setTimeout(() => { 
-
-  const qrImg = qrDiv.querySelector("img").src; 
-
- 
-
-  // ===== QR FRAME ===== 
-
-doc.setDrawColor(15, 76, 129); 
-
-doc.setLineWidth(1.5); 
-
-doc.rect(232, 18, 41, 41); 
-
- 
-
-   
-
-  // Top-right corner (safe – no overlap) 
-
-  doc.addImage(qrImg, "PNG", 235, 20, 35, 35); 
-
- 
-
-  doc.setFontSize(10); 
-
-  doc.text("Scan to Visit Website", 252, 60, { align: "center" }); 
-
- 
-
-  doc.setFontSize(9); 
-
-doc.text("Digital Verification", 252, 65, { align: "center" }); 
-
-   
-
-  // Save AFTER QR is added 
-
-  doc.save(`CSV_Edge_Academy_Certificate_${name}.pdf`); 
-
-}, 300); 
-
- 
-
-} 
-
- 
-
-// ================= PAYMENT RECEIPT ================= 
-
-async function downloadReceipt() { 
-
- 
-
- 
-
-  const { jsPDF } = window.jspdf; 
-
-  const doc = new jsPDF(); 
-
- 
-
-// ===== RECEIPT BORDER ===== 
-
-doc.setDrawColor(180); 
-
-doc.setLineWidth(0.5); 
-
-doc.rect(10, 10, 190, 277); 
-
- 
-
- 
-
-  // ===== RECEIPT DATA ===== 
-
-  const academyName = "CSV Edge Academy"; 
-
-  const programName = "Computerized System Validation (CSV) – Full Training Program"; 
-
-  const amountPaid = "Yes"; 
-
-  const receiptId = "REC-" + Date.now(); 
-
-  const downloadDate = new Date().toLocaleDateString(); 
-
-  const studentEmail = currentUser; 
-
- 
-
-  const thankYouMsg = 
-
-    "Thank you for choosing CSV Edge Academy for the betterment of your professional skills. " + 
-
-    "We wish you great success in your learning journey."; 
-
- 
-
-  // ===== HEADER ===== 
-
-  doc.setFillColor(15, 76, 129); 
-
-  doc.rect(0, 0, 210, 30, "F"); 
-
- 
-
-  doc.setTextColor(255, 255, 255); 
-
-  doc.setFontSize(18); 
-
-  doc.text(academyName, 105, 20, { align: "center" }); 
-
- 
-
-  // ===== LOGO ===== 
-
-const logoBase64 = await loadImageAsBase64("assets/images/logo.png");   
-
-doc.addImage(logoBase64, "PNG", 10, 5, 30, 20); 
-
- 
-
-  // ===== TITLE ===== 
-
-  doc.setTextColor(0, 0, 0); 
-
-  doc.setFontSize(16); 
-
-  doc.text("Payment Receipt", 105, 45, { align: "center" }); 
-
-doc.setDrawColor(200); 
-
-doc.line(20, 55, 190, 55); 
-
- 
-
- 
-
-  // ===== DETAILS ===== 
-
-  doc.setFontSize(11); 
-
-  doc.text("Receipt ID:", 20, 65); 
-
-  doc.text(receiptId, 80, 65); 
-
- 
-
-  doc.text("Download Date:", 20, 75); 
-
-  doc.text(downloadDate, 80, 75); 
-
- 
-
-  doc.text("Student Email:", 20, 85); 
-
-  doc.text(studentEmail, 80, 85); 
-
- 
-
-  doc.text("Program Name:", 20, 95); 
-
-  doc.text(programName, 80, 95, { maxWidth: 110 }); 
-
- 
-
-  // ===== PAYMENT SUMMARY BOX ===== 
-
-doc.setFillColor(245, 247, 250); 
-
-doc.rect(20, 115, 170, 30, "F"); 
-
- 
-
-doc.setDrawColor(150); 
-
-doc.rect(20, 115, 170, 30); 
-
- 
-
-doc.setFont("helvetica", "bold"); 
-
-doc.setFontSize(14); 
-
-doc.text("Total Amount Paid", 30, 135); 
-
- 
-
-doc.setFontSize(18); 
-
-doc.text(amountPaid, 175, 135, { align: "right" }); 
-
- 
-
- 
-
-  // ===== THANK YOU MESSAGE ===== 
-
-  doc.setFontSize(11); 
-
-  doc.text(thankYouMsg, 20, 155, { maxWidth: 170 }); 
-
- 
-
-  // ===== DIGITAL SIGNATURE ===== 
-
-  doc.setFont("times", "italic"); 
-
-  doc.setFontSize(14); 
-
-  doc.text("Bharat Sonawane", 150, 180); 
-
- 
-
-  doc.setFont("helvetica", "normal"); 
-
-  doc.setFontSize(11); 
-
-  doc.text("Authorized Signatory", 150, 186); 
-
-  doc.text("CSV Edge Academy", 150, 192); 
-
- 
-
-  // ===== FOOTER ===== 
-
-  doc.setFontSize(9); 
+  <input id="otpInput" type="text" class="form-control mb-2 d-none"
+         placeholder="Enter OTP">
+
+  <button id="verifyBtn" class="btn btn-success w-100 d-none"
+          onclick="verifyOTP()">
+    🔐 Verify OTP
+  </button>
 
-  doc.text( 
+  <div id="loginMsg" class="text-center mt-2"></div>
+
+</div>
 
-    "This is a system-generated receipt and does not require a physical signature.", 
+
+<!-- DASHBOARD -->
+<div id="dashboardSection" style="display:none">
+<!-- WELCOME MESSAGE -->
+<div id="welcomeBox" class="alert alert-info mb-4">
+  <h5 class="mb-2">👋 Welcome to CSV Edge Academy</h5>
+  <ul class="mb-0">
+    <li>Complete sessions sequentially (🔒 locked sessions unlock after passing previous).</li>
+    <li>Each session has a timed MCQ assessment.</li>
+    <li>You must score at least <b>80%</b> to pass a session.</li>
+    <li>Do not refresh the page during an exam.</li>
+    <li>
+  After passing all sessions, request approval to download your
+  <b>final certificate</b>.
+</li>
+
+  </ul>
+</div>
+
+
+<!-- LOGOUT BUTTON -->
+<div class="text-end mb-3">
+  <button class="btn btn-outline-danger btn-sm" onclick="logout()">Logout</button>
+</div>
+
+<div id="certificateSection" class="mt-4 d-none">
+
+  <h5 class="text-primary">📜 Certificate</h5>
+
+  <label class="fw-bold mt-2">
+    Name to appear on Certificate
+  </label>
+
+  <input id="certName"
+         class="form-control mt-1"
+         placeholder="Enter full name exactly as required">
+
+  <div id="certApprovalArea" class="mt-3"></div>
+
+</div>
+
+
+<div class="text-end mb-4">
+  <button id="receiptBtn"
+          class="btn btn-outline-primary"
+          onclick="downloadReceipt()"
+          disabled>
+    💳 Download Payment Receipt
+  </button>
+</div>
+
+
+<!-- PROGRESS -->
+<div class="my-3">
+  <div class="progress">
+    <div id="progressBar" class="progress-bar bg-success" style="width:0%">0%</div>
+  </div>
+</div>
+
+<!-- TIMER -->
+<div id="timerBox" class="alert alert-warning d-none">
+⏱ Time Left: <b><span id="timer">20:00</span></b>
+</div>
+
+<div class="row">
+
+  <!-- LEFT: SESSIONS -->
+  <div class="col-md-4">
+    <h4>📋 Sessions</h4>
+    <div id="sessionsList"></div>
+  </div>
+
+  <!-- RIGHT: MCQs -->
+  <div class="col-md-8">
+    <div id="mcqSection" class="ps-3"></div>
+  </div>
+
+</div>
+
+
+</div>
+</div>
+
+
+<script>
+// ================= FIREBASE INIT =================
+const firebaseConfig = {
+  apiKey: "AIzaSyDj1KC0HcBfc5k7PbwB11CjTKZ5_V6SvWU",
+  authDomain: "csv-edge-academy-a6828.firebaseapp.com",
+  projectId: "csv-edge-academy-a6828"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ================= FIREBASE PROGRESS SAVE =================
+function saveProgressToCloud() {
+  if (!currentUser) return;
+
+  db.collection("students")
+    .doc(currentUser)
+    .set({
+      email: currentUser,
+      completed: completed,
+      lastUpdated: new Date().toISOString()
+    }, { merge: true })
+    .catch(err => console.error("❌ Cloud save failed", err));
+}
+
+// ================= FIREBASE PROGRESS LOAD =================
+function loadProgressFromCloud() {
+  if (!currentUser) return Promise.resolve();
+
+  return db.collection("students")
+    .doc(currentUser)
+    .get()
+    .then(doc => {
+      if (doc.exists) {
+        completed = doc.data().completed || {};
+      }
+    })
+    .catch(err => console.error("❌ Cloud load failed", err));
+}
+  
+
+const OTP_API_URL = "https://script.google.com/macros/s/AKfycbwzlRMIZScp83jSB1CqjHUY1svRlc6X5YIciDdTlGSxQUiTUZ9dZNjy_7m5b9Tsr9GhwQ/exec";
+
+let currentUser = "";
+let approvedCertName = "";
+  
+
+// ================= SEND OTP =================
+function sendOTP() {
+  const email = loginEmail.value.trim();
+
+  if (!email) {
+    loginMsg.innerText = "❌ Please enter email";
+    return;
+  }
+
+  // 🔒 AUTHORIZATION CHECK (PAID USERS ONLY)
+  if (!allowedEmails.includes(email)) {
+    loginMsg.innerText = "❌ Access denied. Course not purchased.";
+    return;
+  }
+
+  // ✅ Only approved users reach here
+  loginMsg.innerText = "⏳ Sending OTP...";
+
+  fetch(
+  OTP_API_URL +
+  "?action=sendOTP" +
+  "&email=" + encodeURIComponent(email)
+)
+
+  .then(res => res.text())
+  .then(txt => {
+    if (txt === "OTP_SENT") {
+      loginMsg.innerText = "✅ OTP sent to your email";
+      otpInput.classList.remove("d-none");
+      verifyBtn.classList.remove("d-none");
+      currentUser = email;
+    } else {
+      loginMsg.innerText = "❌ Failed to send OTP";
+    }
+  })
+  .catch(() => {
+    loginMsg.innerText = "❌ Network error";
+  });
+}
+
+
+// ================= VERIFY OTP =================
+function verifyOTP() {
+  const otp = otpInput.value.trim();
+
+  if (!otp) {
+    loginMsg.innerText = "❌ Enter OTP";
+    return;
+  }
+
+  loginMsg.innerText = "⏳ Verifying OTP...";
+
+  fetch(
+  OTP_API_URL +
+  "?action=verifyOTP" +
+  "&email=" + encodeURIComponent(currentUser) +
+  "&otp=" + encodeURIComponent(otp)
+)
+
+
+  .then(res => res.text())
+  .then(txt => {
+    if (txt === "OTP_VERIFIED") {
+  loginMsg.innerText = "✅ Login successful";
+
+  loginSection.style.display = "none";
+dashboardSection.style.display = "block";
+
+            
+const approvedName = localStorage.getItem(
+  "approved_cert_name_" + currentUser
+);
+
+const requestedName = localStorage.getItem(
+  "cert_request_name_" + currentUser
+);
+
+const certNameInput = document.getElementById("certName");
+
+if (approvedName) {
+  certNameInput.value = approvedName;
+  certNameInput.disabled = true;
+  certNameInput.style.background = "#e5e7eb";
+}
+else if (requestedName) {
+  certNameInput.value = requestedName;
+  certNameInput.disabled = true;
+  certNameInput.style.background = "#f1f5f9";
+}
+
+      
+document.getElementById("welcomeBox").style.display = "block";
+document.getElementById("receiptBtn").disabled = false;
+
+// ⬇️ FIRST load from Firebase (any device)
+loadProgressFromCloud().then(() => {
+
+  // ⬇️ If cloud empty, fallback to LocalStorage
+  if (!Object.keys(completed).length) {
+    const saved = localStorage.getItem("csv_progress_" + currentUser);
+    completed = saved ? JSON.parse(saved) : {};
+  }
+
+  renderSessions();
+  updateProgress();
+});
+
+
+}
+ else {
+      loginMsg.innerText = "❌ Invalid or expired OTP";
+    }
+  })
+  .catch(() => {
+    loginMsg.innerText = "❌ Network error";
+  });
+}
+
+
+// ================= IMAGES (BASE64) =================
+
+// ================= CONFIG =================
+const allowedEmails = ["bharatsonawane029@gmail.com","bharatsonawane028@gmail.com"];
+const fullAccessEmails = ["bharatsonawane029@gmail.com"];
+const passPercent = 80;
+const examTimeMinutes = 20;
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzQTC9elQ025YkPsXcXxdHliSr6CeYxYNNBET5zQmmejlSvYm9z2EknUhac_cQ-yahR/exec";
+
+
+// ================= ALL SESSIONS =================
+const sessions = [
+"Session 1 – Regulator Basics",
+"Session 2 – Introduction to CSV",
+"Session 3 – GAMP 5 Fundamentals",
+"Session 4 – Quality Management Basics",
+"Session 5 – SDLC, STLC and V-Model",
+"Session 6 – GAMP 5 – Lifecycle – Concept Phase",
+"Session 7 – GAMP 5 – Lifecycle – Project Phase – Planning Stage",
+"Session 8 – GAMP 5 – Lifecycle – Project Phase – Specification Stage",
+"Session 9 – GAMP 5 – Lifecycle – Project Phase – Verification Stage",
+"Session 10 – GAMP 5 – Lifecycle – Project Phase – Reporting and Release Stage",
+"Session 11 – GAMP 5 – Lifecycle – Operation Phase",
+"Session 12 – GAMP 5 – Lifecycle – Retirement Phase",
+"Session 13 – Practical Session – IRA, Supplier Assessment and VP",
+"Session 14 – Practical Session – URS, FDS and CS",
+"Session 15 – Practical Session – FRA",
+"Session 16 – Practical Session – IQ",
+"Session 17 – Practical Session – OQ",
+"Session 18 – Practical Session – PQ",
+"Session 19 – Practical Session – RTM and VSR",
+"Session 20 – Practical Session – ERES checklist and Periodic Review",
+"Session 21 – Types of Testing",
+"Session 22 – ALCOA+ principles and Key Terminologies",
+"Session 23 – Audit Readiness and Case studies on USFDA observations",
+"Session 24 – New Approach to CSV - CSA",
+"Final Assessment"
+];
+
+// ================= MCQs (ADD SESSION-WISE LATER) =================
+const mcqs = {
+0:[
+  {q:"CSV documentation should be stored for:",
+   o:["1 year","Until product expiry","As per regulatory requirement","Optional"],
+   a:"As per regulatory requirement"}
+],
+1:[
+  {q:"Final approval document of CSV is:",
+   o:["Validation Summary Report","Marketing Plan","Financial Statement","HR Policy"],
+   a:"Validation Summary Report"}
+],
+2:[
+  {q:"Validation deliverables include:",
+   o:["Test Scripts, Reports, Protocols",
+      "Brochure, Contract, Email",
+      "Finance Ledger, Report, Statement",
+      "HR Record, Policy"],
+   a:"Test Scripts, Reports, Protocols"}
+],
+3:[
+   {q:"Key quality principle:",
+   o:["Customer focus","Marketing","Finance","HR"],
+   a:"Customer focus"}
+],
+4:[
+   {q:"V-Model is also called:",
+   o:["Verification & Validation Model","Visual Model",
+      "Version Control Model","Validation Only Model"],
+   a:"Verification & Validation Model"}
+],
+5:[
+  {q:"Concept phase completion leads to:",
+   o:["Approval to start project phase","Training","Marketing","Finance"],
+   a:"Approval to start project phase"}
+],
+6:[
+  {q:"Planning stage output is:",
+   o:["Ready for specification phase","Marketing ready",
+      "Training ready","Finance ready"],
+   a:"Ready for specification phase"}
+],
+7:[
+  {q:"Critical requirement documentation ensures:",
+   o:["Test coverage","Marketing","Finance","Training"],
+   a:"Test coverage"}
+],
+8:[
+  {q:"Test summary reports conclude:",
+   o:["Overall verification status","Training completion",
+      "Marketing success","Finance closure"],
+   a:"Overall verification status"}
+],
+9:[
+  {q:"Release concludes:",
+   o:["Project phase","Training","Marketing","Finance"],
+   a:"Project phase"}
+],
+10:[
+  {q:"Operation documentation supports:",
+   o:["Inspections","Marketing","Sales","Finance"],
+   a:"Inspections"}
+],
+11:[
+  {q:"Regulators expect:",
+   o:["Controlled retirement","Quick deletion","No records","Verbal proof"],
+   a:"Controlled retirement"}
+],
+12:[
+  {q:"Regulators expect IRA decisions to be:",
+   o:["Justified and documented","Verbal",
+      "Based on cost","Based on timeline"],
+   a:"Justified and documented"}
+],
+13:[
+  {q:"Which phase mainly uses URS, FDS and CS?",
+   o:["Specification phase","Operation phase",
+      "Retirement phase","Audit phase"],
+   a:"Specification phase"}
+],
+14:[
+  {q:"Failure to perform FRA may result in:",
+   o:["Regulatory observations","Reduced testing effort",
+      "Faster release","Lower compliance risk"],
+   a:"Regulatory observations"}
+],
+15:[
+ {q:"Failure to perform IQ may result in:",
+   o:["Regulatory non-compliance","Improved system stability",
+      "Reduced testing","Faster release"],
+   a:"Regulatory non-compliance"}
+],
+16:[
+  {q:"Failure to perform adequate OQ may lead to:",
+   o:["Regulatory observations and data integrity risks",
+      "Improved system performance","Faster release","Reduced documentation"],
+   a:"Regulatory observations and data integrity risks"}
+],
+17:[
+  {q:"Failure to perform adequate PQ can result in:",
+   o:["Regulatory findings and operational risks","Improved system stability",
+      "Reduced validation effort","Faster implementation"],
+   a:"Regulatory findings and operational risks"}
+],
+18:[
+  {q:"RTM and VSR together provide evidence of:",
+   o:["End-to-end validation and compliance","System performance only",
+      "User training only","Vendor qualification only"],
+   a:"End-to-end validation and compliance"}
+],
+19:[
+  {q:"ERES and periodic review together ensure:",
+   o:["Ongoing compliance and data integrity","Only initial validation",
+      "Only system security","Only audit readiness"],
+   a:"Ongoing compliance and data integrity"}
+],
+20:[
+  {q:"Effective testing ultimately ensures:",
+   o:["System reliability and compliance","Faster development",
+      "Reduced documentation","Lower audit frequency"],
+   a:"System reliability and compliance"}
+],
+21:[
+  {q:"ALCOA+ principles primarily aim to ensure:",
+   o:["Reliable and trustworthy data","Faster system development",
+      "Reduced validation effort","Simplified audits"],
+   a:"Reliable and trustworthy data"}
+],
+22:[
+  {q:"Audit readiness culture means:",
+   o:["Always being prepared for inspection, not just before audits",
+      "Preparing only when inspection is announced",
+      "Maintaining documents temporarily",
+      "Assigning responsibility only to QA"],
+   a:"Always being prepared for inspection, not just before audits"}
+],
+23:[
+  {q:"The key benefit of CSA implementation is:",
+   o:["Faster, efficient validation with improved compliance",
+      "Elimination of QA oversight",
+      "No documentation requirements",
+      "Reduced regulatory scrutiny"],
+   a:"Faster, efficient validation with improved compliance"}
+],
+24:[
+  {q:"What is the final objective of CSV and CSA?",
+   o:["Patient safety, data integrity and compliance",
+      "Cost reduction","System speed","Vendor dependency"],
+   a:"Patient safety, data integrity and compliance"}
+]
+};
+
+// ================= STATE =================
+let completed = {};
+let timerInterval;
+
+// ================= DOM ELEMENTS (FIX) =================
+const loginSection = document.getElementById("loginSection");
+const dashboardSection = document.getElementById("dashboardSection");
+const sessionsList = document.getElementById("sessionsList");
+const mcqSection = document.getElementById("mcqSection");
+const progressBar = document.getElementById("progressBar");
+const timerBox = document.getElementById("timerBox");
+const timer = document.getElementById("timer");
+const loginEmail = document.getElementById("loginEmail");
+const loginMsg = document.getElementById("loginMsg");
+const otpInput = document.getElementById("otpInput");
+const verifyBtn = document.getElementById("verifyBtn");
+
+
+
+// ================= LOGOUT =================
+function logout(){
+  otpInput.value = "";
+  otpInput.classList.add("d-none");
+  verifyBtn.classList.add("d-none");
+
+  document.getElementById("welcomeBox").style.display = "none";
+
+  clearInterval(timerInterval);
+  mcqSection.innerHTML = "";
+  loginSection.style.display = "block";
+  dashboardSection.style.display = "none";
+  loginEmail.value = "";
+  loginMsg.innerText = "";
+document.getElementById("receiptBtn").disabled = true;
+
+}
+
+
+window.onload = () => {
+currentUser = "";
+completed = {};
+progressBar.style.width = "0%";
+progressBar.innerText = "0%";
+
+};
+
+// ================= RENDER SESSIONS =================
+function renderSessions(){
+    sessionsList.innerHTML="";
+  sessions.forEach((s,i)=>{
+    const btn=document.createElement("button");
+    btn.id="sessionBtn"+i;
+
+    const isFullAccessUser = fullAccessEmails.includes(currentUser);
+
+const unlocked = isFullAccessUser
+  ? true
+  : (i === 0 || (completed[i-1] && completed[i-1].pass === true));
+
+
+
+    btn.className = unlocked
+      ? "btn btn-warning w-100 mb-2"
+      : "btn btn-secondary w-100 mb-2";
+
+    if(completed[i]){
+  btn.innerText = `${i+1}. ${s} ✅ (${completed[i].percent}%)`;
+} else {
+  btn.innerText = unlocked
+    ? `${i+1}. ${s}`
+    : `${i+1}. ${s} 🔒`;
+}
+
+
+    btn.disabled = !unlocked;
+
+    if(unlocked){
+      btn.onclick = ()=>loadMCQs(i);
+    }
+
+    sessionsList.appendChild(btn);
+  });
+
+}
+
+// ================= SHUFFLE =================
+function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
+
+// ================= LOAD MCQs =================
+    function loadMCQs(index){const isFullAccessUser = fullAccessEmails.includes(currentUser);
+
+if (!isFullAccessUser && index > 0 && (!completed[index-1] || completed[index-1].pass !== true)) {
+  alert("🔒 Please pass the previous session to unlock this one.");
+  return;
+}
+
+  clearInterval(timerInterval);
+
+  if(!mcqs[index]){
+    mcqSection.innerHTML=`
+      <div class="alert alert-info">
+        MCQs for <b>${sessions[index]}</b> are not yet uploaded.
+      </div>`;
+    return;
+  }
+
+  timerBox.classList.remove("d-none");
+  startTimer(examTimeMinutes);
+
+  const questions=shuffle([...mcqs[index]]);
+  let html = `
+<div class="mb-3">
+  <h4 class="text-primary">${sessions[index]}</h4>
+  <hr>
+</div>
+<form id="mcqForm">
+`;
+
+
+  questions.forEach((q,i)=>{
+    q.o=shuffle(q.o);
+    html+=`
+    <div class="question-box">
+      <b>${i+1}. ${q.q}</b><br>`;
+    q.o.forEach(opt=>{
+      html+=`<label class="me-3">
+        <input type="radio" name="q${i}" value="${opt}" required> ${opt}
+      </label>`;
+    });
+    html+=`</div>`;
+  });
+
+  html+=`<button class="btn btn-success">Submit</button></form>`;
+  mcqSection.innerHTML=html;
+
+// ===== AUTO SCROLL TO FIRST QUESTION =====
+setTimeout(() => {
+  mcqSection.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}, 100);
+
+
+  mcqForm.onsubmit=e=>{
+    e.preventDefault();
+    clearInterval(timerInterval);
+    evaluate(index,questions);
+  }
+}
+
+function checkCertificateAccess() {
+  document.getElementById("certApprovalArea").innerHTML = `
+    <button class="btn btn-primary"
+            onclick="requestCertApproval()">
+      📩 Request Certificate Approval
+    </button>
+  `;
+}
+
+function requestCertApproval() {
+
+  const certName = document.getElementById("certName").value.trim();
+  if (!certName || certName.length < 2) {
+    alert("Please enter valid certificate name");
+    return;
+  }
+
+
+  fetch(
+  OTP_API_URL +
+  "?action=certRequest" +
+  "&name=" + encodeURIComponent(certName) +
+  "&email=" + encodeURIComponent(currentUser) +
+  "&certname=" + encodeURIComponent("CSV Full Training Program")
+)
+
+  .then(res => res.text())
+  .then(txt => {
+    if (txt === "REQUEST_SENT") { 
+      // 🔒 SOFT LOCK name after request
+  const certNameInput = document.getElementById("certName");
+  certNameInput.disabled = true;
+  certNameInput.style.background = "#f1f5f9";
+
+  localStorage.setItem(
+    "cert_request_name_" + currentUser,
+    certName
+  );
+      document.getElementById("certApprovalArea").innerHTML = `
+        <p class="text-warning">⏳ Approval code sent to Academy.</p>
+        <input id="approvalCode" class="form-control mt-2"
+               placeholder="Enter approval code received">
+        <button class="btn btn-success mt-2"
+                onclick="verifyCertCode()">
+          Verify & Download
+        </button>
+      `;
+    } else {
+      alert("Server response: " + txt);
+    }
+  })
+  .catch(err => alert("Request failed"));
+}
+
+
+
+  function verifyCertCode() {
+
+  const code = document.getElementById("approvalCode").value.trim();
+  if (code.length !== 6) {
+    alert("Enter valid 6-digit approval code");
+    return;
+  }
+
+  fetch(
+  OTP_API_URL +
+  "?action=certVerify" +
+  "&email=" + encodeURIComponent(currentUser) +
+  "&code=" + encodeURIComponent(code)
+)
+
+  .then(res => res.text())
+  .then(res => {
+    if (res === "APPROVED") {
+
+  approvedCertName = document.getElementById("certName").value.trim();
+
+ // ✅ SAVE LOCKED NAME PERMANENTLY
+  localStorage.setItem(
+    "approved_cert_name_" + currentUser,
+    approvedCertName
+  );
+
+      // 🧹 CLEANUP TEMP REQUEST NAME (IMPORTANT)
+  localStorage.removeItem(
+    "cert_request_name_" + currentUser
+  );
+
+  // 🔒 HARD LOCK
+  const certNameInput = document.getElementById("certName");
+  certNameInput.value = approvedCertName;
+  certNameInput.disabled = true;
+  certNameInput.style.background = "#e5e7eb";
+
+  document.getElementById("certApprovalArea").innerHTML = `
+    <p class="text-success">✅ Certificate Approved</p>
+    <button class="btn btn-success"
+            onclick="downloadCertificate()">
+      ⬇️ Download Certificate
+    </button>
+  `;
+}
+
+ else {
+      alert("Invalid or expired approval code");
+    }
+  });
+}
+
+  
+// ================= TIMER =================
+function startTimer(min){
+  let time=min*60;
+  timerInterval=setInterval(()=>{
+    let m=Math.floor(time/60),s=time%60;
+    timer.innerText=`${m}:${s<10?'0':''}${s}`;
+    time--;
+    if(time<0){
+      clearInterval(timerInterval);
+      if (typeof mcqForm !== "undefined") {
+  mcqForm.requestSubmit();
+}
+
+    }
+  },1000);
+}
+
+// ================= EVALUATE =================
+function evaluate(index, questions){
+  let score = 0;
+  const fd = new FormData(mcqForm);
+
+  questions.forEach((q,i)=>{
+    if(fd.get("q"+i) === q.a) score++;
+  });
+
+  const percent = Math.round((score / questions.length) * 100);
+  const pass = percent >= passPercent;
+
+  // ✅ STORE FULL RESULT
+  completed[index] = {
+    score: score,
+    percent: percent,
+    pass: pass,
+    date: new Date().toLocaleString()
+  };
+
+  localStorage.setItem(
+  "csv_progress_" + currentUser,
+  JSON.stringify(completed)
+);
+saveProgressToCloud();
+
+
+// ================= SEND RESULT TO GOOGLE SHEET =================
+fetch(SHEET_URL, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    email: currentUser,
+    session: sessions[index],
+    score: score,
+    total: questions.length,
+    percent: percent,
+    result: pass ? "PASS" : "FAIL",
+    date: new Date().toLocaleString()
+  })
+}).catch(err => console.error("Sheet error", err));
+
+
+  updateProgress();
+  renderSessions();
+  mcqSection.innerHTML = "";
+
+  // ✅ SHOW SCORE IMMEDIATELY
+  alert(
+    `SESSION RESULT\n\n` +
+    `Score: ${score}/${questions.length}\n` +
+    `Percentage: ${percent}%\n` +
+    `Result: ${pass ? "PASSED ✅" : "FAILED ❌"}`
+  );
+
+  // ✅ CERTIFICATE ONLY AFTER FINAL
+  
+}
+// ================= PROGRESS =================
+function updateProgress(){
+
+  const total = sessions.length;
+  const passed = Object.values(completed).filter(v => v.pass === true).length;
+
+  const percent = Math.round((passed / total) * 100);
+  progressBar.style.width = percent + "%";
+  progressBar.innerText = percent + "%";
+
+  // ✅ Enable certificate button ONLY if all sessions passed
+ 
+
+  if (passed === total) {
+  document.getElementById("certificateSection").classList.remove("d-none");
+  checkCertificateAccess();
+}
+
+}
+
+// ================= CERTIFICATE =================
+function downloadCertificate() {
+  const certName = document.getElementById("certName").value.trim();
+
+  if (!certName || certName.length < 2) {
+    alert("Please enter valid certificate name");
+    return;
+  }
+
+  generateCertificate(approvedCertName);
+
+}
+
+function loadImageAsBase64(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+
+      resolve(canvas.toDataURL("image/png"));
+    };
+
+    img.onerror = () => reject("Failed to load image: " + src);
+    img.src = src;
+  });
+}
+/* ===== ADD THIS BLOCK RIGHT HERE ===== */
+const CERT_VERIFY_API =
+  "https://script.google.com/macros/s/AKfycbxDAPYz2OlgXtWPZH8g4f3Pg1nJzsumwFHZzvHk8ow2c8wDXAy3SbjxgkW3Pn6-Egp0/exec";
+/* ===== END ===== */
+  
+async function generateCertificate(name, data = completed){
+
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("landscape");
+  
+// ===== LOAD LOGO FIRST (REQUIRED) =====
+const logoBase64 = await loadImageAsBase64("assets/images/logo.png");
+  
+  // ===== WATERMARK =====
+if (doc.setGState) {
+  doc.setGState(new doc.GState({ opacity: 0.08 }));
+}
+
+doc.addImage(logoBase64, "PNG", 60, 60, 170, 90);
+
+if (doc.setGState) {
+  doc.setGState(new doc.GState({ opacity: 1 }));
+}
+
+  
+  // ================= CERTIFICATE DATA =================
+const issueDate = new Date().toLocaleDateString();
+  const courseName = "CSV EDGE ACADEMY – COMPUTERIZED SYSTEM VALIDATION";
+  const certId = "CSV-" + Date.now(); // unique audit-friendly ID
+  // ================= SAVE CERTIFICATE FOR VERIFICATION =================
+fetch(CERT_VERIFY_API + "?action=save", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    certId: certId,
+    name: name,
+    course: courseName,
+    issueDate: issueDate
+  })
+}).catch(err => console.error("❌ Certificate save failed", err));
+
+
+  const totalSessions = sessions.length;
+  const passedSessions = Object.values(data).filter(v => v.pass).length;
+
+  const scorePercent = Math.round((passedSessions / totalSessions) * 100);
+
+  let grade = "PASS";
+  if(scorePercent >= 90) grade = "DISTINCTION";
+  else if(scorePercent >= 80) grade = "MERIT";
+
+  const websiteURL = "https://csvedgeacademy.github.io";
+
+
+
+
+
+
+  // ================= BORDER =================
+  doc.setDrawColor(15, 76, 129); // blue
+  doc.setLineWidth(4);
+  doc.rect(10, 10, 277, 190);
+
+  doc.setDrawColor(212, 175, 55); // gold
+  doc.setLineWidth(2);
+  doc.rect(15, 15, 267, 180);
+
+  // ================= LOGO =================
+doc.addImage(logoBase64, "PNG", 20, 20, 40, 20);
+
+  // ================= TITLE =================
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(26);
+  doc.setTextColor(15, 76, 129);
+  doc.text("CERTIFICATE OF COMPLETION", 148, 45, { align: "center" });
+
+  // ================= CONTENT =================
+  doc.setFontSize(16);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(0, 0, 0);
+  doc.text("This is to certify that", 148, 65, { align: "center" });
+
+  // Student Name
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(22);
+  doc.text(name, 148, 80, { align: "center" });
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(16);
+  doc.text("has successfully completed the professional training program", 148, 95, { align: "center" });
+
+  // Course Name Highlight
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(212, 175, 55);
+  doc.setFontSize(18);
+  doc.text(courseName, 148, 110, { align: "center" });
+
+// ===== KEYWORDS STRIP =====
+doc.setFontSize(12);
+doc.setTextColor(180, 180, 180);
+doc.text(
+  "CSV  |  PHARMA  |  GxP  |  DATA INTEGRITY  |  FDA",
+  148,
+  122,
+  { align: "center" }
+);
+
+  // ===== HIGHLIGHT BAND =====
+doc.setFillColor(240, 248, 255);
+doc.rect(20, 126, 250, 18, "F");
+
+  
+  // ================= SCORE & GRADE =================
+  doc.setFontSize(14);
+  doc.setTextColor(0, 0, 0);
+  doc.text(`Final Score: ${scorePercent}%`, 60, 135);
+  doc.text(`Grade: ${grade}`, 60, 145);
+
+  // ===== GOLD CERTIFICATION SEAL =====
+doc.setDrawColor(212, 175, 55);
+doc.setLineWidth(3);
+doc.circle(148, 150, 18);
+
+doc.setFontSize(10);
+doc.setTextColor(212, 175, 55);
+doc.text("CSV\nCERTIFIED", 148, 147, {
+  align: "center"
+});
+
+  
+  // ================= CERT ID =================
+  doc.setFontSize(12);
+  doc.text(`Certificate ID: ${certId}`, 60, 160);
+doc.setFontSize(11);
+doc.text(`Issue Date: ${issueDate}`, 60, 170);
+
+
+  // ================= SIGNATURE =================
+  // ================= DIGITAL SIGNATURE =================
+doc.setFont("times", "italic");
+doc.setFontSize(16);
+doc.setTextColor(0, 0, 0);
+doc.text("Bharat Sonawane", 225, 155, { align: "center" });
+
+doc.setFont("helvetica", "normal");
+doc.setFontSize(11);
+doc.text("Authorized Signatory", 225, 162, { align: "center" });
+doc.text("CSV Edge Academy", 225, 168, { align: "center" });
+
+  // ================= QR CODE (TOP RIGHT) =================
+const qrDiv = document.createElement("div");
+
+new QRCode(qrDiv, {
+  text: websiteURL,
+  width: 100,
+  height: 100
+});
+
+
+setTimeout(() => {
+  const qrImg = qrDiv.querySelector("img").src;
+
+  // ===== QR FRAME =====
+doc.setDrawColor(15, 76, 129);
+doc.setLineWidth(1.5);
+doc.rect(232, 18, 41, 41);
+
+  
+  // Top-right corner (safe – no overlap)
+  doc.addImage(qrImg, "PNG", 235, 20, 35, 35);
+
+  doc.setFontSize(10);
+  doc.text("Scan to Visit Website", 252, 60, { align: "center" });
+
+  doc.setFontSize(9);
+doc.text("Digital Verification", 252, 65, { align: "center" });
+  
+  // Save AFTER QR is added
+  doc.save(`CSV_Edge_Academy_Certificate_${name}.pdf`);
+}, 300);
+
+}
+
+// ================= PAYMENT RECEIPT =================
+async function downloadReceipt() {
+
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+// ===== RECEIPT BORDER =====
+doc.setDrawColor(180);
+doc.setLineWidth(0.5);
+doc.rect(10, 10, 190, 277);
+
+
+  // ===== RECEIPT DATA =====
+  const academyName = "CSV Edge Academy";
+  const programName = "Computerized System Validation (CSV) – Full Training Program";
+  const amountPaid = "Yes";
+  const receiptId = "REC-" + Date.now();
+  const downloadDate = new Date().toLocaleDateString();
+  const studentEmail = currentUser;
+
+  const thankYouMsg =
+    "Thank you for choosing CSV Edge Academy for the betterment of your professional skills. " +
+    "We wish you great success in your learning journey.";
+
+  // ===== HEADER =====
+  doc.setFillColor(15, 76, 129);
+  doc.rect(0, 0, 210, 30, "F");
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(18);
+  doc.text(academyName, 105, 20, { align: "center" });
+
+  // ===== LOGO =====
+const logoBase64 = await loadImageAsBase64("assets/images/logo.png");  
+doc.addImage(logoBase64, "PNG", 10, 5, 30, 20);
+
+  // ===== TITLE =====
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(16);
+  doc.text("Payment Receipt", 105, 45, { align: "center" });
+doc.setDrawColor(200);
+doc.line(20, 55, 190, 55);
+
+
+  // ===== DETAILS =====
+  doc.setFontSize(11);
+  doc.text("Receipt ID:", 20, 65);
+  doc.text(receiptId, 80, 65);
+
+  doc.text("Download Date:", 20, 75);
+  doc.text(downloadDate, 80, 75);
+
+  doc.text("Student Email:", 20, 85);
+  doc.text(studentEmail, 80, 85);
+
+  doc.text("Program Name:", 20, 95);
+  doc.text(programName, 80, 95, { maxWidth: 110 });
+
+  // ===== PAYMENT SUMMARY BOX =====
+doc.setFillColor(245, 247, 250);
+doc.rect(20, 115, 170, 30, "F");
+
+doc.setDrawColor(150);
+doc.rect(20, 115, 170, 30);
+
+doc.setFont("helvetica", "bold");
+doc.setFontSize(14);
+doc.text("Total Amount Paid", 30, 135);
+
+doc.setFontSize(18);
+doc.text(amountPaid, 175, 135, { align: "right" });
+
+
+  // ===== THANK YOU MESSAGE =====
+  doc.setFontSize(11);
+  doc.text(thankYouMsg, 20, 155, { maxWidth: 170 });
+
+  // ===== DIGITAL SIGNATURE =====
+  doc.setFont("times", "italic");
+  doc.setFontSize(14);
+  doc.text("Bharat Sonawane", 150, 180);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
+  doc.text("Authorized Signatory", 150, 186);
+  doc.text("CSV Edge Academy", 150, 192);
+
+  // ===== FOOTER =====
+  doc.setFontSize(9);
+  doc.text(
+    "This is a system-generated receipt and does not require a physical signature.",
+    105,
+    205,
+    { align: "center" }
+  );
+
+  // ===== SAVE =====
+  doc.save("CSV_Edge_Academy_Payment_Receipt.pdf");
+}
+
+
+</script>
+
+  <!-- FOOTER -->
+<div id="footer-placeholder"></div>
+<script src="footer-loader.js"></script>
+  
+  <script src="header-loader.js"></script>
+</body>
+</html>
 
-    105, 
 
-    205, 
 
-    { align: "center" } 
-
-  ); 
-
- 
-
-  // ===== SAVE ===== 
-
-  doc.save("CSV_Edge_Academy_Payment_Receipt.pdf"); 
-
-} 
-
- 
-
- 
-
-</script> 
-
- 
-
-  <!-- FOOTER --> 
-
-<div id="footer-placeholder"></div> 
-
-<script src="footer-loader.js"></script> 
-
-   
-
-  <script src="header-loader.js"></script> 
-
-</body> 
-
-</html> 
-
- 
-
- 
-
- 
