@@ -944,3 +944,44 @@ body{
     font-size:30px;
   }
 }
+/* ================= STRUCTURED CONTENT BLOCKS ================= */
+
+.structured-sections{
+  max-width:1100px;
+  margin:auto;
+}
+
+.content-block{
+  background:#ffffff;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  margin-bottom:20px;
+  overflow:hidden;
+}
+
+.content-block summary{
+  cursor:pointer;
+  padding:20px 26px;
+  font-size:20px;
+  font-weight:700;
+  color:#0f4c81;
+  list-style:none;
+  position:relative;
+}
+
+.content-block summary::after{
+  content:"＋";
+  position:absolute;
+  right:26px;
+  font-size:22px;
+  transition:.3s;
+}
+
+.content-block[open] summary::after{
+  content:"−";
+}
+
+.content-block > *:not(summary){
+  padding:25px;
+  border-top:1px solid #e5e7eb;
+}
