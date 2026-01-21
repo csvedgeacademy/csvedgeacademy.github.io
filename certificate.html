@@ -57,8 +57,8 @@
 <label><strong>Date of Completion</strong></label>
 <input id="completionDate" placeholder="e.g. 21 January 2026">
 
-<label><strong>Daily Password</strong></label>
-<input id="dailyPassword" placeholder="DDMMYYYY">
+<label><strong>Password</strong></label>
+<input id="dailyPassword" placeholder="XXXX">
 
 <button onclick="validateAndGenerate()">⬇️ Generate Certificate</button>
 
@@ -93,7 +93,7 @@ function validateAndGenerate(){
   }
 
   if(enteredPassword !== getTodayPassword()){
-    alert("❌ Invalid password. Use today's date (DDMMYYYY).");
+    alert("❌ Invalid password.");
     return;
   }
 
