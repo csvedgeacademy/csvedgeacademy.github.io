@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificate Download | CSV Edge Academy</title>
+
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="main.css">
+
+  <style>
+    body{
+      background:#eef2f7;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+    .cert-wrapper{
+      max-width:800px;
+      margin:50px auto;
+      background:#ffffff;
+      padding:30px;
+      border-radius:18px;
+      box-shadow:0 14px 35px rgba(0,0,0,.12);
+    }
+    button{
+      padding:10px 18px;
+      border:none;
+      border-radius:25px;
+      background:#0f4c81;
+      color:white;
+      cursor:pointer;
+      margin-top:10px;
+    }
+    input{
+      width:100%;
+      padding:10px;
+      margin:8px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="cert-wrapper">
+
+<h2 style="text-align:center;color:#0f4c81;">📜 Certificate Download</h2>
+
+<label><strong>Name to appear on certificate</strong></label>
+<input id="certName" placeholder="Enter full name exactly as required">
+
+<div id="certApprovalArea" style="margin-top:15px;"></div>
+
+</div>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- QR Code -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+/* ================= CONFIG ================= */
+const OTP_API =
+"https://script.google.com/macros/s/AKfycbyT-RBJ7rNhlpU1lv5Pf4BEI_lbNKO7Mfcq7eZyDCIw2RH9laomoijExAq5L8JZ8-4/exec";
+
+const COURSE_NAME = "Computerized System Assurance (CSA)";
+const VERIFY_URL = "https://csvedgeacademy.github.io";
+
+/* ================= INIT ================= */
+document.getElementById("certApprovalArea").innerHTML =
+  `<button onclick="requestCertApproval()">📩 Request Certificate Approval</button>`;
+
+/* ================= CERT FLOW ================= */
+function requestCertApproval(){
+  const name = certName.value.trim();
+  if(name.length < 2){
+    alert("Enter valid name");
+    return;
+  }
+
+  fetch(`${OTP_API}?action=certRequest&name=${encodeURIComponent(name)}`)
+    .then(()=>{
+      certApprovalArea.innerHTML = `
+        <p>⏳ Approval code sent to Academy</p>
+        <input id="approvalCode" placeholder="Enter approval code">
+        <button onclick="verifyCertCode()">Verify & Download</button>
+      `;
+    });
+}
+
+function verifyCertCode(){
+  const code = approvalCode.value.trim();
+  if(code.length !== 6){
+    alert("Enter valid 6-digit code");
+    return;
+  }
+
+  fetch(`${OTP_API}?action=certVerify&code=${encodeURIComponent(code)}`)
+    .then(r=>r.text())
+    .then(res=>{
+      if(res === "APPROVED"){
+        certApprovalArea.innerHTML =
+          `<p style="color:green;">✅ Approved</p>
+           <button onclick="downloadCertificate()">⬇️ Download Certificate</button>`;
+      }else{
+        alert("Invalid or expired code");
+      }
+    });
+}
+
+/* ================= CERTIFICATE ================= */
+let academyLogoBase64 = null;
+
+function loadAcademyLogo(cb){
+  if(academyLogoBase64){ cb(academyLogoBase64); return; }
+
+  const img = new Image();
+  img.src = "assets/images/logo.png";
+  img.crossOrigin = "anonymous";
+
+  img.onload = ()=>{
+    const c=document.createElement("canvas");
+    c.width=img.width; c.height=img.height;
+    c.getContext("2d").drawImage(img,0,0);
+    academyLogoBase64=c.toDataURL("image/png");
+    cb(academyLogoBase64);
+  };
+}
+
+function downloadCertificate(){
+  const name = certName.value.trim();
+  if(name.length < 2){ alert("Invalid name"); return; }
+
+  loadAcademyLogo((logo)=>{
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF("landscape");
+
+    doc.setDrawColor(15,76,129);
+    doc.setLineWidth(4);
+    doc.rect(10,10,277,190);
+
+    doc.addImage(logo,"PNG",20,20,40,20);
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(28);
+    doc.text("CERTIFICATE OF COMPLETION",148,45,{align:"center"});
+
+    doc.setFontSize(16);
+    doc.setFont("helvetica","normal");
+    doc.text("This certifies that",148,65,{align:"center"});
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(24);
+    doc.text(name,148,85,{align:"center"});
+
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(16);
+    doc.text("has successfully completed",148,100,{align:"center"});
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(18);
+    doc.text(COURSE_NAME,148,115,{align:"center"});
+
+    const certId = "CSA-" + Date.now();
+    doc.setFontSize(12);
+    doc.text(`Certificate ID: ${certId}`,30,155);
+
+    const qrDiv=document.createElement("div");
+    new QRCode(qrDiv,{text:VERIFY_URL,width:100,height:100});
+
+    setTimeout(()=>{
+      doc.addImage(qrDiv.querySelector("img").src,"PNG",235,20,35,35);
+      doc.save(`Certificate_${name}.pdf`);
+    },500);
+  });
+}
+</script>
+
+</body>
+</html>
