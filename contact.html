@@ -70,33 +70,40 @@ updateCountdown();
 <!-- TRAINER -->
 <h3 style="color:#0f4c81;">👨‍🏫 Trainer</h3>
 <p>
-<b>Bharat Sonawane</b><br>
-5+ Years Experience in CSV & GxP – Pharma & Life Sciences<br>
-Hands-on Validation | Audit Readiness | Practical Documents
+<b>Industry Expert Trainer</b><br>
+Practical CSV & GxP Training – Pharma & Life Sciences<br>
+Hands-on Validation • Audit Readiness • Real Documentation
 </p>
+
 
 <hr>
 
 <!-- PAYMENT -->
 <h3 style="color:#0f4c81;">💳 Course Fee</h3>
-<p style="font-size:18px;">
-<s>₹19,999</s> <b style="color:#f97316;">₹3,599</b><br>
-🎉 Flat 82% OFF • <b>Only 25 Seats</b>
+
+<p id="feeDisplay" style="font-size:18px;color:#374151;">
+Please select a course to view fees
 </p>
 
-<div style="text-align:center;margin-bottom:20px;">
-<a href="upi://pay?pa=9665942334@ybl&pn=CSV%20Edge%20Academy&am=3599&cu=INR">
-<button style="
+<div id="paymentSection" style="display:none;text-align:center;margin-bottom:20px;">
+
+<a id="upiLink" href="#" target="_blank">
+<button id="payBtn" style="
 background:#f97316;color:white;
 padding:14px 30px;
 font-size:18px;
-border:none;border-radius:8px;cursor:pointer;
-transition:all 0.3s ease;">
-Pay ₹3,599 via UPI
+border:none;border-radius:8px;cursor:pointer;">
+Pay Securely via UPI
 </button>
+
 </a>
-<p style="font-size:13px;">After payment, upload screenshot below</p>
+
+<p style="font-size:13px;margin-top:8px;">
+After payment, upload screenshot below
+</p>
+
 </div>
+
 
 <hr>
 
@@ -134,11 +141,24 @@ Pay ₹3,599 via UPI
 <option>5+ Years</option>
 </select>
 
-<label>Interested Batch *</label>
-<select name="batch" required style="width:100%;padding:10px;margin-bottom:10px;">
-<option>April 2026 – Evening (08–09 PM) – 30 Days</option>
-<option>April 2026 – Evening (08–09 PM) – 60 Days</option>
+<label>Interested Course *</label>
+<select name="batch" id="courseSelect" required style="width:100%;padding:10px;margin-bottom:10px;"
+        onchange="updateFee()">
+
+<option value="">-- Select Course --</option>
+
+<option value="course-csv-roadmap-workshop"
+        data-fee="999">
+CSV Career Roadmap Workshop
+</option>
+
+<option value="course-fresher-to-csv-expert"
+        data-fee="7999">
+From Fresher to CSV Expert Program
+</option>
+
 </select>
+
 
 <label>Education Qualification *</label>
 <select name="education" required style="width:100%;padding:10px;margin-bottom:10px;">
@@ -168,16 +188,18 @@ Pay ₹3,599 via UPI
        accept=".jpg,.jpeg,.png,.pdf"
        required style="margin-bottom:15px;">
 
-<button type="submit" style="
+<button id="submitBtn" type="submit" disabled style="
 width:100%;
 background:#f97316;
+opacity:0.6;
+cursor:not-allowed;
 color:white;
 padding:14px;
 font-size:18px;
-border:none;border-radius:8px;cursor:pointer;
-transition:all 0.3s ease;">
+border:none;border-radius:8px;">
 Submit Registration
 </button>
+
 
 </form>
 
@@ -213,6 +235,16 @@ document.getElementById("csvForm").addEventListener("submit", function(e){
   const fileInput = document.getElementById("paymentFile");
   const file = fileInput.files[0];
 
+  if (!form.batch.value) {
+  alert("Please select a course before submitting the form.");
+  return;
+}
+
+if (document.getElementById("paymentSection").style.display === "none") {
+  alert("Please complete payment before submitting the form.");
+  return;
+}
+
   if(!file){
     alert("Please upload payment screenshot");
     return;
@@ -228,21 +260,31 @@ document.getElementById("csvForm").addEventListener("submit", function(e){
 
   reader.onload = function(){
     const base64Data = reader.result.split(",")[1];
+const selectedOption =
+  document.getElementById("courseSelect")
+    .options[document.getElementById("courseSelect").selectedIndex];
+
+const paidAmount = selectedOption.getAttribute("data-fee");
 
     const payload = {
-      fullname: form.fullname.value,
-      mobile: form.mobile.value,
-      email: form.email.value,
-      role: form.role.value,
-      experience: form.experience.value,
-      batch: form.batch.value,
-      education: form.education.value,
-      source: form.source.value,
-      questions: form.questions ? form.questions.value : "",
-      filename: file.name,
-      filetype: file.type,
-      filedata: base64Data
-    };
+  fullname: form.fullname.value,
+  mobile: form.mobile.value,
+  email: form.email.value,
+  role: form.role.value,
+  experience: form.experience.value,
+  course: selectedOption.text,
+  courseCode: form.batch.value,
+  paidAmount: paidAmount,
+  education: form.education.value,
+  source: form.source.value,
+  questions: form.questions ? form.questions.value : "",
+  filename: file.name,
+  filetype: file.type,
+  filedata: base64Data
+};
+
+document.getElementById("submitBtn").disabled = true;
+document.getElementById("submitBtn").innerText = "Submitting...";
 
     fetch(scriptURL, {
       method: "POST",
@@ -256,6 +298,15 @@ document.getElementById("csvForm").addEventListener("submit", function(e){
         "_blank"
       );
       form.reset();
+      document.getElementById("submitBtn").disabled = true;
+document.getElementById("submitBtn").style.opacity = "0.6";
+document.getElementById("submitBtn").style.cursor = "not-allowed";
+document.getElementById("paymentSection").style.display = "none";
+document.getElementById("feeDisplay").innerText =
+  "Please select a course to view fees";
+      document.getElementById("payBtn").innerText = "Pay Securely via UPI";
+
+
     })
     .catch(err => {
       console.error(err);
@@ -265,12 +316,68 @@ document.getElementById("csvForm").addEventListener("submit", function(e){
 
   reader.readAsDataURL(file);
 });
+
+function updateFee(){
+  const select = document.getElementById("courseSelect");
+  const selected = select.options[select.selectedIndex];
+
+  if(!selected.value){
+    document.getElementById("feeDisplay").innerHTML =
+      "Please select a course to view fees";
+    document.getElementById("paymentSection").style.display = "none";
+    return;
+  }
+
+  const fee = selected.getAttribute("data-fee");
+  const courseName = selected.text;
+
+  // Show fee clearly
+  document.getElementById("feeDisplay").innerHTML =
+    `<b>${courseName}</b><br>
+     <span style="color:#f97316;font-size:22px;">₹${fee}</span>`;
+
+  // Update UPI link WITH amount
+  document.getElementById("upiLink").href =
+    `upi://pay?pa=9665942334@ybl&pn=CSV%20Edge%20Academy&am=${fee}&cu=INR`;
+
+  // Update button text WITH amount
+  document.getElementById("payBtn").innerText =
+    `Pay ₹${fee} via UPI`;
+
+  document.getElementById("paymentSection").style.display = "block";
+  document.getElementById("submitBtn").disabled = false;
+document.getElementById("submitBtn").style.opacity = "1";
+document.getElementById("submitBtn").style.cursor = "pointer";
+
+}
 </script>
 
 <!-- ================= END ================= -->
  
 
-<div style="max-width:500px; margin:auto; padding:25px; border:2px solid #22c55e; border-radius:12px; background:#f0fdf4;"> <h2 style="text-align:center;">📲 Quick Registration (WhatsApp)</h2> <form onsubmit="sendWhatsApp(); return false;"> <input id="name" placeholder="Full Name*" required style="width:100%; padding:10px; margin-bottom:10px;"> <input id="mobile" placeholder="Mobile Number*" required style="width:100%; padding:10px; margin-bottom:10px;"> <input id="email" placeholder="Email ID*" required style="width:100%; padding:10px; margin-bottom:10px;"> <button type="submit" style=" width:100%; background:#22c55e; color:white; padding:14px; font-size:16px; border:none; border-radius:8px;"> Register via WhatsApp </button> </form> </div> <script> function sendWhatsApp() { var name = document.getElementById("name").value; var mobile = document.getElementById("mobile").value; var email = document.getElementById("email").value; var message = Hi, I want to register for the CSV course.%0AName: ${name}%0AMobile: ${mobile}%0AEmail: ${email}; window.open(https://wa.me/919665942334?text=${message}, "_blank"); } </script>
+<div style="max-width:500px; margin:auto; padding:25px; border:2px solid #22c55e; border-radius:12px; background:#f0fdf4;"> <h2 style="text-align:center;">📲 Quick Registration (WhatsApp)</h2> <form onsubmit="sendWhatsApp(); return false;"> <input id="name" placeholder="Full Name*" required style="width:100%; padding:10px; margin-bottom:10px;"> <input id="mobile" placeholder="Mobile Number*" required style="width:100%; padding:10px; margin-bottom:10px;"> <input id="email" placeholder="Email ID*" required style="width:100%; padding:10px; margin-bottom:10px;"> <button type="submit" style=" width:100%; background:#22c55e; color:white; padding:14px; font-size:16px; border:none; border-radius:8px;"> Register via WhatsApp </button> </form> </div> 
+  
+  <script>
+function sendWhatsApp() {
+  var name = document.getElementById("name").value;
+  var mobile = document.getElementById("mobile").value;
+  var email = document.getElementById("email").value;
+
+  if (!name || !mobile || !email) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  var message =
+    `Hi, I want to register for the CSV course.%0AName: ${name}%0AMobile: ${mobile}%0AEmail: ${email}`;
+
+  window.open(
+    `https://wa.me/919665942334?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
+}
+</script>
+
 <!-- FOOTER -->
 <div id="footer-placeholder"></div>
 <script src="footer-loader.js"></script>
@@ -278,4 +385,5 @@ document.getElementById("csvForm").addEventListener("submit", function(e){
 <script src="header-loader.js"></script> 
 </body>
 </html>
+
 
