@@ -129,83 +129,97 @@ function generateCertificate(name, course, date){
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF("landscape");
 
-    /* ===== GOLD BORDER ===== */
-    doc.setDrawColor(212,175,55); // Gold
-    doc.setLineWidth(5);
-    doc.rect(10,10,277,190);
+    /* ================= COLORS ================= */
+    const GOLD = [212,175,55];
+    const NAVY = [15,76,129];
 
-    doc.setDrawColor(15,76,129);
+    /* ================= OUTER FRAME ================= */
+    doc.setDrawColor(...GOLD);
+    doc.setLineWidth(6);
+    doc.rect(8,8,281,194);
+
+    doc.setDrawColor(...NAVY);
     doc.setLineWidth(1.5);
     doc.rect(16,16,265,178);
 
-    /* ===== WATERMARK ===== */
+    /* ================= WATERMARK ================= */
     if(doc.setGState){
-      doc.setGState(new doc.GState({opacity:0.08}));
+      doc.setGState(new doc.GState({opacity:0.06}));
     }
-    doc.addImage(logo,"PNG",70,60,160,90);
+    doc.addImage(logo,"PNG",70,55,160,95);
     if(doc.setGState){
       doc.setGState(new doc.GState({opacity:1}));
     }
 
-    /* ===== LOGO ===== */
-    doc.addImage(logo,"PNG",20,20,40,20);
+    /* ================= HEADER BAND ================= */
+    doc.setFillColor(245,247,250);
+    doc.rect(16,16,265,28,"F");
 
-    /* ===== TITLE ===== */
+    doc.addImage(logo,"PNG",24,20,36,18);
+
     doc.setFont("helvetica","bold");
-    doc.setFontSize(30);
-    doc.setTextColor(212,175,55); // Gold text
-    doc.text("CERTIFICATE OF COMPLETION",148,45,{align:"center"});
+    doc.setFontSize(16);
+    doc.setTextColor(...NAVY);
+    doc.text("CSV EDGE ACADEMY",148,30,{align:"center"});
 
-    /* ===== BODY ===== */
+    /* ================= TITLE ================= */
+    doc.setFontSize(32);
+    doc.setTextColor(...GOLD);
+    doc.text("CERTIFICATE OF COMPLETION",148,55,{align:"center"});
+
+    /* ================= BODY ================= */
     doc.setTextColor(0,0,0);
     doc.setFontSize(16);
     doc.setFont("helvetica","normal");
-    doc.text("This is to certify that",148,65,{align:"center"});
+    doc.text("This is to certify that",148,72,{align:"center"});
 
     doc.setFont("helvetica","bold");
-    doc.setFontSize(26);
-    doc.text(name,148,88,{align:"center"});
+    doc.setFontSize(28);
+    doc.text(name,148,92,{align:"center"});
 
     doc.setFont("helvetica","normal");
     doc.setFontSize(16);
-    doc.text("has successfully completed the program",148,105,{align:"center"});
+    doc.text("has successfully completed the professional program",148,110,{align:"center"});
 
     doc.setFont("helvetica","bold");
     doc.setFontSize(20);
-    doc.setTextColor(212,175,55);
-    doc.text(course,148,120,{align:"center"});
+    doc.setTextColor(...GOLD);
+    doc.text(course,148,126,{align:"center"});
 
     doc.setFont("helvetica","normal");
     doc.setFontSize(14);
     doc.setTextColor(0,0,0);
-    doc.text(`Date of Completion: ${date}`,148,138,{align:"center"});
+    doc.text(`Date of Completion: ${date}`,148,142,{align:"center"});
 
-    /* ===== CERT ID ===== */
+    /* ================= CERT ID ================= */
     const certId = "CSV-" + Date.now();
     doc.setFontSize(11);
-    doc.text(`Certificate ID: ${certId}`,30,160);
+    doc.text(`Certificate ID: ${certId}`,26,165);
 
-    /* ===== GOLD SEAL / STAMP ===== */
-    doc.setDrawColor(212,175,55);
+    /* ================= GOLD SEAL ================= */
+    doc.setDrawColor(...GOLD);
     doc.setLineWidth(3);
-    doc.circle(148,155,18);
+    doc.circle(148,160,18);
+    doc.setLineWidth(1);
+    doc.circle(148,160,14);
 
+    doc.setFont("helvetica","bold");
     doc.setFontSize(10);
-    doc.setTextColor(212,175,55);
-    doc.text("CSV\nCERTIFIED",148,152,{align:"center"});
+    doc.setTextColor(...GOLD);
+    doc.text("OFFICIALLY\nCERTIFIED",148,158,{align:"center"});
 
-    /* ===== SIGNATURE ===== */
+    /* ================= SIGNATURE ================= */
     doc.setFont("times","italic");
     doc.setFontSize(16);
     doc.setTextColor(0,0,0);
-    doc.text("Authorized Signatory",235,150,{align:"center"});
+    doc.text("Authorized Signatory",240,150,{align:"center"});
 
     doc.setFont("helvetica","normal");
     doc.setFontSize(11);
-    doc.text("CSV Edge Academy",235,160,{align:"center"});
+    doc.text("CSV Edge Academy",240,160,{align:"center"});
 
-    /* ===== QR CODE ===== */
-    const qrDiv=document.createElement("div");
+    /* ================= QR CODE ================= */
+    const qrDiv = document.createElement("div");
     new QRCode(qrDiv,{
       text:"https://csvedgeacademy.github.io",
       width:100,
@@ -213,13 +227,15 @@ function generateCertificate(name, course, date){
     });
 
     setTimeout(()=>{
-      doc.addImage(qrDiv.querySelector("img").src,"PNG",235,20,35,35);
-      doc.text("Scan to Verify",252,60,{align:"center"});
+      doc.addImage(qrDiv.querySelector("img").src,"PNG",232,28,36,36);
+      doc.setFontSize(9);
+      doc.text("Scan to Verify",250,70,{align:"center"});
       doc.save(`Certificate_${name}.pdf`);
     },500);
   });
 }
 </script>
+
 
 </script>
 
