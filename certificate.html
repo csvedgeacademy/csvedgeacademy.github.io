@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Certificate Download | CSV Edge Academy</title>
+  <title>Certificate Generator | CSV Edge Academy</title>
 
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="main.css">
@@ -27,7 +27,7 @@
       background:#0f4c81;
       color:white;
       cursor:pointer;
-      margin-top:10px;
+      margin-top:15px;
     }
     input{
       width:100%;
@@ -46,19 +46,25 @@
 
 <div class="cert-wrapper">
 
-<h2 style="text-align:center;color:#0f4c81;">📜 Certificate Download</h2>
+<h2 style="text-align:center;color:#0f4c81;">📜 Certificate Generator</h2>
 
-<label><strong>Name to appear on certificate</strong></label>
-<input id="certName" placeholder="Enter full name exactly as required">
+<label><strong>Student Name</strong></label>
+<input id="studentName" placeholder="Enter full name exactly as required">
+
+<label><strong>Course / Program Name</strong></label>
+<input id="courseName" placeholder="Enter course name">
+
+<label><strong>Date of Completion</strong></label>
+<input id="completionDate" placeholder="e.g. 21 January 2026">
 
 <label><strong>Daily Password</strong></label>
-<input id="dailyPassword" placeholder="Enter today's password (DDMMYYYY)">
+<input id="dailyPassword" placeholder="DDMMYYYY">
 
 <div class="hint">
-Password changes daily (format: DDMMYYYY)
+Password = Today’s date (DDMMYYYY). Changes daily.
 </div>
 
-<button onclick="validateAndDownload()">⬇️ Download Certificate</button>
+<button onclick="validateAndGenerate()">⬇️ Generate Certificate</button>
 
 </div>
 
@@ -69,10 +75,6 @@ Password changes daily (format: DDMMYYYY)
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
-/* ================= CONFIG ================= */
-const COURSE_NAME = "Computerized System Assurance (CSA)";
-const VERIFY_URL = "https://csvedgeacademy.github.io";
-
 /* ================= PASSWORD LOGIC ================= */
 function getTodayPassword(){
   const d = new Date();
@@ -82,23 +84,24 @@ function getTodayPassword(){
   return dd + mm + yyyy;
 }
 
-/* ================= VALIDATE ================= */
-function validateAndDownload(){
-  const name = certName.value.trim();
+/* ================= VALIDATION ================= */
+function validateAndGenerate(){
+  const name = studentName.value.trim();
+  const course = courseName.value.trim();
+  const date = completionDate.value.trim();
   const enteredPassword = dailyPassword.value.trim();
-  const todayPassword = getTodayPassword();
 
-  if(name.length < 2){
-    alert("Please enter a valid name");
+  if(name.length < 2 || course.length < 3 || date.length < 4){
+    alert("Please fill all fields correctly");
     return;
   }
 
-  if(enteredPassword !== todayPassword){
-    alert("❌ Invalid password. Please use today's date in DDMMYYYY format.");
+  if(enteredPassword !== getTodayPassword()){
+    alert("❌ Invalid password. Use today's date (DDMMYYYY).");
     return;
   }
 
-  downloadCertificate(name);
+  generateCertificate(name, course, date);
 }
 
 /* ================= CERTIFICATE ================= */
@@ -120,55 +123,104 @@ function loadAcademyLogo(cb){
   };
 }
 
-function downloadCertificate(name){
+function generateCertificate(name, course, date){
 
   loadAcademyLogo((logo)=>{
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF("landscape");
 
-    /* Border */
-    doc.setDrawColor(15,76,129);
-    doc.setLineWidth(4);
+    /* ===== GOLD BORDER ===== */
+    doc.setDrawColor(212,175,55); // Gold
+    doc.setLineWidth(5);
     doc.rect(10,10,277,190);
 
-    /* Logo */
+    doc.setDrawColor(15,76,129);
+    doc.setLineWidth(1.5);
+    doc.rect(16,16,265,178);
+
+    /* ===== WATERMARK ===== */
+    if(doc.setGState){
+      doc.setGState(new doc.GState({opacity:0.08}));
+    }
+    doc.addImage(logo,"PNG",70,60,160,90);
+    if(doc.setGState){
+      doc.setGState(new doc.GState({opacity:1}));
+    }
+
+    /* ===== LOGO ===== */
     doc.addImage(logo,"PNG",20,20,40,20);
 
-    /* Title */
+    /* ===== TITLE ===== */
     doc.setFont("helvetica","bold");
-    doc.setFontSize(28);
+    doc.setFontSize(30);
+    doc.setTextColor(212,175,55); // Gold text
     doc.text("CERTIFICATE OF COMPLETION",148,45,{align:"center"});
 
-    doc.setFont("helvetica","normal");
+    /* ===== BODY ===== */
+    doc.setTextColor(0,0,0);
     doc.setFontSize(16);
-    doc.text("This certifies that",148,65,{align:"center"});
+    doc.setFont("helvetica","normal");
+    doc.text("This is to certify that",148,65,{align:"center"});
 
     doc.setFont("helvetica","bold");
-    doc.setFontSize(24);
-    doc.text(name,148,85,{align:"center"});
+    doc.setFontSize(26);
+    doc.text(name,148,88,{align:"center"});
 
     doc.setFont("helvetica","normal");
     doc.setFontSize(16);
-    doc.text("has successfully completed",148,100,{align:"center"});
+    doc.text("has successfully completed the program",148,105,{align:"center"});
 
     doc.setFont("helvetica","bold");
-    doc.setFontSize(18);
-    doc.text(COURSE_NAME,148,115,{align:"center"});
+    doc.setFontSize(20);
+    doc.setTextColor(212,175,55);
+    doc.text(course,148,120,{align:"center"});
 
-    const certId = "CSA-" + Date.now();
-    doc.setFontSize(12);
-    doc.text(`Certificate ID: ${certId}`,30,155);
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(14);
+    doc.setTextColor(0,0,0);
+    doc.text(`Date of Completion: ${date}`,148,138,{align:"center"});
 
-    /* QR */
+    /* ===== CERT ID ===== */
+    const certId = "CSV-" + Date.now();
+    doc.setFontSize(11);
+    doc.text(`Certificate ID: ${certId}`,30,160);
+
+    /* ===== GOLD SEAL / STAMP ===== */
+    doc.setDrawColor(212,175,55);
+    doc.setLineWidth(3);
+    doc.circle(148,155,18);
+
+    doc.setFontSize(10);
+    doc.setTextColor(212,175,55);
+    doc.text("CSV\nCERTIFIED",148,152,{align:"center"});
+
+    /* ===== SIGNATURE ===== */
+    doc.setFont("times","italic");
+    doc.setFontSize(16);
+    doc.setTextColor(0,0,0);
+    doc.text("Authorized Signatory",235,150,{align:"center"});
+
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(11);
+    doc.text("CSV Edge Academy",235,160,{align:"center"});
+
+    /* ===== QR CODE ===== */
     const qrDiv=document.createElement("div");
-    new QRCode(qrDiv,{text:VERIFY_URL,width:100,height:100});
+    new QRCode(qrDiv,{
+      text:"https://csvedgeacademy.github.io",
+      width:100,
+      height:100
+    });
 
     setTimeout(()=>{
       doc.addImage(qrDiv.querySelector("img").src,"PNG",235,20,35,35);
+      doc.text("Scan to Verify",252,60,{align:"center"});
       doc.save(`Certificate_${name}.pdf`);
     },500);
   });
 }
+</script>
+
 </script>
 
 </body>
