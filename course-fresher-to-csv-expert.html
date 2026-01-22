@@ -66,7 +66,45 @@
 .card-purple { background: linear-gradient(135deg,#7c3aed,#6366f1); }
 .card-orange { background: linear-gradient(135deg,#f97316,#fb923c); }
 .card-pink { background: linear-gradient(135deg,#ec4899,#f43f5e); }
-</style>
+
+  /* === FINAL CTA OVERLAP FIX === */
+
+.final-cta {
+  padding-top: 80px;
+  padding-bottom: 90px;
+}
+
+.final-cta h2 {
+  margin-bottom: 20px;
+}
+
+.cta-text {
+  margin-bottom: 50px;   /* creates vertical gap */
+  line-height: 1.6;
+}
+
+.cta-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.cta-btn {
+  position: relative;
+  z-index: 2;
+}
+
+/* neutralize any negative styles from main.css */
+.primary-btn,
+.secondary-btn {
+  margin-top: 0 !important;
+  transform: none !important;
+}
+
+  </style>
 
   
   <script src="header-loader.js" defer></script>
@@ -310,20 +348,21 @@ FINAL CTA
   <h2>Ready to Become Job-Ready in CSV?</h2>
 
   <p class="cta-text">
-  This program is designed to transform clarity into execution.
-</p>
+    This program is designed to transform clarity into execution.
+  </p>
 
   <div class="cta-button-wrapper">
-  <a href="contact.html" class="primary-btn cta-btn" style="margin:10px;">
-    🚀 Register Now
-  </a>
+    <a href="contact.html" class="primary-btn cta-btn">
+      🚀 Register Now
+    </a>
 
-  <a href="dashboard.html?course=fresher-to-csv-expert" class="secondary-btn" style="margin:10px;">
-    🎓 Student Login
-  </a>
-</div>
+    <a href="dashboard.html?course=fresher-to-csv-expert" class="secondary-btn cta-link">
+      🎓 Student Login
+    </a>
+  </div>
 
 </section>
+
 
 <!-- FOOTER -->
 <div id="footer-placeholder"></div>
