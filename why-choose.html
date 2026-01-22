@@ -3,61 +3,470 @@
 <head>
   <meta charset="UTF-8">
 
-  <title>Why Choose CSV Edge Academy | Practical CSV Training</title>
+  <title>Why Choose CSV Edge Academy | Industry-Focused CSV Training</title>
 
   <meta name="description"
-        content="Discover why professionals choose CSV Edge Academy for Computerized System Validation (CSV) training. Learn about practical validation approach, audit exposure, pharma focus and industry-ready learning.">
+        content="Discover why CSV Edge Academy is trusted by pharma and IT professionals for practical Computerized System Validation training. Learn with real validation documents, live mentoring, audit-focused learning and GAMP 5 aligned approach.">
 
   <meta name="keywords"
-        content="why choose CSV training, best CSV course, CSV Edge Academy, pharma CSV training, computerized system validation institute">
+        content="why choose CSV Edge Academy, best CSV course, practical CSV training, pharma CSV institute, GAMP 5 validation training">
 
   <meta name="robots" content="index, follow">
-
   <link rel="canonical" href="https://csvedgeacademy.github.io/why-choose.html">
 
-  <!-- Google Search Console Verification -->
   <meta name="google-site-verification"
         content="ESuiGky8GNlSzcdHAeqv-aGrFLtnccuiUWTIKoalrzA">
-<link rel="stylesheet" href="main.css">
+
+  <link rel="stylesheet" href="main.css">
+
+  <style>
+    /* ===== WHY CHOOSE PAGE ENHANCEMENTS ===== */
+
+    .hero {
+      background: linear-gradient(120deg, #0f4c81, #0b2f4a);
+      color: #fff;
+      padding: 80px 20px;
+      text-align: center;
+      animation: fadeIn 1.2s ease;
+    }
+
+    .hero h1 {
+      font-size: 2.6rem;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      max-width: 900px;
+      margin: auto;
+      font-size: 1.1rem;
+      opacity: 0.95;
+    }
+
+    .hero strong {
+      color: #38bdf8;
+    }
+
+    .section {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2rem;
+      color: #0f4c81;
+    }
+
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .audience-card {
+      background: #f0f9ff;
+      padding: 25px;
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .audience-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    .audience-card h3 {
+      margin-bottom: 10px;
+      color: #0f4c81;
+    }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .value-box {
+      background: #ffffff;
+      padding: 30px;
+      border-left: 6px solid #38bdf8;
+      border-radius: 10px;
+      animation: slideUp 0.9s ease;
+    }
+
+    .value-box h3 {
+      margin-bottom: 12px;
+      color: #0f4c81;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: center;
+      border: 1px solid #e5e7eb;
+    }
+
+    th {
+      background: #0f4c81;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    .cta {
+      background: #e0f2fe;
+      padding: 50px 20px;
+      text-align: center;
+      border-radius: 15px;
+    }
+
+    .cta h2 {
+      margin-bottom: 15px;
+      color: #0f4c81;
+    }
+
+    .cta p {
+      max-width: 800px;
+      margin: auto;
+      font-size: 1.05rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .trust-badges {
+  text-align: center;
+}
+
+.badge-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.badge {
+  background: #ffffff;
+  padding: 15px 25px;
+  border-radius: 30px;
+  font-weight: 600;
+  border: 2px solid #38bdf8;
+  color: #0f4c81;
+  transition: all 0.3s ease;
+}
+
+.badge:hover {
+  background: #38bdf8;
+  color: #fff;
+  transform: translateY(-4px);
+}
+
+  .instructor-box {
+  background: #f0f9ff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.instructor-box ul {
+  margin-top: 15px;
+}
+
+.instructor-box li {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.testimonial {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  font-style: italic;
+}
+
+.testimonial span {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #0f4c81;
+}
+  .timeline-box div {
+  background: #e0f2fe;
+  margin: 15px auto;
+  padding: 18px;
+  max-width: 700px;
+  border-left: 6px solid #38bdf8;
+  animation: slideUp 0.8s ease;
+}
+    
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  text-align: center;
+  gap: 20px;
+  font-size: 1.1rem;
+}
+
+.stat-grid strong {
+  font-size: 2rem;
+  color: #0f4c81;
+}
+
+  </style>
 </head>
 
-
 <body>
-<!-- ================= SITE HEADER ================= -->
-<div id="header-placeholder"></div>
-<!-- ================= END HEADER ================= -->
-<div class="section">
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
-  <div style="background:#e0f2fe; padding:15px;">🎓 Freshers entering Pharma / IT Validation</div>
-  <div style="background:#e0f2fe; padding:15px;">🧪 QA / QC / CSV Professionals</div>
-  <div style="background:#e0f2fe; padding:15px;">💻 IT Professionals entering GxP</div>
-  <div style="background:#e0f2fe; padding:15px;">📈 Professionals upgrading CSV skills</div>
-</div>
-</div>
 
-<div class="section">  
-<table style="width:100%; border-collapse:collapse;">
-<tr style="background:#0f4c81; color:white;">
-<th>Feature</th><th>CSV Edge Academy</th><th>Others</th>
-</tr>
-<tr>
-<td>Live Sessions</td><td>✔ Yes</td><td>❌ Recorded</td>
-</tr>
-<tr>
-<td>Real Validation Docs</td><td>✔ Yes</td><td>❌ Theory Only</td>
-</tr>
-<tr>
-<td>1-to-1 Support</td><td>✔ Yes</td><td>❌ No</td>
-</tr>
-<tr>
-<td>Industry Focus</td><td>✔ GAMP 5</td><td>❌ Generic</td>
-</tr>
-</table>
-</div>
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <h1>Why Choose <strong>CSV Edge Academy</strong>?</h1>
+  <p>
+    Because <strong>Computerized System Validation</strong> is not just theory — it is documentation,
+    audits, regulations, and real-world decision making.  
+    At CSV Edge Academy, we train you the way <strong>pharma companies actually work</strong>.
+  </p>
+</section>
+
+  <!-- TRUST BADGES -->
+<section class="section trust-badges">
+  <h2>Trusted & Aligned With Global Regulations</h2>
+
+  <div class="badge-grid">
+    <div class="badge">GAMP 5 Aligned Training</div>
+    <div class="badge">FDA Expectations Ready</div>
+    <div class="badge">EU Annex 11 Focused</div>
+    <div class="badge">21 CFR Part 11 Compliance</div>
+    <div class="badge">Audit & Data Integrity Driven</div>
+  </div>
+</section>
+
+  <!-- STATS -->
+<section class="section stats">
+  <div class="stat-grid">
+    <div><strong>100+</strong><br>Live Training Hours</div>
+    <div><strong>30+</strong><br>Validation Documents</div>
+    <div><strong>100%</strong><br>Practical Approach</div>
+    <div><strong>Audit</strong><br>Focused Training</div>
+  </div>
+</section>
+
+  
+<!-- WHO IS THIS FOR -->
+<section class="section">
+  <h2>Who Should Choose CSV Edge Academy?</h2>
+
+  <div class="audience-grid">
+    <div class="audience-card">
+      <h3>🎓 Freshers & Life Science Graduates</h3>
+      <p>Build strong CSV fundamentals with hands-on exposure instead of classroom-only theory.</p>
+    </div>
+
+    <div class="audience-card">
+      <h3>🧪 QA / QC / Validation Professionals</h3>
+      <p>Upgrade your skills with practical validation documentation, audits and regulatory focus.</p>
+    </div>
+
+    <div class="audience-card">
+      <h3>💻 IT Professionals Entering GxP</h3>
+      <p>Understand CSV, GAMP 5, 21 CFR Part 11 and validation expectations from an IT perspective.</p>
+    </div>
+
+    <div class="audience-card">
+      <h3>📈 Professionals Seeking Career Growth</h3>
+      <p>Move from execution-level work to audit-ready and compliance-focused CSV roles.</p>
+    </div>
+  </div>
+</section>
+
+  <!-- INSTRUCTOR CREDIBILITY -->
+<section class="section instructor">
+  <h2>Learn From Industry-Experienced CSV Professionals</h2>
+
+  <div class="instructor-box">
+    <p>
+      Our trainers are experienced CSV professionals who have worked on
+      <strong>real pharma validation projects, regulatory audits, and compliance programs</strong>.
+    </p>
+    <p>
+      You don’t just learn *what* CSV is — you learn *how it is executed, reviewed, and questioned*
+      during real inspections.
+    </p>
+
+    <ul>
+      <li>✔ Hands-on validation & audit exposure</li>
+      <li>✔ Practical interpretation of GAMP 5 & regulations</li>
+      <li>✔ Interview & industry guidance</li>
+    </ul>
+  </div>
+</section>
+
+  
+<!-- WHY WE ARE DIFFERENT -->
+<section class="section">
+  <h2>What Makes CSV Edge Academy Different?</h2>
+
+  <div class="value-grid">
+    <div class="value-box">
+      <h3>📄 Real Validation Documentation</h3>
+      <p>
+        You work on actual CSV documents like URS, FS, RA, IQ, OQ, PQ, Traceability Matrix and SOPs —
+        not dummy PDFs or slides.
+      </p>
+    </div>
+
+    <div class="value-box">
+      <h3>🔍 Audit-Focused Learning</h3>
+      <p>
+        Our training is designed around regulatory inspections, data integrity checks and audit expectations,
+        not just course completion.
+      </p>
+    </div>
+
+    <div class="value-box">
+      <h3>🧠 Practical + Regulatory Balance</h3>
+      <p>
+        Learn how regulations like GAMP 5, 21 CFR Part 11, EU Annex 11 are applied in real projects.
+      </p>
+    </div>
+
+    <div class="value-box">
+      <h3>👨‍🏫 Live Mentoring & 1-to-1 Support</h3>
+      <p>
+        Get direct guidance, doubt clearing and real-time explanations — not recorded, one-way videos.
+      </p>
+    </div>
+
+    <div class="value-box">
+      <h3>🏭 Pharma-Centric Approach</h3>
+      <p>
+        Every concept is mapped to pharma manufacturing, quality systems, IT applications and compliance workflows.
+      </p>
+    </div>
+
+    <div class="value-box">
+      <h3>🚀 Industry-Ready Confidence</h3>
+      <p>
+        Our goal is not certificates — it’s making you confident to face interviews, audits and real CSV projects.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials">
+  <h2>What Our Learners Say</h2>
+
+  <div class="testimonial-grid">
+    <div class="testimonial">
+      “This is not a theory course. I worked on real CSV documents and finally understood validation.”
+      <span>— QA Professional</span>
+    </div>
+
+    <div class="testimonial">
+      “The audit-focused approach helped me clear interviews with confidence.”
+      <span>— Validation Engineer</span>
+    </div>
+
+    <div class="testimonial">
+      “Best CSV training if you want pharma-relevant knowledge.”
+      <span>— IT to CSV Transition Candidate</span>
+    </div>
+  </div>
+</section>
+
+  
+<!-- COMPARISON -->
+<section class="section">
+  <h2>CSV Edge Academy vs Others</h2>
+
+  <table>
+    <tr>
+      <th>Feature</th>
+      <th>CSV Edge Academy</th>
+      <th>Others</th>
+    </tr>
+    <tr>
+      <td>Training Mode</td>
+      <td>Live, Interactive Sessions</td>
+      <td>Mostly Recorded</td>
+    </tr>
+    <tr>
+      <td>Validation Documents</td>
+      <td>Real Industry-Style Documents</td>
+      <td>Theoretical Examples</td>
+    </tr>
+    <tr>
+      <td>Mentor Support</td>
+      <td>1-to-1 Guidance Available</td>
+      <td>Limited or None</td>
+    </tr>
+    <tr>
+      <td>Regulatory Focus</td>
+      <td>GAMP 5, Audit-Oriented</td>
+      <td>Generic CSV Concepts</td>
+    </tr>
+    <tr>
+      <td>Career Readiness</td>
+      <td>Interview + Project Confidence</td>
+      <td>Certificate-Oriented</td>
+    </tr>
+  </table>
+</section>
+  
+<!-- LEARNING TIMELINE -->
+<section class="section timeline">
+  <h2>Your Journey: From Day 1 to Audit-Ready</h2>
+
+  <div class="timeline-box">
+    <div>📘 CSV Fundamentals & Regulations</div>
+    <div>📄 Real Validation Documentation</div>
+    <div>⚙️ Risk Assessment & Testing</div>
+    <div>🔍 Audit Expectations & Compliance</div>
+    <div>🚀 Interview & Industry Readiness</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="cta">
+    <h2>Choose Training That Builds Real CSV Confidence</h2>
+    <p>
+      CSV Edge Academy is built for professionals who want to understand validation deeply,
+      apply it confidently and grow in regulated industries — not just complete a course.
+    </p>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <div id="footer-placeholder"></div>
+<script src="header-loader.js"></script>
 <script src="footer-loader.js"></script>
-  
-<script src="header-loader.js"></script> 
+
 </body>
 </html>
