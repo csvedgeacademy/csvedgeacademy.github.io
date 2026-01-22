@@ -69,6 +69,104 @@
   margin-bottom: 8px;
   color: #334155;
 }
+
+/* ===== INTERACTIVE SECTION CARDS ===== */
+.section-card {
+  max-width: 1100px;
+  margin: 22px auto;
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #6366f1, #22c55e);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.section-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+}
+
+/* clickable title */
+.section-card-header {
+  padding: 26px 30px;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-card-header span {
+  font-size: 26px;
+  transition: transform 0.3s ease;
+}
+
+.section-card.active .section-card-header span {
+  transform: rotate(45deg);
+}
+
+/* hidden content */
+.section-card-content {
+  background: #ffffff;
+  color: #334155;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 30px;
+  transition: max-height 0.5s ease, padding 0.4s ease;
+}
+
+.section-card.active .section-card-content {
+  padding: 24px 30px 30px;
+  max-height: 1200px;
+}
+
+.section-card-content ul {
+  padding-left: 20px;
+}
+
+.section-card-content li {
+  margin-bottom: 10px;
+}
+
+/* Different color themes */
+.card-blue { background: linear-gradient(135deg,#2563eb,#06b6d4); }
+.card-green { background: linear-gradient(135deg,#16a34a,#22c55e); }
+.card-purple { background: linear-gradient(135deg,#7c3aed,#6366f1); }
+.card-orange { background: linear-gradient(135deg,#f97316,#fb923c); }
+.card-pink { background: linear-gradient(135deg,#ec4899,#f43f5e); }
+    
+/* ===== FINAL CTA SPACING FIX ===== */
+
+.final-cta {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.final-cta h2 {
+  margin-bottom: 18px;
+}
+
+.cta-text {
+  font-size: 18px;
+  margin-bottom: 40px; /* 👈 THIS CREATES SAFE SPACE */
+}
+
+.cta-button-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.cta-btn {
+  padding: 16px 42px;
+  font-size: 20px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(249,115,22,0.25);
+  position: relative;
+  z-index: 2;
+}
+    
 </style>
 
 
@@ -131,139 +229,141 @@ HERO SECTION – ATTENTION + URGENCY
 WHO THIS WORKSHOP IS FOR
 ================================================== -->
 <section class="section">
-  <h2>Who This Workshop Is For</h2>
+  <div class="section-card card-blue">
+    
+    <div class="section-card-header">
+      👥 Who This Workshop Is For
+      <span>+</span>
+    </div>
 
-  <div class="accordion">
-
-    <div class="accordion-card">
-      <div class="accordion-header" role="button" tabindex="0">
-        🎯 Ideal Participants
-        <span>+</span>
-      </div>
-      <div class="accordion-content">
-        <ul>
-          <li>Freshers confused about CSV career options</li>
-          <li>Non-CSV pharma professionals exploring CSV</li>
-          <li>QA, IT, or other professionals planning a career switch</li>
-          <li>Anyone unsure whether CSV is the right career choice</li>
-        </ul>
-      </div>
+    <div class="section-card-content">
+      <ul>
+        <li>Freshers confused about CSV career options</li>
+        <li>Non-CSV pharma professionals exploring CSV</li>
+        <li>QA, IT, or other professionals planning a career switch</li>
+        <li>Anyone unsure whether CSV is the right career choice</li>
+      </ul>
     </div>
 
   </div>
 </section>
+
 
 
 <!-- ==================================================
 WHAT YOU WILL LEARN
 ================================================== -->
+<!-- ==================================================
+WHAT YOU WILL LEARN
+================================================== -->
 <section class="section section-sm">
-  <h2>What You Will Learn</h2>
 
-  <div class="accordion">
+  <div class="section-card card-green">
 
-    <div class="accordion-card">
-      <div class="accordion-header" role="button" tabindex="0">
-        📘 Learning Outcomes
-        <span>+</span>
-      </div>
-      <div class="accordion-content">
-        <ul>
-          <li>What CSV really means in pharma & life sciences</li>
-          <li>CSV roles, responsibilities, and career paths</li>
-          <li>Salary trends, growth & work-life balance reality</li>
-          <li>CSV project life cycle & industry expectations</li>
-          <li>Your personal CSV learning roadmap</li>
-        </ul>
-      </div>
+    <div class="section-card-header">
+      📘 What You Will Learn
+      <span>+</span>
+    </div>
+
+    <div class="section-card-content">
+      <ul>
+        <li>What CSV really means in pharma & life sciences</li>
+        <li>CSV roles, responsibilities, and career paths</li>
+        <li>Salary trends & work-life balance reality</li>
+        <li>CSV project life cycle & industry expectations</li>
+        <li>Your personal CSV learning roadmap</li>
+      </ul>
     </div>
 
   </div>
+
 </section>
+
 
 
 <!-- ==================================================
 CURRICULUM SNAPSHOT (CLARITY-FOCUSED)
 ================================================== -->
+<!-- ==================================================
+WORKSHOP CURRICULUM OVERVIEW
+================================================== -->
 <section class="section section-sm">
-  <h2>Workshop Curriculum Overview</h2>
 
-  <div class="accordion">
+  <div class="section-card card-purple">
 
-    <div class="accordion-card">
-      <div class="accordion-header" role="button" tabindex="0">
-        🧩 Curriculum Snapshot (High Level)
-        <span>+</span>
-      </div>
-      <div class="accordion-content">
-        <ul>
-          <li>Introduction to CSV & regulated systems</li>
-          <li>Why CSV is critical for pharma compliance</li>
-          <li>CSV roles: Engineer, Analyst, QA, Consultant</li>
-          <li>Industry expectations vs fresher reality</li>
-          <li>Skills gap analysis & common career mistakes</li>
-          <li><em>Detailed curriculum will be shared soon</em></li>
-        </ul>
-      </div>
+    <div class="section-card-header">
+      🧩 Workshop Curriculum Overview
+      <span>+</span>
+    </div>
+
+    <div class="section-card-content">
+      <ul>
+        <li>Introduction to CSV & regulated systems</li>
+        <li>Why CSV is critical for pharma compliance</li>
+        <li>CSV roles: Engineer, Analyst, QA, Consultant</li>
+        <li>Industry expectations vs fresher reality</li>
+        <li>Skills gap analysis & common career mistakes</li>
+        <li><em>Detailed curriculum will be shared soon</em></li>
+      </ul>
     </div>
 
   </div>
-</section>
 
+</section>
 
 <!-- ==================================================
 HOW THIS WORKSHOP HELPS YOUR CAREER
 ================================================== -->
 <section class="section section-sm">
-  <h2>How This Workshop Helps Your Career</h2>
 
-  <div class="accordion">
+  <div class="section-card card-orange">
 
-    <div class="accordion-card">
-      <div class="accordion-header" role="button" tabindex="0">
-        🚀 Career Impact
-        <span>+</span>
-      </div>
-      <div class="accordion-content">
-        <ul>
-          <li>Removes confusion and misinformation about CSV</li>
-          <li>Saves money by avoiding wrong courses</li>
-          <li>Prevents fake experience and certificate traps</li>
-          <li>Builds confidence before committing long-term</li>
-          <li>Gives a safe, structured next-step career direction</li>
-        </ul>
-      </div>
+    <div class="section-card-header">
+      🚀 How This Workshop Helps Your Career
+      <span>+</span>
+    </div>
+
+    <div class="section-card-content">
+      <ul>
+        <li>Removes confusion and misinformation about CSV</li>
+        <li>Saves money by avoiding wrong courses</li>
+        <li>Prevents fake experience and certificate traps</li>
+        <li>Builds confidence before committing long-term</li>
+        <li>Gives a safe, structured next-step career direction</li>
+      </ul>
     </div>
 
   </div>
+
 </section>
+
 
 
 <!-- ==================================================
 PROGRAM FORMAT
 ================================================== -->
 <section class="section section-sm">
-  <h2>Program Format</h2>
 
-  <div class="accordion">
+  <div class="section-card card-pink">
 
-    <div class="accordion-card">
-      <div class="accordion-header" role="button" tabindex="0">
-        🕒 Delivery & Access
-        <span>+</span>
-      </div>
-      <div class="accordion-content">
-        <ul>
-          <li><strong>Mode:</strong> Live Interactive Session</li>
-          <li><strong>Duration:</strong> 2–3 Hours</li>
-          <li><strong>Access:</strong> Live participation</li>
-          <li><strong>Support:</strong> Live Q&A with mentor</li>
-        </ul>
-      </div>
+    <div class="section-card-header">
+      🕒 Program Format
+      <span>+</span>
+    </div>
+
+    <div class="section-card-content">
+      <ul>
+        <li><strong>Mode:</strong> Live Interactive Session</li>
+        <li><strong>Duration:</strong> 2–3 Hours</li>
+        <li><strong>Access:</strong> Live participation</li>
+        <li><strong>Support:</strong> Live Q&A with mentor</li>
+      </ul>
     </div>
 
   </div>
+
 </section>
+
 
 
 <!-- ==================================================
@@ -286,66 +386,72 @@ FEES & REGISTRATION
 </section>
 
 <!-- ==================================================
-NEXT LEVEL – CAREER PROGRESSION
+WHAT’S NEXT AFTER THIS WORKSHOP?
 ================================================== -->
 <section class="section">
-  <h2>What’s Next After This Workshop?</h2>
 
-  <div class="accordion">
+  <div class="section-card card-blue">
 
-    <div class="accordion-card">
-      <div class="accordion-header" role="button" tabindex="0">
-        🎓 Career Progression Path
-        <span>+</span>
-      </div>
-      <div class="accordion-content">
-        <p>
-          This workshop provides clarity. The next step focuses on execution and job readiness.
-        </p>
-        <ul>
-          <li><strong>From Fresher to CSV Expert Program</strong></li>
-          <li>Hands-on CSV documentation & execution</li>
-          <li>Real-world project exposure</li>
-          <li>Interview & job-switch preparation</li>
-          <li>Higher salary & long-term career growth</li>
-        </ul>
+    <div class="section-card-header">
+      🎓 What’s Next After This Workshop?
+      <span>+</span>
+    </div>
 
-        <p style="margin-top:10px;">
-          <strong>Workshop = Clarity</strong><br>
-          <strong>Main Program = Job Readiness</strong>
-        </p>
-      </div>
+    <div class="section-card-content">
+      <p>
+        This workshop gives clarity. The next step focuses on execution and job readiness.
+      </p>
+      <ul>
+        <li><strong>From Fresher to CSV Expert Program</strong></li>
+        <li>Hands-on CSV documentation & execution</li>
+        <li>Real-world project exposure</li>
+        <li>Interview & job-switch preparation</li>
+        <li>Higher salary & long-term career growth</li>
+      </ul>
+
+      <p style="margin-top:10px;">
+        <strong>Workshop = Clarity</strong><br>
+        <strong>Main Program = Job Readiness</strong>
+      </p>
     </div>
 
   </div>
+
 </section>
 
 
 <!-- ==================================================
 FINAL CTA
 ================================================== -->
-<section class="section" style="text-align:center;">
+<section class="section final-cta" style="text-align:center;">
+
   <h2>Still Confused About CSV?</h2>
 
-  <p>This workshop is designed exactly for that.</p>
+  <p class="cta-text">
+    This workshop is designed exactly for that.
+  </p>
 
-  <a href="contact.html" class="primary-btn" style="margin:10px;">
-    🚀 Register for ₹999
-  </a>
+  <div class="cta-button-wrapper">
+    <a href="contact.html" class="primary-btn cta-btn">
+      🚀 Register for ₹999
+    </a>
+  </div>
 
 </section>
+
 
 <!-- FOOTER -->
 <div id="footer-placeholder"></div>
 
 <script>
-document.querySelectorAll(".accordion-header").forEach(header => {
+document.querySelectorAll(".section-card-header").forEach(header => {
   header.addEventListener("click", () => {
     const card = header.parentElement;
     card.classList.toggle("active");
   });
 });
 </script>
+
   
 </body>
 </html>
