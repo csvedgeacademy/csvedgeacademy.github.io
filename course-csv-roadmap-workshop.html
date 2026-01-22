@@ -58,7 +58,7 @@
 
 .accordion-card.active .accordion-content {
   padding: 18px 22px 22px;
-  max-height: 1000px;
+  max-height: none;
 }
 
 .accordion-content ul {
@@ -594,10 +594,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Click to expand/collapse individual sessions
   document.querySelectorAll(".section-card-header").forEach(header => {
-  header.addEventListener("click", () => {
-    header.parentElement.classList.toggle("active");
+  header.addEventListener("click", (e) => {
+    if (!header.closest(".accordion-card")) {
+      header.parentElement.classList.toggle("active");
+    }
   });
 });
+
 
 
 });
