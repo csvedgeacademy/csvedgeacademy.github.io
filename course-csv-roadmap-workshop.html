@@ -166,6 +166,18 @@
   position: relative;
   z-index: 2;
 }
+/* ===== AUTO-REVEAL SESSION ANIMATION ===== */
+.section-card:not(.show) {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.section-card.show {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.6s ease;
+}
+
     
 </style>
 
@@ -248,11 +260,6 @@ WHO THIS WORKSHOP IS FOR
   </div>
 </section>
 
-
-
-<!-- ==================================================
-WHAT YOU WILL LEARN
-================================================== -->
 <!-- ==================================================
 WHAT YOU WILL LEARN
 ================================================== -->
@@ -280,10 +287,6 @@ WHAT YOU WILL LEARN
 </section>
 
 
-
-<!-- ==================================================
-CURRICULUM SNAPSHOT (CLARITY-FOCUSED)
-================================================== -->
 <!-- ==================================================
 WORKSHOP CURRICULUM OVERVIEW
 ================================================== -->
@@ -295,79 +298,8 @@ WORKSHOP CURRICULUM OVERVIEW
       🧩 Workshop Curriculum Overview
       <span>+</span>
     </div>
+<div class="section-card-content">
 
-    <div class="section-card-content">
-      <ul>
-        <li>Introduction to CSV & regulated systems</li>
-        <li>Why CSV is critical for pharma compliance</li>
-        <li>CSV roles: Engineer, Analyst, QA, Consultant</li>
-        <li>Industry expectations vs fresher reality</li>
-        <li>Skills gap analysis & common career mistakes</li>
-        <li><em>Detailed curriculum will be shared soon</em></li>
-      </ul>
-    </div>
-
-  </div>
-
-</section>
-
-<!-- ==================================================
-HOW THIS WORKSHOP HELPS YOUR CAREER
-================================================== -->
-<section class="section section-sm">
-
-  <div class="section-card card-orange">
-
-    <div class="section-card-header">
-      🚀 How This Workshop Helps Your Career
-      <span>+</span>
-    </div>
-
-    <div class="section-card-content">
-      <ul>
-        <li>Removes confusion and misinformation about CSV</li>
-        <li>Saves money by avoiding wrong courses</li>
-        <li>Prevents fake experience and certificate traps</li>
-        <li>Builds confidence before committing long-term</li>
-        <li>Gives a safe, structured next-step career direction</li>
-      </ul>
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- ==================================================
-PROGRAM FORMAT
-================================================== -->
-<section class="section section-sm">
-
-  <div class="section-card card-pink">
-
-    <div class="section-card-header">
-      🕒 Program Format
-      <span>+</span>
-    </div>
-
-    <div class="section-card-content">
-      <ul>
-        <li><strong>Mode:</strong> Live Interactive Session</li>
-        <li><strong>Duration:</strong> 2–3 Hours</li>
-        <li><strong>Access:</strong> Live participation</li>
-        <li><strong>Support:</strong> Live Q&A with mentor</li>
-      </ul>
-    </div>
-
-  </div>
-
-</section>
-
-<!-- ==================================================
-WORKSHOP STRUCTURE – 3 LIVE SESSIONS (3 HOURS)
-================================================== -->
-<section class="section section-sm">
 
   <!-- SESSION 1 -->
   <div class="section-card card-green">
@@ -502,6 +434,60 @@ WORKSHOP STRUCTURE – 3 LIVE SESSIONS (3 HOURS)
     </div>
   </div>
 
+    </div>
+  </div>
+
+<!-- ==================================================
+HOW THIS WORKSHOP HELPS YOUR CAREER
+================================================== -->
+<section class="section section-sm">
+
+  <div class="section-card card-orange">
+
+    <div class="section-card-header">
+      🚀 How This Workshop Helps Your Career
+      <span>+</span>
+    </div>
+
+    <div class="section-card-content">
+      <ul>
+        <li>Removes confusion and misinformation about CSV</li>
+        <li>Saves money by avoiding wrong courses</li>
+        <li>Prevents fake experience and certificate traps</li>
+        <li>Builds confidence before committing long-term</li>
+        <li>Gives a safe, structured next-step career direction</li>
+      </ul>
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ==================================================
+PROGRAM FORMAT
+================================================== -->
+<section class="section section-sm">
+
+  <div class="section-card card-pink">
+
+    <div class="section-card-header">
+      🕒 Program Format
+      <span>+</span>
+    </div>
+
+    <div class="section-card-content">
+      <ul>
+        <li><strong>Mode:</strong> Live Interactive Session</li>
+        <li><strong>Duration:</strong> 2–3 Hours</li>
+        <li><strong>Access:</strong> Live participation</li>
+        <li><strong>Support:</strong> Live Q&A with mentor</li>
+      </ul>
+    </div>
+
+  </div>
+
 </section>
 
 
@@ -583,13 +569,38 @@ FINAL CTA
 <div id="footer-placeholder"></div>
 
 <script>
-document.querySelectorAll(".section-card-header").forEach(header => {
-  header.addEventListener("click", () => {
-    const card = header.parentElement;
-    card.classList.toggle("active");
+document.addEventListener("DOMContentLoaded", () => {
+
+  const cards = document.querySelectorAll(".section-card");
+
+  // Animate cards one by one when section is visible
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        cards.forEach((card, index) => {
+          setTimeout(() => {
+            card.classList.add("show");
+          }, index * 250); // stagger animation
+        });
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  cards.forEach(card => observer.observe(card));
+
+  // Click to expand/collapse individual sessions
+  document.querySelectorAll(".section-card-header").forEach(header => {
+  header.addEventListener("click", (e) => {
+    e.stopPropagation();
+    header.parentElement.classList.toggle("active");
   });
 });
+
+
+});
 </script>
+
 
   
 </body>
