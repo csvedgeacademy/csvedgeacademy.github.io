@@ -235,6 +235,39 @@
   color: #0f4c81;
 }
 
+    /* Scroll Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+    .icon {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+    .testimonial-slider {
+  max-width: 800px;
+  margin: auto;
+  position: relative;
+}
+
+.testimonial {
+  display: none;
+  animation: fadeIn 1s ease;
+}
+
+.testimonial.active {
+  display: block;
+}
+
   </style>
 </head>
 
@@ -254,7 +287,7 @@
 </section>
 
   <!-- TRUST BADGES -->
-<section class="section trust-badges">
+<section class="section trust-badges reveal">
   <h2>Trusted & Aligned With Global Regulations</h2>
 
   <div class="badge-grid">
@@ -267,11 +300,11 @@
 </section>
 
   <!-- STATS -->
-<section class="section stats">
+<section class="section stats reveal">
   <div class="stat-grid">
-    <div><strong>100+</strong><br>Live Training Hours</div>
-    <div><strong>30+</strong><br>Validation Documents</div>
-    <div><strong>100%</strong><br>Practical Approach</div>
+    <div><strong class="counter" data-target="100">0</strong>+<br>Live Training Hours</div>
+    <div><strong class="counter" data-target="30">0</strong>+<br>Validation Documents</div>
+    <div><strong class="counter" data-target="100">0</strong>%<br>Practical Approach</div>
     <div><strong>Audit</strong><br>Focused Training</div>
   </div>
 </section>
@@ -305,7 +338,7 @@
 </section>
 
   <!-- INSTRUCTOR CREDIBILITY -->
-<section class="section instructor">
+<section class="section instructor reveal">
   <h2>Learn From Industry-Experienced CSV Professionals</h2>
 
   <div class="instructor-box">
@@ -333,7 +366,7 @@
 
   <div class="value-grid">
     <div class="value-box">
-      <h3>📄 Real Validation Documentation</h3>
+      <h3><span class="icon">📄</span> Real Validation Documentation</h3>
       <p>
         You work on actual CSV documents like URS, FS, RA, IQ, OQ, PQ, Traceability Matrix and SOPs —
         not dummy PDFs or slides.
@@ -379,11 +412,11 @@
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="section testimonials">
+<section class="section testimonials reveal">
   <h2>What Our Learners Say</h2>
 
-  <div class="testimonial-grid">
-    <div class="testimonial">
+  <div class="testimonial-slider">
+    <div class="testimonial active">
       “This is not a theory course. I worked on real CSV documents and finally understood validation.”
       <span>— QA Professional</span>
     </div>
@@ -400,9 +433,10 @@
   </div>
 </section>
 
+
   
 <!-- COMPARISON -->
-<section class="section">
+<section class="section reveal">
   <h2>CSV Edge Academy vs Others</h2>
 
   <table>
@@ -440,7 +474,7 @@
 </section>
   
 <!-- LEARNING TIMELINE -->
-<section class="section timeline">
+<section class="section timeline reveal">
   <h2>Your Journey: From Day 1 to Audit-Ready</h2>
 
   <div class="timeline-box">
@@ -468,5 +502,57 @@
 <script src="header-loader.js"></script>
 <script src="footer-loader.js"></script>
 
+<script>
+  const reveals = document.querySelectorAll(".reveal");
+
+  function revealOnScroll() {
+    reveals.forEach(el => {
+      const windowHeight = window.innerHeight;
+      const elementTop = el.getBoundingClientRect().top;
+      const revealPoint = 100;
+
+      if (elementTop < windowHeight - revealPoint) {
+        el.classList.add("active");
+      }
+    });
+  }
+
+  window.addEventListener("scroll", revealOnScroll);
+  revealOnScroll();
+</script>
+<script>
+  const counters = document.querySelectorAll('.counter');
+
+  counters.forEach(counter => {
+    const updateCount = () => {
+      const target = +counter.getAttribute('data-target');
+      const count = +counter.innerText;
+      const increment = target / 80;
+
+      if (count < target) {
+        counter.innerText = Math.ceil(count + increment);
+        setTimeout(updateCount, 20);
+      } else {
+        counter.innerText = target;
+      }
+    };
+
+    updateCount();
+  });
+</script>
+
+  <script>
+  let index = 0;
+  const testimonials = document.querySelectorAll(".testimonial");
+
+  setInterval(() => {
+    testimonials.forEach(t => t.classList.remove("active"));
+    index = (index + 1) % testimonials.length;
+    testimonials[index].classList.add("active");
+  }, 4000);
+</script>
+
+  
 </body>
 </html>
+
