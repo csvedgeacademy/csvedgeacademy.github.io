@@ -10,6 +10,65 @@
 
   <link rel="stylesheet" href="main.css">
 
+  <style>
+/* ===== INTERACTIVE SECTION CARDS (COPIED FROM WORKSHOP PAGE) ===== */
+.section-card {
+  max-width: 1100px;
+  margin: 22px auto;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.section-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+}
+
+.section-card-header {
+  padding: 26px 30px;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-card-header span {
+  font-size: 26px;
+  transition: transform 0.3s ease;
+}
+
+.section-card.active .section-card-header span {
+  transform: rotate(45deg);
+}
+
+.section-card-content {
+  background: #ffffff;
+  color: #334155;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 30px;
+  transition: max-height 0.5s ease, padding 0.4s ease;
+}
+
+.section-card.active .section-card-content {
+  padding: 24px 30px 30px;
+  max-height: 1500px;
+}
+
+/* Color themes */
+.card-blue { background: linear-gradient(135deg,#2563eb,#06b6d4); }
+.card-green { background: linear-gradient(135deg,#16a34a,#22c55e); }
+.card-purple { background: linear-gradient(135deg,#7c3aed,#6366f1); }
+.card-orange { background: linear-gradient(135deg,#f97316,#fb923c); }
+.card-pink { background: linear-gradient(135deg,#ec4899,#f43f5e); }
+</style>
+
+  
   <script src="header-loader.js" defer></script>
   <script src="footer-loader.js" defer></script>
 </head>
@@ -72,74 +131,108 @@ HERO SECTION – TRANSFORMATION + URGENCY
 WHO THIS PROGRAM IS FOR
 ================================================== -->
 <section class="section">
-  <h2>Who This Program Is For</h2>
-
-  <ul>
-    <li>Freshers aiming to enter the CSV domain</li>
-    <li>Professionals with 0–2 years of CSV exposure</li>
-    <li>Candidates confused about CSV roles and career path</li>
-    <li>People struggling with CSV interviews or role clarity</li>
-  </ul>
+  <div class="section-card card-blue">
+    <div class="section-card-header">
+      👥 Who This Program Is For
+      <span>+</span>
+    </div>
+    <div class="section-card-content">
+      <ul>
+        <li>Freshers aiming to enter the CSV domain</li>
+        <li>Professionals with 0–2 years of CSV exposure</li>
+        <li>Candidates confused about CSV roles & career path</li>
+        <li>People struggling with CSV interviews or role clarity</li>
+      </ul>
+    </div>
+  </div>
 </section>
+
 
 <!-- ==================================================
 WHAT YOU WILL LEARN
 ================================================== -->
 <section class="section section-sm">
-  <h2>What You Will Learn</h2>
-
-  <ul>
-    <li>CSV fundamentals & regulatory expectations</li>
-    <li>Validation lifecycle (URS → IQ → OQ → PQ → RTM → VSR)</li>
-    <li>CSV documentation & compliance mindset</li>
-    <li>Data Integrity & ALCOA+ principles</li>
-    <li>Real-world CSV project execution scenarios</li>
-  </ul>
+  <div class="section-card card-green">
+    <div class="section-card-header">
+      📘 What You Will Learn
+      <span>+</span>
+    </div>
+    <div class="section-card-content">
+      <ul>
+        <li>CSV fundamentals & regulatory expectations</li>
+        <li>Validation lifecycle (URS → IQ → OQ → PQ → RTM → VSR)</li>
+        <li>CSV documentation & compliance mindset</li>
+        <li>Data Integrity & ALCOA+ principles</li>
+        <li>Real-world CSV project execution scenarios</li>
+      </ul>
+    </div>
+  </div>
 </section>
+
 
 <!-- ==================================================
 CURRICULUM SNAPSHOT
 ================================================== -->
 <section class="section section-sm">
-  <h2>Program Curriculum Overview</h2>
-
-  <ul>
-    <li>CSV & SDLC fundamentals</li>
-    <li>GAMP 5 & risk-based validation approach</li>
-    <li>URS, RA, IQ, OQ, PQ – hands-on exposure</li>
-    <li>Traceability Matrix & Validation Summary Report</li>
-    <li>Audit readiness & inspection mindset</li>
-  </ul>
+  <div class="section-card card-purple">
+    <div class="section-card-header">
+      🧩 Program Curriculum Overview
+      <span>+</span>
+    </div>
+    <div class="section-card-content">
+      <ul>
+        <li>CSV & SDLC fundamentals</li>
+        <li>GAMP 5 & risk-based validation approach</li>
+        <li>URS, RA, IQ, OQ, PQ – hands-on exposure</li>
+        <li>Traceability Matrix & Validation Summary Report</li>
+        <li>Audit readiness & inspection mindset</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
 <!-- ==================================================
 HOW THIS PROGRAM HELPS YOUR CAREER
 ================================================== -->
 <section class="section section-sm">
-  <h2>How This Program Helps Your Career</h2>
-
-  <ul>
-    <li>Clear understanding of CSV roles & expectations</li>
-    <li>Hands-on execution confidence</li>
-    <li>Interview readiness with real scenarios</li>
-    <li>Compliance mindset expected by auditors</li>
-    <li>Higher salary potential with real skills</li>
-  </ul>
+  <div class="section-card card-orange">
+    <div class="section-card-header">
+      🚀 How This Program Helps Your Career
+      <span>+</span>
+    </div>
+    <div class="section-card-content">
+      <ul>
+        <li>Clear understanding of CSV roles & expectations</li>
+        <li>Hands-on execution confidence</li>
+        <li>Interview readiness with real scenarios</li>
+        <li>Compliance mindset expected by auditors</li>
+        <li>Higher salary potential with real skills</li>
+      </ul>
+    </div>
+  </div>
 </section>
+
 
 <!-- ==================================================
 PROGRAM FORMAT
 ================================================== -->
 <section class="section section-sm">
-  <h2>Program Format</h2>
-
-  <ul>
-    <li><strong>Mode:</strong> Live sessions + recordings</li>
-    <li><strong>Duration:</strong> 4 Weeks (30 Days)</li>
-    <li><strong>Access:</strong> Student dashboard during program</li>
-    <li><strong>Support:</strong> WhatsApp + Email + Mentor guidance</li>
-  </ul>
+  <div class="section-card card-pink">
+    <div class="section-card-header">
+      🕒 Program Format
+      <span>+</span>
+    </div>
+    <div class="section-card-content">
+      <ul>
+        <li><strong>Mode:</strong> Live sessions </li>
+        <li><strong>Duration:</strong> 4 Weeks (30 Days)</li>
+        <li><strong>Access:</strong> Student dashboard during program</li>
+        <li><strong>Support:</strong> WhatsApp + Email + Mentor guidance</li>
+      </ul>
+    </div>
+  </div>
 </section>
+
 
 <!-- ==================================================
 CERTIFICATION & PROOF
@@ -177,24 +270,24 @@ FEES & REGISTRATION
 NEXT LEVEL – CAREER GROWTH
 ================================================== -->
 <section class="section">
-  <h2>What’s Next After This Program?</h2>
-
-  <p style="max-width:840px;">
-    After becoming job-ready, the next step is specialization and leadership.
-  </p>
-
-  <h3>Advanced CSV Skills Booster Program</h3>
-  <ul>
-    <li>Complex systems: LIMS, MES, ERP</li>
-    <li>Audit handling & inspection leadership</li>
-    <li>Senior, Lead & Consultant role preparation</li>
-    <li>Faster career growth & higher salary</li>
-  </ul>
-
-  <p>
-    <strong>Current Program = Job Readiness</strong><br>
-    <strong>Advanced Program = Career Acceleration</strong>
-  </p>
+  <div class="section-card card-blue">
+    <div class="section-card-header">
+      🎓 What’s Next After This Program?
+      <span>+</span>
+    </div>
+    <div class="section-card-content">
+      <ul>
+        <li>Advanced CSV specialization</li>
+        <li>Complex systems: LIMS, MES, ERP</li>
+        <li>Audit leadership & senior roles</li>
+        <li>Faster career growth & higher salary</li>
+      </ul>
+      <p style="margin-top:10px;">
+        <strong>Current Program = Job Readiness</strong><br>
+        <strong>Advanced Program = Career Acceleration</strong>
+      </p>
+    </div>
+  </div>
 </section>
 
 <!-- ==================================================
@@ -217,5 +310,14 @@ FINAL CTA
 <!-- FOOTER -->
 <div id="footer-placeholder"></div>
 
+<script>
+document.querySelectorAll(".section-card-header").forEach(header => {
+  header.addEventListener("click", () => {
+    header.parentElement.classList.toggle("active");
+  });
+});
+</script>
+  
+  
 </body>
 </html>
