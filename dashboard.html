@@ -163,6 +163,50 @@
   padding: 12px 28px;
   font-weight: 600;
 }
+
+    /* ================= HERO PROGRESS ================= */
+
+.hero-progress {
+  max-width: 420px;
+  margin: 0 auto 30px;
+  animation: fadeUp 1s ease forwards;
+}
+
+.hero-welcome {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
+.hero-progress-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
+}
+
+.hero-progress-bar div {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    #ffd369,
+    #ff9f1c
+  );
+  border-radius: 999px;
+  transition: width 1.2s ease;
+  box-shadow: 0 0 15px rgba(255,211,105,0.7);
+}
+
+.hero-progress-text {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+    
 </style>
 
 <link rel="stylesheet" href="main.css">
@@ -173,7 +217,7 @@
 <!-- ================= END HEADER ================= -->
 
 <!-- 🔥 HERO SECTION START -->
-<section class="dashboard-hero">
+<section class="dashboard-hero" id="dashboardHero">
   <div class="hero-overlay"></div>
 
   <div class="hero-content container">
@@ -202,6 +246,24 @@
       </div>
     </div>
 
+<!-- 🎯 HERO PROGRESS (HIDDEN UNTIL LOGIN) -->
+<div id="heroProgressArea" class="hero-progress d-none">
+
+  <p class="hero-welcome">
+    👋 Welcome back, <span id="heroUserName">Learner</span>
+  </p>
+
+  <div class="hero-progress-bar">
+    <div id="heroProgressFill"></div>
+  </div>
+
+  <p class="hero-progress-text">
+    Progress: <b><span id="heroProgressPercent">0</span>%</b> completed
+  </p>
+
+</div>
+
+    
     <div class="hero-actions">
       <a href="#loginSection" class="btn btn-light btn-lg me-2">
         🔐 Access Dashboard
@@ -442,6 +504,22 @@ function verifyOTP() {
   loginSection.style.display = "none";
 dashboardSection.style.display = "block";
 
+// 🎯 HERO PERSONALIZATION AFTER LOGIN
+const hero = document.getElementById("dashboardHero");
+const heroProgress = document.getElementById("heroProgressArea");
+
+if (hero && heroProgress) {
+  heroProgress.classList.remove("d-none");
+
+  // Extract name from email (fallback safe)
+  const displayName = currentUser.split("@")[0]
+    .replace(/[0-9]/g, "")
+    .replace(".", " ")
+    .toUpperCase();
+
+  document.getElementById("heroUserName").innerText =
+    displayName || "Learner";
+}
             
 const approvedName = localStorage.getItem(
   "approved_cert_name_" + currentUser
@@ -481,6 +559,19 @@ loadProgressFromCloud().then(() => {
   updateProgress();
 });
 
+// 🎬 Smoothly hide hero after login
+setTimeout(() => {
+  const hero = document.getElementById("dashboardHero");
+  if (!hero) return;
+
+  hero.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+  hero.style.opacity = "0";
+  hero.style.transform = "translateY(-30px)";
+
+  setTimeout(() => {
+    hero.style.display = "none";
+  }, 900);
+}, 1500);
 
 }
  else {
@@ -1030,6 +1121,16 @@ function updateProgress(){
   progressBar.style.width = percent + "%";
   progressBar.innerText = percent + "%";
 
+  // 🎯 Update HERO progress (if visible)
+const heroFill = document.getElementById("heroProgressFill");
+const heroPercent = document.getElementById("heroProgressPercent");
+
+if (heroFill && heroPercent) {
+  heroFill.style.width = percent + "%";
+  heroPercent.innerText = percent;
+}
+
+
   // ✅ Enable certificate button ONLY if all sessions passed
  
 
@@ -1382,6 +1483,7 @@ document.addEventListener("mousemove", e => {
 
 </body>
 </html>
+
 
 
 
