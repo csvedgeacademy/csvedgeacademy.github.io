@@ -264,7 +264,8 @@
 </div>
 
     
-    <div class="hero-actions">
+    <div class="hero-actions" id="heroActions">
+
       <a href="#loginSection" class="btn btn-light btn-lg me-2">
         🔐 Access Dashboard
       </a>
@@ -497,87 +498,71 @@ function verifyOTP() {
 
 
   .then(res => res.text())
-  .then(txt => {
-    if (txt === "OTP_VERIFIED") {
-  loginMsg.innerText = "✅ Login successful";
+.then(txt => {
+  if (txt === "OTP_VERIFIED") {
 
-  loginSection.style.display = "none";
-dashboardSection.style.display = "block";
+    loginMsg.innerText = "✅ Login successful";
 
-// 🎯 HERO PERSONALIZATION AFTER LOGIN
-const hero = document.getElementById("dashboardHero");
-const heroProgress = document.getElementById("heroProgressArea");
+    loginSection.style.display = "none";
+    dashboardSection.style.display = "block";
 
-if (hero && heroProgress) {
-  heroProgress.classList.remove("d-none");
+    // 🎯 HERO PERSONALIZATION AFTER LOGIN
+    const heroProgress = document.getElementById("heroProgressArea");
+    const heroActions = document.getElementById("heroActions");
 
-  // Extract name from email (fallback safe)
-  const displayName = currentUser.split("@")[0]
-    .replace(/[0-9]/g, "")
-    .replace(".", " ")
-    .toUpperCase();
+    heroProgress.classList.remove("d-none");
+    heroActions.style.display = "none";
 
-  document.getElementById("heroUserName").innerText =
-    displayName || "Learner";
-}
-            
-const approvedName = localStorage.getItem(
-  "approved_cert_name_" + currentUser
-);
+    // Name from email
+    const displayName = currentUser
+      .split("@")[0]
+      .replace(/[0-9]/g, "")
+      .replace(".", " ")
+      .replace(/\b\w/g, c => c.toUpperCase());
 
-const requestedName = localStorage.getItem(
-  "cert_request_name_" + currentUser
-);
+    document.getElementById("heroUserName").innerText = displayName;
 
-const certNameInput = document.getElementById("certName");
+    // ✅ CERT NAME LOAD
+    const approvedName = localStorage.getItem(
+      "approved_cert_name_" + currentUser
+    );
 
-if (approvedName) {
-  certNameInput.value = approvedName;
-  certNameInput.disabled = true;
-  certNameInput.style.background = "#e5e7eb";
-}
-else if (requestedName) {
-  certNameInput.value = requestedName;
-  certNameInput.disabled = true;
-  certNameInput.style.background = "#f1f5f9";
-}
+    const requestedName = localStorage.getItem(
+      "cert_request_name_" + currentUser
+    );
 
-      
-document.getElementById("welcomeBox").style.display = "block";
-document.getElementById("receiptBtn").disabled = false;
+    const certNameInput = document.getElementById("certName");
 
-// ⬇️ FIRST load from Firebase (any device)
-loadProgressFromCloud().then(() => {
-
-  // ⬇️ If cloud empty, fallback to LocalStorage
-  if (!Object.keys(completed).length) {
-    const saved = localStorage.getItem("csv_progress_" + currentUser);
-    completed = saved ? JSON.parse(saved) : {};
-  }
-
-  renderSessions();
-  updateProgress();
-});
-
-// 🎬 Smoothly hide hero after login
-setTimeout(() => {
-  const hero = document.getElementById("dashboardHero");
-  if (!hero) return;
-
-  hero.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-  hero.style.opacity = "0";
-  hero.style.transform = "translateY(-30px)";
-
-  setTimeout(() => {
-    hero.style.display = "none";
-  }, 900);
-}, 1500);
-
-}
- else {
-      loginMsg.innerText = "❌ Invalid or expired OTP";
+    if (approvedName) {
+      certNameInput.value = approvedName;
+      certNameInput.disabled = true;
+      certNameInput.style.background = "#e5e7eb";
+    } else if (requestedName) {
+      certNameInput.value = requestedName;
+      certNameInput.disabled = true;
+      certNameInput.style.background = "#f1f5f9";
     }
-  })
+
+    document.getElementById("welcomeBox").style.display = "block";
+    document.getElementById("receiptBtn").disabled = false;
+
+    // ✅ LOAD PROGRESS (CORRECT PLACE)
+    loadProgressFromCloud().then(() => {
+
+      if (!Object.keys(completed).length) {
+        const saved = localStorage.getItem("csv_progress_" + currentUser);
+        completed = saved ? JSON.parse(saved) : {};
+      }
+
+      renderSessions();
+      updateProgress();
+    });
+
+  } else {
+    loginMsg.innerText = "❌ Invalid or expired OTP";
+  }
+})
+
   .catch(() => {
     loginMsg.innerText = "❌ Network error";
   });
@@ -801,6 +786,8 @@ function logout(){
   verifyBtn.classList.add("d-none");
 
   document.getElementById("welcomeBox").style.display = "none";
+document.getElementById("heroProgressArea").classList.add("d-none");
+document.getElementById("heroActions").style.display = "block";
 
   clearInterval(timerInterval);
   mcqSection.innerHTML = "";
@@ -1483,6 +1470,7 @@ document.addEventListener("mousemove", e => {
 
 </body>
 </html>
+
 
 
 
