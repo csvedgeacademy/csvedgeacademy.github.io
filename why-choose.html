@@ -354,12 +354,11 @@
 <section class="video-hero">
 
   <video
-  id="introVideo"
-  controls
-  preload="auto"
-  playsinline
-  controlsList="nodownload">
-
+    id="introVideo"
+    controls
+    preload="auto"
+    playsinline
+    controlsList="nodownload">
 
     <source src="assets/video/csv-edge-intro.mp4" type="video/mp4">
     Your browser does not support the video tag.
@@ -377,6 +376,7 @@
   </div>
 
 </section>
+
 
 <!-- HERO SECTION -->
 <section class="hero">
@@ -654,9 +654,19 @@
   }, 4000);
 </script>
 
-  
+  <script>
+  const video = document.getElementById("introVideo");
+
+  document.addEventListener("click", () => {
+    if (video.paused) {
+      video.play().catch(() => {});
+    }
+  }, { once: true });
+</script>
+
 </body>
 </html>
+
 
 
 
