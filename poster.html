@@ -162,6 +162,57 @@ footer{
   position:relative;
   z-index:10;
 }
+ 
+.buttons a{
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+
+.buttons a:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(212,175,55,.35);
+}
+  /* ===== CINEMATIC HERO BACKGROUND ===== */
+#poster::before,
+#poster::after{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(212,175,55,.18), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(56,189,248,.15), transparent 40%);
+  animation:floatGlow 18s linear infinite;
+  z-index:-1;
+}
+
+#poster::after{
+  animation-duration:28s;
+  opacity:.6;
+}
+
+@keyframes floatGlow{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
+  .hero h1,
+.hero h2,
+.hero p{
+  opacity:0;
+  transform:translateY(20px);
+  animation:heroReveal .9s ease forwards;
+}
+
+.hero h1{ animation-delay:.2s }
+.hero h2{ animation-delay:.4s }
+.hero p{ animation-delay:.6s }
+
+@keyframes heroReveal{
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+ 
 
 </style>
 </head>
@@ -190,10 +241,18 @@ footer{
   </div>
 
   <div class="section price-box">
-    <div class="price" data-key="price"></div>
-    <p data-key="batch"></p>
-    <p><strong data-key="trust"></strong></p>
-  </div>
+  <div style="font-size:14px;color:#facc15;font-weight:600" data-key="discountLabel"></div>
+
+  <div style="font-size:18px;color:#94a3b8;text-decoration:line-through"
+       data-key="originalPrice"></div>
+
+  <div class="price" data-key="price"></div>
+
+  <p style="color:#eab308;font-weight:600" data-key="discountNote"></p>
+  <p data-key="batch"></p>
+  <p><strong data-key="trust"></strong></p>
+</div>
+
 
   <div class="buttons">
     <a class="btn-primary" data-link="enroll" target="_blank">Enroll Now</a>
@@ -234,7 +293,12 @@ const POSTER_DATA = {
     "Free Jira Software Training"
   ],
 
+  /* 💰 DISCOUNT DATA */
+  originalPrice:"₹19,999",
   price:"₹7,999",
+  discountLabel:"Limited-Time Scholarship",
+  discountNote:"60% Fee Waiver Applied",
+
   batch:"April 2026 Batch",
   trust:"Aligned with GAMP 5 & FDA Expectations",
 
@@ -250,6 +314,7 @@ const POSTER_DATA = {
 document.querySelectorAll("[data-key]").forEach(el=>{
   el.innerText=POSTER_DATA[el.dataset.key];
 });
+
 
 POSTER_DATA.idealFor.forEach(i=>{
   document.getElementById("idealFor").innerHTML+=`<li>${i}</li>`;
