@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSV Edge Academy Poster</title>
+
+<link rel="stylesheet" href="poster.css">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+
+<body>
+
+<div id="poster">
+  <h2 data-key="academyName"></h2>
+  <h1 data-key="headline"></h1>
+  <h2 data-key="subHeadline"></h2>
+  <p data-key="tagline"></p>
+
+  <div class="section">
+    <strong data-key="industries"></strong><br>
+    <span data-key="schedule"></span>
+  </div>
+
+  <div class="section">
+    <h2>Ideal For</h2>
+    <ul id="idealFor"></ul>
+  </div>
+
+  <div class="section">
+    <h2>Program Highlights</h2>
+    <ul id="features"></ul>
+  </div>
+
+  <div class="section">
+    <div class="price" data-key="price"></div>
+    <p data-key="batch"></p>
+    <p><strong data-key="trust"></strong></p>
+  </div>
+
+  <div class="buttons">
+    <a href="https://csvedgeacademy.github.io/contact.html" target="_blank">Enroll Now</a>
+    <a class="secondary" href="https://api.whatsapp.com/send/?phone=9665942334" target="_blank">WhatsApp</a>
+    <a class="secondary" href="mailto:csvedgeacademy@gmail.com">Email</a>
+    <a class="secondary" href="https://www.linkedin.com/company/111385921/admin/dashboard/" target="_blank">LinkedIn</a>
+  </div>
+
+  <button class="download" onclick="downloadPoster()">Download Poster</button>
+
+  <footer>
+    © CSV Edge Academy • Industry-Aligned CSV Training
+  </footer>
+</div>
+
+<script src="poster.js"></script>
+</body>
+</html>
