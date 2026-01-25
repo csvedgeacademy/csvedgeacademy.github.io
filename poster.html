@@ -1,357 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<title>CSV Program | Computerized System Validation Training</title>
 
-  <title>CSV Program | Computerized System Validation Training</title>
+<meta name="description"
+content="Explore the complete Computerized System Validation (CSV) Program by CSV Edge Academy including About, Curriculum, Pricing and Certification.">
 
-  <meta name="description"
-        content="Explore the complete Computerized System Validation (CSV) Program by CSV Edge Academy including About, Curriculum, Why Choose, Pricing and Master Classes.">
+<meta name="robots" content="index, follow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="robots" content="index, follow">
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- HTML2CANVAS (for download) -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-  <!-- MAIN SITE CSS -->
-  <link rel="stylesheet" href="main.css">
+<style>
+:root{
+  --dark:#0f172a;
+  --accent:#d4af37;
+  --muted:#94a3b8;
+  --bg:#020617;
+}
 
-  <style>
-    /* ================= PROGRAM PAGE LAYOUT ================= */
+*{box-sizing:border-box;}
 
-    .program-wrapper{
-      max-width:1200px;
-      margin:auto;
-    }
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:#111;
+  padding:30px;
+}
 
-    .program-hero{
-      background:linear-gradient(135deg,#e0f2fe,#ffffff);
-      padding:70px 20px;
-      text-align:center;
-    }
+/* ===== POSTER ===== */
+#poster{
+  max-width:1200px;
+  margin:auto;
+  background:linear-gradient(135deg,var(--dark),var(--bg));
+  color:#fff;
+  border-radius:24px;
+  padding:60px;
+  box-shadow:0 40px 100px rgba(0,0,0,.6);
+  animation:fadeIn 1.2s ease;
+}
 
-    .program-hero h1{
-      font-size:clamp(30px,5vw,42px);
-      color:#0f4c81;
-      margin-bottom:10px;
-    }
+.hero{
+  text-align:center;
+}
 
-    .program-hero p{
-      font-size:18px;
-      color:#374151;
-      max-width:800px;
-      margin:0 auto 24px;
-    }
+.hero h1{
+  font-size:clamp(36px,5vw,52px);
+  color:var(--accent);
+  margin-bottom:10px;
+}
 
-    .program-hero a{
-      margin:6px;
-    }
+.hero h2{
+  font-size:22px;
+  font-weight:500;
+}
 
-    /* ================= CLICK TO VIEW BLOCK ================= */
+.hero p{
+  max-width:800px;
+  margin:12px auto;
+  color:var(--muted);
+}
 
-    .program-block{
-      margin:30px 0;
-      border-radius:18px;
-      background:#ffffff;
-      box-shadow:0 12px 30px rgba(0,0,0,.12);
-      overflow:hidden;
-    }
+.section{
+  margin-top:40px;
+}
 
-    details.program-block summary{
-      cursor:pointer;
-      padding:22px 26px;
-      font-size:18px;
-      font-weight:700;
-      color:#0f4c81;
-      background:#f8fafc;
-      border-bottom:1px solid #e5e7eb;
-      list-style:none;
-    }
+.section h3{
+  color:var(--accent);
+  margin-bottom:14px;
+}
 
-    details.program-block summary::-webkit-details-marker{
-      display:none;
-    }
+ul{
+  padding-left:20px;
+}
 
-    details.program-block[open] summary{
-      background:#e0f2fe;
-    }
+ul li{
+  margin-bottom:8px;
+  color:#e5e7eb;
+}
 
-    .program-content{
-      padding:0;
-    }
+/* ===== PRICING ===== */
+.price-box{
+  background:rgba(255,255,255,.05);
+  padding:30px;
+  border-radius:18px;
+  text-align:center;
+}
 
-    .program-iframe{
-      width:100%;
-      height:1400px;
-      border:none;
-      display:block;
-    }
+.price{
+  font-size:44px;
+  font-weight:700;
+  color:var(--accent);
+}
 
-    /* Smaller height for simple pages */
-    .iframe-small{ height:900px; }
-    .iframe-medium{ height:1200px; }
-    .iframe-large{ height:1800px; }
+/* ===== BUTTONS ===== */
+.buttons{
+  margin-top:30px;
+  text-align:center;
+}
 
-    /* MOBILE */
-    @media(max-width:768px){
-      .program-iframe{
-        height:1600px;
-      }
-    }
-  </style>
+.buttons a{
+  display:inline-block;
+  margin:8px;
+  padding:14px 28px;
+  border-radius:12px;
+  font-weight:600;
+  text-decoration:none;
+}
+
+.btn-primary{
+  background:var(--accent);
+  color:#000;
+}
+
+.btn-secondary{
+  border:1px solid var(--accent);
+  color:var(--accent);
+}
+
+/* ===== DOWNLOAD ===== */
+.download{
+  margin-top:40px;
+  display:block;
+  background:#fff;
+  color:#000;
+  padding:14px 24px;
+  border-radius:10px;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  margin-top:40px;
+  text-align:center;
+  font-size:14px;
+  color:var(--muted);
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
-<div id="header-placeholder"></div>
-<!-- ========================================== -->
+<div id="poster">
 
-<!-- ================= HERO ================= -->
-<section class="program-hero">
-  <h1>Computerized System Validation (CSV) Program</h1>
-  <p>
-    End-to-end, job-oriented CSV training aligned with GAMP 5, FDA & GxP
-    expectations – designed for freshers and professionals.
-  </p>
+  <div class="hero">
+    <h2 data-key="academyName"></h2>
+    <h1 data-key="headline"></h1>
+    <h2 data-key="subHeadline"></h2>
+    <p data-key="tagline"></p>
+    <p><strong data-key="industries"></strong></p>
+    <p data-key="schedule"></p>
+  </div>
 
-  <a href="pricing.html" class="btn-primary">🚀 Enroll Now</a>
-  <a href="#program-sections" class="btn-secondary">📘 Explore Program</a>
-</section>
+  <div class="section">
+    <h3>Ideal For</h3>
+    <ul id="idealFor"></ul>
+  </div>
 
-<!-- ================= PROGRAM CONTENT ================= -->
-<div class="program-wrapper" id="program-sections">
+  <div class="section">
+    <h3>Program Highlights</h3>
+    <ul id="features"></ul>
+  </div>
 
-  <!-- ABOUT -->
-  <details class="program-block">
-    <summary>📘 About the CSV Program</summary>
-    <div class="program-content">
-      <iframe src="about.html"
-              class="program-iframe iframe-large"
-              loading="lazy"></iframe>
-    </div>
-  </details>
+  <div class="section price-box">
+    <div class="price" data-key="price"></div>
+    <p data-key="batch"></p>
+    <p><strong data-key="trust"></strong></p>
+  </div>
 
-  <!-- CURRICULUM -->
-  <details class="program-block">
-    <summary>🚆 CSV Course Curriculum</summary>
-    <div class="program-content">
-      <iframe src="curriculum.html"
-              class="program-iframe iframe-large"
-              loading="lazy"></iframe>
-    </div>
-  </details>
+  <div class="buttons">
+    <a class="btn-primary" data-link="enroll" target="_blank">Enroll Now</a>
+    <a class="btn-secondary" data-link="whatsapp" target="_blank">WhatsApp</a>
+    <a class="btn-secondary" data-link="email">Email</a>
+    <a class="btn-secondary" data-link="linkedin" target="_blank">LinkedIn</a>
+  </div>
 
-  <!-- WHY CHOOSE -->
-  <details class="program-block">
-    <summary>⭐ Why Choose CSV Edge Academy</summary>
-    <div class="program-content">
-      <iframe src="why-choose.html"
-              class="program-iframe iframe-medium"
-              loading="lazy"></iframe>
-    </div>
-  </details>
+  <button class="download" onclick="downloadPoster()">Download Poster</button>
 
-  <!-- PRICING -->
-  <details class="program-block">
-    <summary>💰 Pricing & Offers</summary>
-    <div class="program-content">
-      <iframe src="pricing.html"
-              class="program-iframe iframe-small"
-              loading="lazy"></iframe>
-    </div>
-  </details>
-
-  <!-- MASTER CLASS -->
-  <details class="program-block">
-    <summary>🎓 Free Master Class</summary>
-    <div class="program-content">
-      <iframe src="master-class.html"
-              class="program-iframe iframe-small"
-              loading="lazy"></iframe>
-    </div>
-  </details>
+  <footer>
+    © CSV Edge Academy • Industry-Aligned CSV & GxP Training
+  </footer>
 
 </div>
 
-<!-- ================= MINI CTA ================= -->
-<div class="mini-cta">
-  <p>📞 Still confused which module suits you?</p>
-  <a href="https://wa.me/919665942334" class="btn-primary">
-    Chat on WhatsApp
-  </a>
-</div>
-
-<!-- ================= FOOTER ================= -->
-<div id="footer-placeholder"></div>
-
-<script src="header-loader.js"></script>
-<script src="footer-loader.js"></script>
-
-</body>
-</html>
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-:root {
-  --dark: #0f172a;
-  --accent: #d4af37;
-  --muted: #64748b;
-  --bg: #f8fafc;
-}
-
-* { box-sizing: border-box; }
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: #111;
-  padding: 40px;
-}
-
-#poster {
-  max-width: 1200px;
-  margin: auto;
-  background: linear-gradient(135deg, var(--dark), #020617);
-  color: white;
-  border-radius: 24px;
-  padding: 60px;
-  box-shadow: 0 40px 100px rgba(0,0,0,.6);
-  animation: fadeIn 1.2s ease;
-}
-
-h1 {
-  font-size: 48px;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-h2 {
-  font-size: 22px;
-  font-weight: 500;
-  margin-top: 10px;
-}
-
-p {
-  color: var(--muted);
-}
-
-.section {
-  margin-top: 30px;
-}
-
-ul {
-  padding-left: 20px;
-}
-
-ul li {
-  margin-bottom: 8px;
-}
-
-.price {
-  font-size: 40px;
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.buttons a {
-  display: inline-block;
-  margin: 10px 12px 0 0;
-  padding: 14px 28px;
-  background: var(--accent);
-  color: #000;
-  text-decoration: none;
-  border-radius: 12px;
-  font-weight: 600;
-}
-
-.buttons a.secondary {
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-}
-
-footer {
-  margin-top: 40px;
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.download {
-  margin-top: 30px;
-  background: #fff;
-  color: #000;
-  padding: 14px 22px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+<script>
+/* ===== EDIT EVERYTHING HERE ===== */
 const POSTER_DATA = {
-  academyName: "CSV Edge Academy",
+  academyName:"CSV Edge Academy",
+  headline:"Computerized System Validation (CSV)",
+  subHeadline:"Online Industry-Focused Certification Program",
+  tagline:"From Fresher to Industry-Ready CSV Professional",
+  industries:"Pharmaceutical • Life Sciences • Biotech • Medical Devices • IT",
+  schedule:"Live Sessions | Mon–Fri | 08:00–09:00 PM (IST)",
 
-  headline: "Computerized System Validation (CSV)",
-  subHeadline: "Industry-Focused Online Certification Program",
-  tagline: "From Fresher to Industry-Ready CSV Professional",
-
-  industries: "Pharmaceutical • Life Sciences • Biotech • Medical Devices • IT",
-
-  schedule: "Live Sessions | Mon–Fri | 08:00–09:00 PM (IST)",
-
-  idealFor: [
+  idealFor:[
     "Freshers entering Pharma / IT Validation",
     "QA, QC, RA, CSV & IT Professionals",
     "Life Sciences professionals strengthening GxP expertise"
   ],
 
-  duration: "30 Days • 20+ Live Sessions",
-  features: [
-    "Hands-on validation documents",
+  features:[
+    "Hands-on real validation documents",
     "One-to-one query resolution",
     "Daily assessments",
-    "Mock interviews & resume prep",
+    "Mock interviews & resume preparation",
     "Free Jira Software Training"
   ],
 
-  price: "₹7,999",
-  batch: "April 2026 Batch",
-  trust: "Aligned with GAMP 5 & FDA Expectations",
+  price:"₹7,999",
+  batch:"April 2026 Batch",
+  trust:"Aligned with GAMP 5 & FDA Expectations",
 
-  links: {
-    enroll: "https://csvedgeacademy.github.io/contact.html",
-    whatsapp: "https://api.whatsapp.com/send/?phone=9665942334",
-    email: "mailto:csvedgeacademy@gmail.com",
-    linkedin: "https://www.linkedin.com/company/111385921/admin/dashboard/"
+  links:{
+    enroll:"https://csvedgeacademy.github.io/contact.html",
+    whatsapp:"https://api.whatsapp.com/send/?phone=9665942334",
+    email:"mailto:csvedgeacademy@gmail.com",
+    linkedin:"https://www.linkedin.com/company/111385921/admin/dashboard/"
   }
 };
 
-/* Populate content */
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("[data-key]").forEach(el => {
-    const key = el.dataset.key;
-    el.innerText = POSTER_DATA[key];
-  });
-
-  const ideal = document.getElementById("idealFor");
-  POSTER_DATA.idealFor.forEach(i => {
-    ideal.innerHTML += `<li>${i}</li>`;
-  });
-
-  const feats = document.getElementById("features");
-  POSTER_DATA.features.forEach(f => {
-    feats.innerHTML += `<li>${f}</li>`;
-  });
+/* ===== POPULATE DATA ===== */
+document.querySelectorAll("[data-key]").forEach(el=>{
+  el.innerText=POSTER_DATA[el.dataset.key];
 });
 
-/* Download Poster */
-function downloadPoster() {
-  html2canvas(document.getElementById("poster")).then(canvas => {
-    const link = document.createElement("a");
-    link.download = "CSV_Edge_Academy_Poster.png";
-    link.href = canvas.toDataURL();
+POSTER_DATA.idealFor.forEach(i=>{
+  document.getElementById("idealFor").innerHTML+=`<li>${i}</li>`;
+});
+
+POSTER_DATA.features.forEach(f=>{
+  document.getElementById("features").innerHTML+=`<li>${f}</li>`;
+});
+
+document.querySelectorAll("[data-link]").forEach(a=>{
+  a.href=POSTER_DATA.links[a.dataset.link];
+});
+
+/* ===== DOWNLOAD POSTER ===== */
+function downloadPoster(){
+  html2canvas(document.getElementById("poster")).then(canvas=>{
+    const link=document.createElement("a");
+    link.download="CSV_Edge_Academy_Poster.png";
+    link.href=canvas.toDataURL();
     link.click();
   });
 }
+</script>
+
+</body>
+</html>
