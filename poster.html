@@ -150,6 +150,12 @@ footer{
   from{opacity:0;transform:translateY(20px)}
   to{opacity:1;transform:translateY(0)}
 }
+
+  #poster{
+  isolation:isolate;
+  transform:translateZ(0);
+}
+  
 </style>
 </head>
 
@@ -251,15 +257,50 @@ document.querySelectorAll("[data-link]").forEach(a=>{
 });
 
 /* ===== DOWNLOAD POSTER ===== */
+
 function downloadPoster(){
-  html2canvas(document.getElementById("poster")).then(canvas=>{
-    const link=document.createElement("a");
-    link.download="CSV_Edge_Academy_Poster.png";
-    link.href=canvas.toDataURL();
-    link.click();
+
+  const poster = document.getElementById("poster");
+
+  /* Disable animation during capture */
+  poster.style.animation = "none";
+
+  /* Wait for fonts (Safari fix) */
+  document.fonts.ready.then(() => {
+
+    setTimeout(() => {
+
+      html2canvas(poster, {
+        backgroundColor: "#020617",   // solid bg (Safari fix)
+        scale: 2,                     // better quality
+        useCORS: true,
+        logging: false,
+        width: poster.offsetWidth,
+        height: poster.offsetHeight,
+        windowWidth: poster.scrollWidth,
+        windowHeight: poster.scrollHeight
+      }).then(canvas => {
+
+        canvas.toBlob(blob => {
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "CSV_Edge_Academy_Poster.png";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+
+        /* Restore animation */
+        poster.style.animation = "fadeIn 1.2s ease";
+
+      });
+
+    }, 500); // Safari render delay
+
   });
 }
 </script>
+
 
 </body>
 </html>
