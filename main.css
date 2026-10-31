@@ -1056,3 +1056,58 @@ body{
   top: 40%;
   right: 30%;
 }
+
+/* ================= MOBILE MENU (HAMBURGER) ================= */
+.nav-toggle{ display:none; }
+
+@media (max-width: 900px){
+  .nav-wrap{
+    flex-wrap:wrap;
+    justify-content:space-between;
+    padding:12px 16px;
+    gap:10px;
+  }
+
+  .brand{ flex:1 1 auto; min-width:0; }
+
+  .header-cta{
+    padding:8px 14px;
+    font-size:13px;
+    white-space:nowrap;
+  }
+
+  .nav-toggle{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:42px;
+    height:42px;
+    font-size:22px;
+    line-height:1;
+    color:#fff;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:10px;
+    cursor:pointer;
+  }
+
+  /* dropdown panel, hidden until opened */
+  .nav-wrap .nav-links{
+    display:none;
+    flex-direction:column;
+    gap:0;
+    flex-basis:100%;
+    order:99;
+    margin-top:4px;
+    border-top:1px solid rgba(255,255,255,.2);
+  }
+  .nav-wrap .nav-links.open{ display:flex; }
+
+  .nav-wrap .nav-links a{
+    font-size:16px;
+    padding:14px 4px;
+    border-bottom:1px solid rgba(255,255,255,.12);
+  }
+  .nav-wrap .nav-links a::after{ display:none; }
+  .nav-wrap .nav-links a.active{ color:#86efac; }
+}
